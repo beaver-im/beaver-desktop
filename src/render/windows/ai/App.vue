@@ -20,89 +20,51 @@
 -->
 
 <template>
-  <AiLayout :show-left="aiViewStore.isTextMode">
-    <template #mode>
-      <AiModeBar v-if="aiViewStore.isChatView" />
-    </template>
-    <template v-if="aiViewStore.isTextMode" #left>
-      <AiViewLeft
-        :chat-list="aiChatStore.chatList"
-        :current-chat-id="aiChatStore.currentChatId"
-        :is-skill-view="aiViewStore.isSkillView"
-        @new-chat="handleNewChat"
-        @select="handleSelectChat"
-        @open-skill-store="aiViewStore.openSkillStore('plaza')"
-      />
-    </template>
-    <template #main>
-      <AiSkillView v-if="aiViewStore.isSkillView" />
-      <AiTextView
-        v-else-if="aiViewStore.isTextMode"
-        v-model:input-value="inputMessage"
-        @send="handleSendText"
-      />
-      <AiVoiceView v-else />
-    </template>
-  </AiLayout>
+  <div class="ai-app">
+    <AiHeader />
+    <div class="ai-app__body">
+      <AiSidebar v-if="!aiViewStore.sidebarCollapsed" />
+      <main class="ai-app__main">
+        <router-view />
+      </main>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import AiLayout from 'renderModule/windows/ai/components/layout/index.vue'
-import AiModeBar from 'renderModule/windows/ai/components/modeBar.vue'
-import AiViewLeft from 'renderModule/windows/ai/view/left/index.vue'
-import AiTextView from 'renderModule/windows/ai/view/text/index.vue'
-import AiVoiceView from 'renderModule/windows/ai/view/voice/index.vue'
-import AiSkillView from 'renderModule/windows/ai/view/skill/index.vue'
-import { useAiChatStore } from 'renderModule/windows/ai/store/chat'
-import { useAiSkillStore } from 'renderModule/windows/ai/store/skill'
-import { useAiViewStore } from 'renderModule/windows/ai/store/view'
+import { defineComponent } from 'vue'
+import AiHeader from 'renderModule/windows/ai/components/layout/header/header.vue'
+import AiSidebar from 'renderModule/windows/ai/components/layout/sidebar/index.vue'
+import { useAiViewStore } from 'renderModule/windows/ai/pinia/view'
 
 export default defineComponent({
   name: 'AiApp',
-  components: {
-    AiLayout,
-    AiModeBar,
-    AiViewLeft,
-    AiTextView,
-    AiVoiceView,
-    AiSkillView,
-  },
+  components: { AiHeader, AiSidebar },
   setup() {
-    const aiChatStore = useAiChatStore()
-    const aiSkillStore = useAiSkillStore()
-    const aiViewStore = useAiViewStore()
-    const inputMessage = ref('')
-
-    const handleNewChat = () => {
-      aiViewStore.closeSkillStore()
-      aiChatStore.startNewChat(aiSkillStore.activeSkillId)
-    }
-
-    const handleSelectChat = (id: string) => {
-      aiViewStore.closeSkillStore()
-      aiChatStore.selectChat(id)
-    }
-
-    const handleSendText = () => {
-      const text = inputMessage.value.trim()
-      if (!text)
-        return
-      aiChatStore.sendTextMessage(text)
-      inputMessage.value = ''
-    }
-
-    return {
-      aiChatStore,
-      aiViewStore,
-      inputMessage,
-      handleNewChat,
-      handleSelectChat,
-      handleSendText,
-    }
+    return { aiViewStore: useAiViewStore() }
   },
 })
 </script>
 
 <style lang="less" scoped>
+.ai-app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #F9FAFB;
+
+  &__body {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &__main {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    background: #FFFFFF;
+  }
+}
 </style>
