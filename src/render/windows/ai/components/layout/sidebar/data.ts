@@ -19,13 +19,6 @@
  * beaver-desktop-header-v2
  */
 
-import assistantSvg from 'renderModule/assets/image/leftBar/assistant.svg'
-import workbenchSvg from 'renderModule/assets/image/leftBar/workbench.svg'
-import skillSvg from 'renderModule/assets/image/assistant/skill.svg'
-import circleSvg from 'renderModule/assets/image/leftBar/circle.svg'
-import momentSvg from 'renderModule/assets/image/leftBar/moment.svg'
-import moreSvg from 'renderModule/assets/image/moment/more.svg'
-
 export interface IAiNavItem {
   id: string
   title: string
@@ -34,42 +27,8 @@ export interface IAiNavItem {
   tags?: string[]
 }
 
-export const aiNavList: IAiNavItem[] = [
-  {
-    id: 'assistant',
-    title: '助理',
-    route: '/assistant',
-    icon: assistantSvg,
-  },
-  {
-    id: 'project',
-    title: '项目',
-    route: '/project',
-    icon: workbenchSvg,
-  },
-  {
-    id: 'skill',
-    title: '专家·技能·连接器',
-    route: '/skill',
-    icon: skillSvg,
-  },
-  {
-    id: 'automation',
-    title: '自动化',
-    route: '/automation',
-    icon: circleSvg,
-  },
-  {
-    id: 'library',
-    title: '资料库',
-    route: '/library',
-    icon: momentSvg,
-  },
-  {
-    id: 'more',
-    title: '更多',
-    route: '/more',
-    icon: moreSvg,
-    tags: ['应用', '灵感'],
-  },
-]
+/**
+ * 侧栏导航项：当前仅「新建任务」+ 任务/空间列表，
+ * 其余能力页（助理 / 项目 / 技能 / 自动化 / 资料库 / 更多）后续按需逐步开放。
+ */
+export const aiNavList: IAiNavItem[] = []

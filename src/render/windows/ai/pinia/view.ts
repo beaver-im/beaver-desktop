@@ -22,16 +22,14 @@
 import { defineStore } from 'pinia'
 
 export type AiWorkMode = 'office' | 'code' | 'design'
-export type AiResultTab = 'artifact' | 'files' | 'changes' | 'preview'
-export type AiSkillTab = 'plaza' | 'mine'
 
 export const useAiViewStore = defineStore('useAiViewStore', {
   state: () => ({
     workMode: 'office' as AiWorkMode,
     sidebarCollapsed: false,
     resultPanelOpen: true,
-    resultTab: 'artifact' as AiResultTab,
-    skillTab: 'plaza' as AiSkillTab,
+    /** 当前选中的产物 tab id；切换会话时由 chat store 重置 */
+    activeArtifactId: null as string | null,
     /** 每次点「新建任务」递增，用于同路由下重置欢迎页输入 */
     composeEpoch: 0,
   }),
@@ -45,11 +43,8 @@ export const useAiViewStore = defineStore('useAiViewStore', {
     toggleResultPanel() {
       this.resultPanelOpen = !this.resultPanelOpen
     },
-    setResultTab(tab: AiResultTab) {
-      this.resultTab = tab
-    },
-    setSkillTab(tab: AiSkillTab) {
-      this.skillTab = tab
+    setActiveArtifact(id: string | null) {
+      this.activeArtifactId = id
     },
     bumpComposeEpoch() {
       this.composeEpoch += 1
