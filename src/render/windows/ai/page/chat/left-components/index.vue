@@ -24,13 +24,7 @@
     <AiChatHeader :title="title" />
     <AiChatContent :messages="messages" />
     <div class="ai-chat-panel__composer">
-      <AiComposer
-        :model-value="modelValue"
-        :show-meta="false"
-        compact
-        @update:model-value="$emit('update:modelValue', $event)"
-        @send="$emit('send')"
-      />
+      <AiComposer :show-meta="false" compact />
     </div>
   </div>
 </template>
@@ -48,9 +42,7 @@ export default defineComponent({
   props: {
     title: { type: String, default: '海狸助手' },
     messages: { type: Array as () => IAiMessage[], default: () => [] },
-    modelValue: { type: String, default: '' },
   },
-  emits: ['update:modelValue', 'send'],
 })
 </script>
 
