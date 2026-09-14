@@ -36,12 +36,13 @@ export default class ApplicationBase {
   }
 
   protected loadRender() {
-    const url = process.env.VITE_DEV_SERVER_URL
-      ? `${process.env.VITE_DEV_SERVER_URL}/${this.name}.html`
-      : path.join(__dirname, `../dist/${this.name}.html`)
-
     logger.info({ text: '开始加载渲染页面', data: { name: this.name } })
-    this.win.loadURL(url)
+    // VITE_DEV_SERVER_URL 常带尾斜杠，用 URL 拼接避免变成 //name.html（包内入口会 404）
+    if (process.env.VITE_DEV_SERVER_URL) {
+      this.win.loadURL(new URL(`${this.name}.html`, process.env.VITE_DEV_SERVER_URL).href)
+      return
+    }
+    this.win.loadFile(path.join(__dirname, `../dist/${this.name}.html`))
   }
 
   protected loadUrlRender(url: string) {
