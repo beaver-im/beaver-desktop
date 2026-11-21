@@ -29,6 +29,7 @@ import type { IConversationItem } from 'commonModule/type/pinia/conversation'
 import type { QueueItem } from '../base/base'
 import { resolveConversationDisplays } from '@beaver-im/beaver/main'
 import { NotificationChatCommand, NotificationModule } from 'commonModule/type/preload/notification'
+import { ChatType, isP2PChatType } from 'commonModule/utils/conversation/chatType'
 import { getConversationsListByIdsApi } from 'mainModule/api/chat'
 import dBServiceChatConversation from 'mainModule/database/services/chat/conversation'
 import dbServiceChatUserConversation from 'mainModule/database/services/chat/user-conversation'
@@ -129,7 +130,7 @@ class ConversationBusiness extends BaseBusiness<ConversationSyncItem> {
       const groupIds: string[] = []
 
       paginatedConversations.forEach((conv: any) => {
-        if (conv.type === 1) { // 私聊
+        if (isP2PChatType(conv.type)) { // 两人会话
           const parts = conv.conversationId.split('_')
           if (parts.length >= 3) {
             const userId1 = parts[1]
@@ -142,7 +143,7 @@ class ConversationBusiness extends BaseBusiness<ConversationSyncItem> {
             }
           }
         }
-        else if (conv.type === 2) { // 群聊
+        else if (conv.type === ChatType.GROUP) { // 群聊
           // conversationId格式: group_${groupId}
           const parts = conv.conversationId.split('_')
           if (parts.length >= 2 && parts[0] === 'group') {
@@ -215,7 +216,7 @@ class ConversationBusiness extends BaseBusiness<ConversationSyncItem> {
       })
 
       const pluginDisplays = await resolveConversationDisplays(
-        paginatedConversations.filter((conv: any) => conv.type !== 1 && conv.type !== 2),
+        paginatedConversations.filter((conv: any) => !isP2PChatType(conv.type) && conv.type !== ChatType.GROUP),
       )
 
       // 7. 业务逻辑处理：数据聚合、未读消息计算等
@@ -228,7 +229,7 @@ class ConversationBusiness extends BaseBusiness<ConversationSyncItem> {
         let nickName = ''
         let notice = ''
 
-        if (conv.type === 1) { // 私聊：从好友信息获取显示数据
+        if (isP2PChatType(conv.type)) { // 两人会话：从好友信息获取显示数据
           const parts = conv.conversationId.split('_')
           if (parts.length >= 3) {
             const userId1 = parts[1]
@@ -243,7 +244,7 @@ class ConversationBusiness extends BaseBusiness<ConversationSyncItem> {
             }
           }
         }
-        else if (conv.type === 2) { // 群聊：从群组信息获取显示数据
+        else if (conv.type === ChatType.GROUP) { // 群聊：从群组信息获取显示数据
           const parts = conv.conversationId.split('_')
           if (parts.length >= 2 && parts[0] === 'group') {
             const groupId = parts.slice(1).join('_') // 支持groupId中包含下划线的情况
@@ -330,7 +331,7 @@ class ConversationBusiness extends BaseBusiness<ConversationSyncItem> {
     let nickName = ''
     let notice = ''
 
-    if (meta.type === 1) { // 私聊：从好友信息获取显示数据
+    if (isP2PChatType(meta.type)) { // 两人会话：从好友信息获取显示数据
       const parts = conversationId.split('_')
       if (parts.length >= 3) {
         const userId1 = parts[1]
@@ -399,7 +400,7 @@ class ConversationBusiness extends BaseBusiness<ConversationSyncItem> {
         }
       }
     }
-    else if (meta.type === 2) { // 群聊：从群组信息获取显示数据
+    else if (meta.type === ChatType.GROUP) { // 群聊：从群组信息获取显示数据
       const parts = conversationId.split('_')
       if (parts.length >= 2 && parts[0] === 'group') {
         const groupId = parts.slice(1).join('_') // 支持groupId中包含下划线的情况

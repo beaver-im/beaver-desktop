@@ -47,6 +47,7 @@
 
 <script lang="ts">
 import BeaverImage from 'renderModule/components/ui/image/index.vue'
+import { ChatType, isP2PChatType } from 'commonModule/utils/conversation/chatType'
 import { useConversationStore } from 'renderModule/windows/app/pinia/conversation/conversation'
 import { useMessageViewStore } from 'renderModule/windows/app/pinia/view/message'
 import { useFriendStore } from 'renderModule/windows/app/pinia/friend/friend'
@@ -85,11 +86,11 @@ export default defineComponent({
       if (!friendInfo.value)
         return null
 
-      // 根据会话ID或其他属性判断会话类型
-      if (friendInfo.value.chatType === 1) {
-        return 'private' // 私聊
+      // 会话类型以会话数据为准：两人会话（普通私聊/数字伙伴/机器人）与群聊走不同逻辑
+      if (isP2PChatType(friendInfo.value.chatType)) {
+        return 'private' // 两人会话
       }
-      else if (friendInfo.value.chatType === 2) {
+      else if (friendInfo.value.chatType === ChatType.GROUP) {
         return 'group' // 群聊
       }
       return null

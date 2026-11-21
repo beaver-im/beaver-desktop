@@ -52,9 +52,11 @@
         <span class="entry-name">{{ item.text }}</span>
         <span class="entry-right">
           <span v-if="badgeCount(item) > 0" class="badge">{{ badgeCount(item) }}</span>
-          <svg viewBox="0 0 24 24" width="16" height="16">
-            <path fill="currentColor" d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
-          </svg>
+          <span class="entry-arrow">
+            <svg viewBox="0 0 24 24" width="16" height="16">
+              <path fill="currentColor" d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
+            </svg>
+          </span>
         </span>
       </div>
     </div>
@@ -74,14 +76,14 @@
 
     <!-- 列表内容区域 -->
     <div class="list-content">
-      <!-- 好友列表 -->
+      <!-- 好友：只放人，非人类账号在「机器人」tab -->
       <div v-show="currentTab === 'friends'">
-        <template v-if="friendList.length > 0">
+        <template v-if="humanFriends.length > 0">
           <div class="section-title">
             联系人
           </div>
           <div
-            v-for="friend in friendList"
+            v-for="friend in humanFriends"
             :key="friend.userId"
             class="friend-item"
             :class="{ active: selectedId === friend.userId }"
@@ -135,6 +137,40 @@
           </div>
         </div>
       </div>
+
+      <!-- 机器人：所有非人类账号（机器人 + 数字伙伴）平铺，行内标签区分具体类型 -->
+      <div v-show="currentTab === 'bots'">
+        <template v-if="robotFriends.length > 0">
+          <div
+            v-for="friend in robotFriends"
+            :key="friend.userId"
+            class="friend-item"
+            :class="{ active: selectedId === friend.userId }"
+            @click="handleItemClick(friend.userId)"
+          >
+            <div class="friend-avatar">
+              <BeaverImage
+                :file-name="friend.avatar"
+                :alt="friend.nickName"
+              />
+            </div>
+            <div class="friend-info">
+              <div class="friend-name-wrap">
+                <span class="friend-name">{{ friend.nickName || '未命名机器人' }}</span>
+                <ChatTypeBadge :chat-type="chatTypeOfUserType(friend.userType)" />
+              </div>
+              <div class="friend-status">
+                {{ friend.notice || '暂无备注' }}
+              </div>
+            </div>
+          </div>
+        </template>
+        <div v-else class="empty-state">
+          <div class="empty-text">
+            暂无机器人
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -145,9 +181,11 @@ import { useFriendStore } from 'renderModule/windows/app/pinia/friend/friend'
 import { useGroupStore } from 'renderModule/windows/app/pinia/group/group'
 import { useNotificationStore } from 'renderModule/windows/app/pinia/notification/notification'
 import { useFriendViewStore } from 'renderModule/windows/app/pinia/view/friend'
+import { chatTypeOfUserType } from 'commonModule/utils/user/userType'
 import { computed, ref } from 'vue'
 import Logger from 'renderModule/utils/logger'
 import { notificationList, POPUP_MENU_CONFIG, TABS_CONFIG } from '../data'
+import ChatTypeBadge from 'renderModule/components/business/chatTypeBadge/index.vue'
 import PopupMenu from './PopupMenu.vue'
 
 const logger = new Logger('FriendLeft')
@@ -155,6 +193,7 @@ const logger = new Logger('FriendLeft')
 export default {
   components: {
     BeaverImage,
+    ChatTypeBadge,
     PopupMenu,
   },
   setup() {
@@ -188,7 +227,7 @@ export default {
         }
       }
 
-      friendViewStore.setSelectedConversationWithType('', value as 'friend-notification' | 'group-notification')
+      friendViewStore.setSelectedConversationWithType('', 'notification')
     }
     const changePopupMenu = (visible: boolean) => {
       logger.info({ text: '切换弹窗菜单显隐', data: { visible } })
@@ -213,10 +252,9 @@ export default {
       changePopupMenu(false)
     }
 
-    // 处理项目点击
+    // 处理项目点击：只有群聊 tab 是群，好友与机器人都走两人会话
     const handleItemClick = (id: string) => {
-      // 根据当前tab设置类型，确保类型和ID匹配
-      const type = currentTab.value === 'friends' ? 'friend' : 'group'
+      const type = currentTab.value === 'groups' ? 'group' : 'friend'
       friendViewStore.setSelectedConversationWithType(id, type)
     }
 
@@ -234,8 +272,10 @@ export default {
       currentTab,
       tabs,
       showPopupMenu,
-      friendList: computed(() => friendStore.getFriendList),
+      humanFriends: computed(() => friendStore.getHumanFriends),
+      robotFriends: computed(() => friendStore.getNonHumanFriends),
       groupList: computed(() => groupStore.getGroupList),
+      chatTypeOfUserType,
       handleTabChange,
       handleItemClick,
       handleNotificationClick,
@@ -505,6 +545,14 @@ export default {
   min-width: 0;
 }
 
+.friend-name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin-bottom: 4px;
+}
+
 .friend-name {
   font-size: 14px;
   font-weight: 500;
@@ -513,6 +561,12 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* 机器人列表行里名字和类型标签同行，去掉名字自带外边距并允许收缩 */
+.friend-name-wrap .friend-name {
+  margin-bottom: 0;
+  min-width: 0;
 }
 
 .friend-status {

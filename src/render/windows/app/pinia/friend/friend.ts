@@ -20,6 +20,7 @@
  */
 
 import type { IFriendInfo } from 'commonModule/type/ajax/friend'
+import { isHumanUser, isNonHumanUser } from 'commonModule/utils/user/userType'
 import { defineStore } from 'pinia'
 import Logger from 'renderModule/utils/logger'
 import { getFriendInfoApi } from 'renderModule/api/friend'
@@ -52,12 +53,31 @@ export const useFriendStore = defineStore('friendStore', {
             ...friend,
             nickName: contactInfo.nickName || friend.nickName,
             avatar: contactInfo.avatar || friend.avatar,
+            // 账号类型也以联系人缓存为准：好友关系刚建立时本地 users 表可能还没
+            // 这条记录，getFriendsList 只能按 1 兜底；等 users 落库后必须在这里
+            // 纠正，否则机器人会一直留在「好友」tab，进不了「机器人」tab。
+            userType: contactInfo.userType ?? friend.userType,
           }
         }
 
         return friend
       })
     },
+
+    /**
+     * @description: 人类好友（好友 tab 用，非人类账号不进这里）
+     */
+    getHumanFriends(): IFriendInfo[] {
+      return this.getFriendList.filter(friend => isHumanUser(friend.userType))
+    },
+
+    /**
+     * @description: 非人类账号好友（「机器人」tab 用，含机器人 / 数字伙伴）
+     */
+    getNonHumanFriends(): IFriendInfo[] {
+      return this.getFriendList.filter(friend => isNonHumanUser(friend.userType))
+    },
+
     /**
      * @description: 根据用户ID获取好友信息（包含联系人信息）
      * @param {string} userId - 用户ID
@@ -151,6 +171,9 @@ export const useFriendStore = defineStore('friendStore', {
       const res = await getFriendInfoApi({ friendId })
       if (res.code === 0) {
         const friendInfo = res.result
+        if (!friendInfo) {
+          return
+        }
 
         const index = this.friendList.findIndex(
           item => item.userId === friendId,

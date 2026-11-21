@@ -122,6 +122,7 @@ class FriendBusiness extends BaseBusiness<FriendSyncItem> {
         isFriend: true,
         conversationId: generateConversationId(userId, friendUserId),
         email: friendUser?.email || '',
+        userType: friendUser?.userType ?? 1,
         source: relation.source || '',
       }
     })

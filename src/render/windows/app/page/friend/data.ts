@@ -23,10 +23,11 @@
 import addFriendIcon from 'renderModule/assets/image/friend/user-plus.svg'
 import createGroupIcon from 'renderModule/assets/image/friend/users.svg'
 
-// 选项卡配置
+// 选项卡配置：tab 层是稳定的三个大类，新类型一律并进「机器人」列表靠行内标签区分，tab 不再增加
 export const TABS_CONFIG = [
   { key: 'friends', name: '好友' },
   { key: 'groups', name: '群聊' },
+  { key: 'bots', name: '机器人' },
 ]
 
 // 弹窗菜单配置
@@ -45,12 +46,9 @@ export const POPUP_MENU_CONFIG = [
   },
 ]
 
+// 通知入口：好友申请 / 群申请 / 系统通知合并为一个入口，未读数取三者之和
 export const notificationList = [{
-  key: 'friend-notification',
-  text: '好友通知',
-  badgeCategories: ['social'],
-}, {
-  key: 'group-notification',
-  text: '群通知',
-  badgeCategories: ['group'],
+  key: 'notification',
+  text: '通知',
+  badgeCategories: ['social', 'group', 'system'],
 }]

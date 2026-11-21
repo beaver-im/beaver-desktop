@@ -217,7 +217,7 @@ export interface ISender {
   userId: string
   avatar: string
   nickName: string
-  userType: number // 1普通用户 2bot 3robot
+  userType: number // 1普通用户 2机器人 3数字伙伴
 }
 
 // 会话信息请求
@@ -256,7 +256,7 @@ export interface IConversationInfoRes {
    */
   conversationId: string
   /**
-   * @description: 会话类型
+   * @description: 会话类型 1普通私聊 2群聊 3圈子 4数字伙伴 5机器人
    */
   chatType: number
   /**
@@ -492,7 +492,7 @@ export interface IGetConversationsListByIdsRes {
 // 会话数据项（按ID批量获取）
 export interface IConversationById {
   conversationId: string // 会话ID
-  type: number // 会话类型 1=私聊 2=群聊 3=系统会话
+  type: number // 会话类型 1普通私聊 2群聊 3圈子 4数字伙伴 5机器人
   maxSeq: number // 会话消息的最大Seq
   lastMessage: string // 会话最后一条消息预览
   version: number // 版本号

@@ -100,6 +100,7 @@
 import type { ContextMenuItem } from 'renderModule/components/ui/context-menu/index.vue'
 import { CacheType } from 'commonModule/type/cache/cache'
 import { MessageStatus } from 'commonModule/type/ajax/chat'
+import { ChatType } from 'commonModule/utils/conversation/chatType'
 import ContextMenu from 'renderModule/components/ui/context-menu/index.vue'
 import { ChatCore } from 'renderModule/core/message/index'
 import BeaverImage from 'renderModule/components/ui/image/index.vue'
@@ -186,7 +187,7 @@ export default defineComponent({
         // 判断是否是群聊，如果是则初始化群成员
         const conversationStore = useConversationStore()
         const conversation = conversationStore.getConversationInfo(newConversationId)
-        if (conversation && conversation.chatType === 2) {
+        if (conversation && conversation.chatType === ChatType.GROUP) {
           // 群聊：从 conversationId 提取 groupId
           const groupId = newConversationId.startsWith('group_')
             ? newConversationId.split('_').slice(1).join('_')
@@ -340,7 +341,8 @@ export default defineComponent({
         return
       }
 
-      const chatType = conversationId.startsWith('group_') ? 'group' : 'private'
+      // 会话类型以会话数据为准，不从会话ID前缀推断
+      const chatType = useConversationStore().getConversationInfo(conversationId)?.chatType === ChatType.GROUP ? 'group' : 'private'
       await messageStore.removeMessages(conversationId, [message.messageId])
       await ChatCore.sendMessage(conversationId, message.msg, chatType)
     }

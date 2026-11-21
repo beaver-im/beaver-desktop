@@ -45,7 +45,7 @@
 import { valiFrienddAPi } from 'renderModule/api/friend'
 import { Message } from '@beaver-im/beaver-ui'
 import { useFriendVerifyStore } from 'renderModule/windows/app/pinia/friend/friend_verify'
-import { computed, defineComponent, onMounted } from 'vue'
+import { computed, defineComponent, onMounted, toRaw } from 'vue'
 import NotificationItem from './item.vue'
 import Logger from 'renderModule/utils/logger'
 
@@ -129,8 +129,7 @@ export default defineComponent({
           verifyItem.status = status
         }
         Message.success(action === 'approve' ? '已同意好友申请' : '已拒绝好友申请')
-        logger.info({ text: '好友验证列表已更新', data: { list: friendVerifyStore.friendVerifyList } })
-        logger.info({ text: '处理好友申请项', data: { item } })
+        logger.info({ text: '好友验证列表已更新', data: { list: toRaw(friendVerifyStore.friendVerifyList) } })
       } catch (error) {
         logger.error({ text: '处理好友申请失败', data: { error } })
         Message.error('操作失败，请重试')
@@ -146,49 +145,20 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+/* 作为「通知」页的一段，滚动容器与全高由父级提供，这里不再自建 */
 .friend-notification-container {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
   background: #FFFFFF;
 }
 
 .notification-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px 0;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #F9FAFB;
-    border-radius: 2px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #FF7D45 0%, #E86835 100%);
-    border-radius: 2px;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: linear-gradient(135deg, #E86835 0%, #FF7D45 100%);
-      box-shadow: 0 0 6px rgba(255, 125, 69, 0.3);
-    }
-  }
-
-  &::-webkit-scrollbar-corner {
-    background: #F9FAFB;
-  }
+  padding: 0;
 }
 
 .empty-state {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 200px;
+  padding: 24px 0;
   color: #B2BEC3;
 }
 

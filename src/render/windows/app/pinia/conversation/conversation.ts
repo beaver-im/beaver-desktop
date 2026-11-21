@@ -22,6 +22,7 @@
 import type { IConversationInfoRes } from 'commonModule/type/ajax/chat'
 import type { IConversationItem } from 'commonModule/type/pinia/conversation'
 import { formatConversationTime } from 'commonModule/utils/time/time'
+import { ChatType, isP2PChatType } from 'commonModule/utils/conversation/chatType'
 import { defineStore } from 'pinia'
 import Logger from 'renderModule/utils/logger'
 import { getRecentChatInfoApi } from 'renderModule/api/chat'
@@ -79,8 +80,8 @@ export const useConversationStore = defineStore('useConversationStore', {
           updatedAtStr: formattedTime,
         }
 
-        // 如果是私聊，从 contactStore 获取最新的用户信息
-        if (conversation.chatType === 1) {
+        // 两人会话（普通私聊/数字伙伴/机器人），从 contactStore 获取最新的用户信息
+        if (isP2PChatType(conversation.chatType)) {
           const parts = conversation.conversationId.split('_')
           if (parts.length >= 3) {
             // 解析出对方的用户ID
@@ -100,7 +101,7 @@ export const useConversationStore = defineStore('useConversationStore', {
             }
           }
         }
-        else if (conversation.chatType === 2) {
+        else if (conversation.chatType === ChatType.GROUP) {
           const groupInfo = groupStore.getGroupById(conversation.conversationId)
           if (groupInfo) {
             result = {
@@ -110,12 +111,11 @@ export const useConversationStore = defineStore('useConversationStore', {
             }
           }
         }
-        else if (conversation.chatType === 3 || conversation.conversationId.startsWith('circle_')) {
+        else if (conversation.chatType === ChatType.CIRCLE) {
           const circleInfo = circleStore.getCircleById(conversation.conversationId)
           if (circleInfo) {
             result = {
               ...result,
-              chatType: 3,
               avatar: circleInfo.avatar || conversation.avatar,
               nickName: circleInfo.name || conversation.nickName,
             }
@@ -123,7 +123,6 @@ export const useConversationStore = defineStore('useConversationStore', {
           else {
             result = {
               ...result,
-              chatType: 3,
               nickName: conversation.nickName || '圈子',
             }
           }
@@ -162,8 +161,8 @@ export const useConversationStore = defineStore('useConversationStore', {
       const userStore = useUserStore()
       const currentUserId = userStore.getUserId
 
-      // 如果是私聊，从 contactStore 获取最新的用户信息
-      if (conversation.conversationId.startsWith('private_')) {
+      // 两人会话（普通私聊/数字伙伴/机器人），从 contactStore 获取最新的用户信息
+      if (isP2PChatType(conversation.chatType)) {
         const parts = conversation.conversationId.split('_')
         if (parts.length >= 3) {
           // 解析出对方的用户ID
@@ -183,13 +182,12 @@ export const useConversationStore = defineStore('useConversationStore', {
           }
         }
       }
-      else if (conversation.conversationId.startsWith('circle_') || conversation.chatType === 3) {
+      else if (conversation.chatType === ChatType.CIRCLE) {
         const circleStore = useCircleStore()
         const circleInfo = circleStore.getCircleById(conversation.conversationId)
         if (circleInfo) {
           result = {
             ...result,
-            chatType: 3,
             avatar: circleInfo.avatar || conversation.avatar,
             nickName: circleInfo.name || conversation.nickName,
           }
@@ -197,7 +195,6 @@ export const useConversationStore = defineStore('useConversationStore', {
         else {
           result = {
             ...result,
-            chatType: 3,
             nickName: conversation.nickName || '圈子',
           }
         }

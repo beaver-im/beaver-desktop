@@ -87,6 +87,7 @@ const logger = new Logger('message')
 
 import type { ICirclePostItem } from '@beaver-im/app-circle/common/type/ajax/circle'
 import { computed, defineComponent, ref, watch } from 'vue'
+import { ChatType } from 'commonModule/utils/conversation/chatType'
 import { CircleDetails as CircleDetailsComponent, CirclePostDetail, CircleRight, parseCircleId } from '@beaver-im/app-circle/renderer'
 import { useConversationStore } from '../../pinia/conversation/conversation'
 import { useMessageViewStore } from '../../pinia/view/message'
@@ -143,11 +144,9 @@ export default defineComponent({
       if (!id)
         return null
 
-      if (id.startsWith('circle_'))
-        return 'circle'
-
+      // 会话类型以会话数据为准，不从会话ID前缀推断
       const info = conversationStore.getConversationInfo(id)
-      if (info?.chatType === 3)
+      if (info?.chatType === ChatType.CIRCLE)
         return 'circle'
 
       return 'chat'

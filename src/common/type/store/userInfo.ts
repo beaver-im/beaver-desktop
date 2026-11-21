@@ -29,4 +29,12 @@ export interface IUserInfo {
   email?: string
   gender: number
   version: number
+  /**
+   * 账号类型 1普通用户 2机器人 3数字伙伴（见 common/utils/user/userType）
+   *
+   * 好友页靠它把「人」和「机器人」分到不同 tab，所以必须从本地 users 表一路带上来。
+   * 允许为空：为空表示联系人缓存里还没有这个人，调用方应回退到好友记录自带的类型，
+   * 不要在这里给默认值，否则会把已知的机器人覆盖成人。
+   */
+  userType?: number
 }
