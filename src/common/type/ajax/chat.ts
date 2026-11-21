@@ -559,3 +559,13 @@ export interface IMarkMessageMediaReq {
 
 // 标记消息媒体状态响应
 export interface IMarkMessageMediaRes { }
+
+/** 开启新话题请求：一个会话下可以有多个话题，每个话题是独立的 AI 上下文边界 */
+export interface INewChatTopicReq {
+  conversationId: string
+}
+
+export interface INewChatTopicRes {
+  /** 新话题 ID。客户端不直接用；下一条消息起服务端按它续上下文。 */
+  topicId: string
+}

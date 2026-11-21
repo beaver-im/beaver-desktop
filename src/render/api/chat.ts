@@ -49,6 +49,8 @@ import type {
   IGetForwardDetailsRes,
   IMarkMessageMediaReq,
   IMarkMessageMediaRes,
+  INewChatTopicReq,
+  INewChatTopicRes,
 } from 'commonModule/type/ajax/chat'
 import { baseUrl } from 'commonModule/config'
 import ajax from 'renderModule/utils/request/ajax'
@@ -220,5 +222,16 @@ export const markMessageMediaApi = (data: IMarkMessageMediaReq) => {
     method: 'POST',
     data,
     url: `${baseUrl}/beaver/api/message/chat/v1/mark_message_media`,
+  })
+}
+
+/**
+ * @description: 在当前会话开启新话题（话题 = AI 上下文边界，下一条消息起生效）
+ */
+export const newChatTopicApi = (data: INewChatTopicReq) => {
+  return ajax<INewChatTopicRes>({
+    method: 'POST',
+    data,
+    url: `${baseUrl}/beaver/api/message/chat/v1/new_topic`,
   })
 }
