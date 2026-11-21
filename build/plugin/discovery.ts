@@ -125,6 +125,46 @@ function readPackageExports(root: string): Record<string, unknown> {
   return pkg.exports as Record<string, unknown>
 }
 
+/**
+ * 仓库外包（entry.root）自身没有 node_modules：它的源码不在宿主目录树下，
+ * Rolldown 从外包位置向上找不到宿主的 @beaver-im/* 软链。
+ *
+ * app-ai 能解析只是因为它曾经单独装过依赖；新接入的 app-online 没装就报错。
+ * 这不属于「包缺失」，不该靠给外包装依赖解决——discovery 的职责本来就是
+ * 让仓库外包在构建期可被静态解析。这里按外包 package.json 的依赖，
+ * 把宿主侧已安装包的 exports 同样展开成 alias，解析完全走构建期发现。
+ */
+function aliasesForExternalDependencies(
+  packageRoot: string,
+  condition: 'development' | 'default',
+): ViteAlias[] {
+  const pkgPath = path.resolve(packageRoot, 'package.json')
+  if (!fs.existsSync(pkgPath))
+    return []
+
+  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8')) as {
+    dependencies?: Record<string, string>
+    peerDependencies?: Record<string, string>
+  }
+  const names = new Set<string>([
+    ...Object.keys(pkg.dependencies ?? {}),
+    ...Object.keys(pkg.peerDependencies ?? {}),
+  ])
+
+  const aliases: ViteAlias[] = []
+  for (const name of names) {
+    // 只处理宿主自家的包；第三方依赖交给正常的 node_modules 解析。
+    if (!name.startsWith('@beaver-im/'))
+      continue
+    const depRoot = findInstalledPackageRoot(name)
+    if (!depRoot)
+      continue
+    const exportsMap = readPackageExports(depRoot)
+    aliases.push(...aliasesFromExports(name, depRoot, exportsMap, condition))
+  }
+  return aliases
+}
+
 /** 清单声明的能力必须在包里真实存在。缺了直接构建失败，不留运行时兜底。 */
 function assertSubpath(entry: IPluginCatalogEntry, exportsMap: Record<string, unknown>, subpath: string): void {
   if (!(subpath in exportsMap)) {
@@ -195,8 +235,12 @@ export function discoverPlugins(command: 'serve' | 'build'): IPluginDiscovery {
       assertSubpath(entry, exportsMap, './renderer')
 
     // 仓库外包不在 node_modules 里，靠 exports 展开成 alias；workspace 包交给 Vite 正常解析
-    if (entry.root)
+    if (entry.root) {
       aliases.push(...aliasesFromExports(entry.package, root, exportsMap, condition))
+      // 外包源码 import 的宿主共享包（@beaver-im/beaver 等）同样要展开，
+      // 否则外包目录树下找不到 node_modules，Rolldown 会报 failed to resolve。
+      aliases.push(...aliasesForExternalDependencies(root, condition))
+    }
     roots.push(root)
     entries.push(entry)
   }
