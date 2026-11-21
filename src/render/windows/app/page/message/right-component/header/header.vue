@@ -26,8 +26,10 @@
         <BeaverImage :file-name="friendInfo?.avatar" alt="用户头像" image-class="user-avatar-image" />
       </div>
       <div class="user-details">
-        <div class="user-name">
-          {{ friendInfo?.nickName }}
+        <div class="user-name-row">
+          <span class="user-name">{{ friendInfo?.nickName }}</span>
+          <!-- 会话类型徽标读会话元数据 chatType，不从 conversationId 前缀推断 -->
+          <ChatTypeBadge :chat-type="friendInfo?.chatType ?? 0" />
         </div>
       </div>
     </div>
@@ -47,6 +49,7 @@
 
 <script lang="ts">
 import BeaverImage from 'renderModule/components/ui/image/index.vue'
+import ChatTypeBadge from 'renderModule/components/business/chatTypeBadge/index.vue'
 import { ChatType, isP2PChatType } from 'commonModule/utils/conversation/chatType'
 import { useConversationStore } from 'renderModule/windows/app/pinia/conversation/conversation'
 import { useMessageViewStore } from 'renderModule/windows/app/pinia/view/message'
@@ -62,6 +65,7 @@ const logger = new Logger('ChatHeader')
 export default defineComponent({
   components: {
     BeaverImage,
+    ChatTypeBadge,
   },
   emits: ['showDetails'],
   setup(_props, { emit }) {
@@ -200,6 +204,12 @@ export default defineComponent({
     .user-details {
       display: flex;
       flex-direction: column;
+
+      .user-name-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
 
       .user-name {
         font-size: 16px;
