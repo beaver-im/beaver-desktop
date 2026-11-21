@@ -65,7 +65,6 @@ import { useUserStore } from 'renderModule/windows/app/pinia/user/user'
 import { useGroupStore } from 'renderModule/windows/app/pinia/group/group'
 import { startCallApi } from 'renderModule/api/call'
 import { newChatTopicApi } from 'renderModule/api/chat'
-import { ElMessage } from 'element-plus'
 import { computed, defineComponent, watch } from 'vue'
 import Logger from 'renderModule/utils/logger'
 
@@ -128,11 +127,9 @@ export default defineComponent({
         const res = await newChatTopicApi({ conversationId: currentId })
         if (res.code !== 0)
           throw new Error(res.msg || '开启新话题失败')
-        ElMessage.success('已开启新话题')
       }
       catch (err) {
         logger.error({ text: '开启新话题失败', data: { error: err } })
-        ElMessage.error((err as Error)?.message || '开启新话题失败')
       }
     }
 
