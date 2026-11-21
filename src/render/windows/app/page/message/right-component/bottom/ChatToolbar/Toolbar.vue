@@ -21,7 +21,7 @@
 
 <template>
   <div class="toolbar">
-    <div v-for="tool in toolList" :key="tool.id" class="toolbar-btn" :title="tool.name"
+    <div v-for="tool in visibleToolList" :key="tool.id" class="toolbar-btn" :title="tool.name"
       @click="handleToolClick(tool.value)">
       <img :src="tool.icon" :alt="tool.name">
     </div>
@@ -29,8 +29,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { toolList } from '../data'
+import { ChatType } from 'commonModule/utils/conversation/chatType'
 import Logger from 'renderModule/utils/logger'
 
 const logger = new Logger('ChatToolbar')
@@ -46,6 +47,17 @@ export default defineComponent({
   setup() {
     const messageViewStore = useMessageViewStore()
     const conversationStore = useConversationStore()
+
+    // 会话类型以会话元数据为准。数字伙伴/机器人本身就是 AI，
+    // 会话里再放「AI助手」入口没有意义，按类型收起；其余工具与类型无关。
+    const visibleToolList = computed(() => {
+      const conversationId = messageViewStore.currentChatId
+      const chatType = conversationId
+        ? conversationStore.getConversationInfo(conversationId)?.chatType
+        : undefined
+      const isAiPeer = chatType === ChatType.DIGITAL || chatType === ChatType.BOT
+      return isAiPeer ? toolList.filter(tool => tool.value !== 'ai') : toolList
+    })
 
     const handleToolClick = async (toolType: string) => {
       switch (toolType) {
@@ -134,7 +146,7 @@ export default defineComponent({
     }
 
     return {
-      toolList,
+      toolList: visibleToolList,
       handleToolClick
     }
   }

@@ -34,12 +34,19 @@
       </div>
     </div>
     <div class="header-actions">
-      <div class="action-btn" @click="handleCall('audio')">
-        <img src="renderModule/assets/image/chat/phone.svg" alt="语音通话">
+      <!-- 数字伙伴：会话下可开多个话题，每个话题是独立的 AI 上下文边界 -->
+      <div v-if="isDigital" class="action-btn" title="新话题" @click="handleNewTopic">
+        <img src="renderModule/assets/image/common/add.svg" alt="新话题">
       </div>
-      <div class="action-btn" @click="handleCall('video')">
-        <img src="renderModule/assets/image/chat/video.svg" alt="视频通话">
-      </div>
+      <!-- 机器人 / 数字伙伴没有客户端可以接听通话 -->
+      <template v-if="canCall">
+        <div class="action-btn" @click="handleCall('audio')">
+          <img src="renderModule/assets/image/chat/phone.svg" alt="语音通话">
+        </div>
+        <div class="action-btn" @click="handleCall('video')">
+          <img src="renderModule/assets/image/chat/video.svg" alt="视频通话">
+        </div>
+      </template>
       <div class="action-btn" @click="handleMore">
         <img src="renderModule/assets/image/chat/more.svg" alt="更多">
       </div>
@@ -57,6 +64,8 @@ import { useFriendStore } from 'renderModule/windows/app/pinia/friend/friend'
 import { useUserStore } from 'renderModule/windows/app/pinia/user/user'
 import { useGroupStore } from 'renderModule/windows/app/pinia/group/group'
 import { startCallApi } from 'renderModule/api/call'
+import { newChatTopicApi } from 'renderModule/api/chat'
+import { ElMessage } from 'element-plus'
 import { computed, defineComponent, watch } from 'vue'
 import Logger from 'renderModule/utils/logger'
 
@@ -99,6 +108,33 @@ export default defineComponent({
       }
       return null
     })
+
+    // 会话类型以会话元数据为准，不从 conversationId 前缀推断
+    const conversationChatType = computed<number>(() => friendInfo.value?.chatType ?? 0)
+
+    // 语音/视频只对普通私聊与群聊有意义；数字伙伴和机器人没有客户端接听
+    const canCall = computed(() =>
+      conversationChatType.value === ChatType.PRIVATE
+      || conversationChatType.value === ChatType.GROUP,
+    )
+
+    // 数字伙伴：一个会话下可以开多个话题，每个话题是独立的 AI 上下文边界
+    const isDigital = computed(() => conversationChatType.value === ChatType.DIGITAL)
+
+    const handleNewTopic = async () => {
+      const currentId = messageViewStore.currentChatId
+      if (!currentId) return
+      try {
+        const res = await newChatTopicApi({ conversationId: currentId })
+        if (res.code !== 0)
+          throw new Error(res.msg || '开启新话题失败')
+        ElMessage.success('已开启新话题')
+      }
+      catch (err) {
+        logger.error({ text: '开启新话题失败', data: { error: err } })
+        ElMessage.error((err as Error)?.message || '开启新话题失败')
+      }
+    }
 
     const handleCall = async (type: 'audio' | 'video') => {
       const currentId = messageViewStore.currentChatId
@@ -164,6 +200,9 @@ export default defineComponent({
     return {
       friendInfo,
       chatType,
+      canCall,
+      isDigital,
+      handleNewTopic,
       handleCall,
       handleMore,
       // 移除 previewOnlineFile
