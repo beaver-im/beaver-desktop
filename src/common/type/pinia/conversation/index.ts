@@ -54,7 +54,7 @@ export interface IConversationItem {
    */
   isTop: boolean
   /**
-   * @description: 会话类型
+   * @description: 会话类型 1普通私聊 2群聊 3圈子 4数字伙伴 5机器人
    */
   chatType: number
   /**

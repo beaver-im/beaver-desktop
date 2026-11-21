@@ -57,6 +57,7 @@ export interface IFriendInfo {
   isFriend: boolean
   conversationId: string
   email: string
+  userType?: number // 账号类型 1普通用户 2机器人 3数字伙伴（见 common/utils/user/userType）
   source?: string // 好友关系来源：email/qrcode
 }
 

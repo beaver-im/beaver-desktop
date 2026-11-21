@@ -23,10 +23,8 @@
   <div class="friend-detail-container">
     <FriendDetailContent v-if="selectedType === 'friend'" />
     <GroupDetailContent v-else-if="selectedType === 'group'" />
-    <!-- 好友通知 -->
-    <FriendNotificationContent v-else-if="selectedType === 'friend-notification'" />
-    <!-- 群通知 -->
-    <GroupNotificationContent v-else-if="selectedType === 'group-notification'" />
+    <!-- 通知（好友申请 + 群申请 合并为一个入口） -->
+    <NotificationContent v-else-if="selectedType === 'notification'" />
   </div>
 </template>
 
@@ -34,8 +32,7 @@
 import { useFriendViewStore } from 'renderModule/windows/app/pinia/view/friend'
 import { computed } from 'vue'
 import GroupDetailContent from './group/GroupDetailContent.vue'
-import FriendNotificationContent from './notification/friend.vue'
-import GroupNotificationContent from './notification/group.vue'
+import NotificationContent from './notification/index.vue'
 import FriendDetailContent from './private/FriendDetailContent.vue'
 
 export default {
@@ -43,8 +40,7 @@ export default {
   components: {
     FriendDetailContent,
     GroupDetailContent,
-    FriendNotificationContent,
-    GroupNotificationContent,
+    NotificationContent,
   },
   setup() {
     const friendViewStore = useFriendViewStore()

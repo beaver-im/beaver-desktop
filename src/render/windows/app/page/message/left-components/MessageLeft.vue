@@ -54,10 +54,7 @@
               <div class="chat-name">
                 {{ chat.nickName }}
               </div>
-              <span
-                v-if="isCircleChat(chat)"
-                class="circle-badge"
-              >圈子</span>
+              <ChatTypeBadge :chat-type="chat.chatType || 0" />
             </div>
             <div class="chat-time">
               {{ chat.updatedAtStr }}
@@ -95,13 +92,15 @@ import { tryOpenConversation } from 'renderModule/utils/chat/openConversation'
 import { computed, defineComponent, ref } from 'vue'
 import TopConversationsComponent from './TopConversations.vue'
 import IncomingCallList from './IncomingCallList.vue'
+import ChatTypeBadge from 'renderModule/components/business/chatTypeBadge/index.vue'
 
 export default defineComponent({
   components: {
     AppStatusComponent,
     BeaverImage,
     TopConversationsComponent,
-    IncomingCallList
+    IncomingCallList,
+    ChatTypeBadge
   },
   setup() {
     logger.info({ text: 'setup 开始' })
@@ -133,21 +132,12 @@ export default defineComponent({
 
     const currentConversationId = computed(() => messageViewStore.currentChatId)
 
-    const isCircleChat = (chat: { conversationId?: string, chatType?: number }) => {
-      if (!chat)
-        return false
-      if (chat.conversationId?.startsWith('circle_'))
-        return true
-      return chat.chatType === 3
-    }
-
     return {
       searchText,
       chatList,
       currentConversationId,
       handleChatClick,
       openAiWindow,
-      isCircleChat,
       CacheType,
     }
   },
@@ -309,18 +299,6 @@ export default defineComponent({
             overflow: hidden;
             text-overflow: ellipsis;
             min-width: 0;
-          }
-
-          .circle-badge {
-            flex-shrink: 0;
-            height: 18px;
-            padding: 0 6px;
-            border-radius: 4px;
-            background: #E8F8EF;
-            color: #16A34A;
-            font-size: 11px;
-            font-weight: 600;
-            line-height: 18px;
           }
 
           .chat-time {

@@ -10,6 +10,9 @@
 import type { IConversationDisplayProvider, IConversationRef } from '@beaver-im/beaver/main'
 import dbServiceCircle from '../database/services/circle/circle'
 
+// 圈子会话类型（与宿主 ChatType.CIRCLE 一致；插件包不依赖宿主 common 类型）
+const CIRCLE_CHAT_TYPE = 3
+
 function parseCircleId(conversationId: string): string | null {
   const parts = conversationId.split('_')
   if (parts.length >= 2 && parts[0] === 'circle')
@@ -18,7 +21,8 @@ function parseCircleId(conversationId: string): string | null {
 }
 
 function isCircleConversation(conv: IConversationRef): boolean {
-  return conv.type === 3 || conv.conversationId.startsWith('circle_')
+  // 会话类型以会话数据为准，不从会话ID前缀推断
+  return conv.type === CIRCLE_CHAT_TYPE
 }
 
 /** 圈子会话展示：conversationId → avatar / nickName */

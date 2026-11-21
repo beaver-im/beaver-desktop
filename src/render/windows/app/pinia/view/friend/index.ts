@@ -33,9 +33,9 @@ export const useFriendViewStore = defineStore('useFriendViewStore', {
     /**
      * @description: 当前选中的类型（friend 或 group）
      */
-    selectedType: null as 'friend' | 'group' | 'friend-notification' | 'group-notification' | null,
+    selectedType: null as 'friend' | 'group' | 'notification' | null,
     /**
-     * @description: 当前选中的标签页（friends 或 groups）
+     * @description: 当前选中的标签页（friends / groups / ai）
      */
     currentTab: 'friends' as string,
     /**
@@ -48,7 +48,7 @@ export const useFriendViewStore = defineStore('useFriendViewStore', {
     /**
      * @description: 设置当前选中的项目（包含类型）
      */
-    setSelectedConversationWithType(id: string, type: 'friend' | 'group' | 'friend-notification' | 'group-notification') {
+    setSelectedConversationWithType(id: string, type: 'friend' | 'group' | 'notification') {
       this.selectedId = id
       this.selectedType = type
     },

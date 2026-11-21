@@ -60,6 +60,8 @@ export interface IDBChatMessage {
 export interface IDBChatConversationMeta {
   id?: number
   conversationId: string
+  // 会话类型，与服务端 ChatConversationMeta.Type 一一对应（见 common/utils/conversation/chatType）
+  // 1=普通私聊 2=群聊 3=圈子 4=数字伙伴 5=机器人
   type: number
   maxSeq?: number
   lastMessage?: string

@@ -68,6 +68,7 @@ export const useContactStore = defineStore('useContactStore', {
             phone: user.phone || '',
             email: user.email || '',
             gender: user.gender || 0,
+            userType: user.userType,
             version: user.version || 0,
           })
         })
@@ -135,6 +136,7 @@ export const useContactStore = defineStore('useContactStore', {
             phone: user.phone || '',
             email: user.email || '',
             gender: user.gender || 0,
+            userType: user.userType,
             version: user.version || 0,
           })
         })

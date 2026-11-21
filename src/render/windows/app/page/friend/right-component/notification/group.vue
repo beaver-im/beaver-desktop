@@ -185,25 +185,20 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+/* 作为「通知」页的一段，滚动容器与全高由父级提供，这里不再自建 */
 .group-notification-container {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
   background: #FFFFFF;
 }
 
 .notification-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px 0;
+  padding: 0;
 }
 
 .empty-state {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 200px;
+  padding: 24px 0;
   color: #B2BEC3;
 }
 
