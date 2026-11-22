@@ -138,6 +138,8 @@ export interface ISendAgentMessageReq {
   clientMsgId?: string
   modelId?: string
   modelSource?: 'official' | 'custom'
+  /** 选中的专家 Agent ID（数字伙伴路径；后端据此取该 Agent 的人设编排） */
+  agentId?: string
   /** workspace | chat | circle | moment */
   module?: string
   /** 场景绑定 ID，如 IM conversationId */
@@ -239,4 +241,73 @@ export interface IAgentConfirmRequest {
   tone: 'default' | 'danger'
   /** 过期时间戳；到点自动判否，与服务端超时对齐 */
   expiresAt: number
+}
+
+/**
+ * 专家中心卡面（对齐 WorkBuddy plugin.json v2.0 + 后端 _to_agent_item）。
+ * 展示字段多语统一 {zh,en}；推荐提示词复用后端 opening_questions。
+ */
+export interface IExpertI18nText {
+  zh: string
+  en: string
+}
+
+export interface IExpertItem {
+  agentId: string
+  name: string
+  description: string
+  source: 'official' | 'custom'
+  expertType: 'persona' | 'team'
+  /** 行业分类 ID，如 01-ProductDesign */
+  categoryId: string
+  profession: Partial<IExpertI18nText>
+  avatar: string
+  tags: IExpertI18nText[]
+  /** 推荐提示词（后端 opening_questions） */
+  quickPrompts: IExpertI18nText[]
+  nameI18n: Partial<IExpertI18nText>
+  descriptionI18n: Partial<IExpertI18nText>
+  systemPrompt?: string
+  tools?: string
+  mcpServerIds?: string
+  openingMessage?: string
+  status: number
+  sort: number
+}
+
+export interface IListExpertsReq {}
+
+export interface IListExpertsRes {
+  total: number
+  agents: IExpertItem[]
+}
+
+/** 连接器（对齐 connector_service.list_available_connectors） */
+export interface IConnectorItem {
+  connectorId: string
+  name: string
+  description: string
+  mcpTransport: string
+  scopes: string[]
+  /** 当前用户是否已授权（OAuth 态） */
+  granted: boolean
+}
+
+export interface IListConnectorsReq {}
+
+export interface IListConnectorsRes {
+  connectors: IConnectorItem[]
+}
+
+export interface IConnectorStartOAuthReq {
+  connectorId: string
+}
+
+export interface IConnectorStartOAuthRes {
+  authorizeUrl: string
+  state: string
+}
+
+export interface IConnectorRevokeReq {
+  connectorId: string
 }

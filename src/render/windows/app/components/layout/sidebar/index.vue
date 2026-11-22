@@ -169,6 +169,10 @@ export default {
         electron.window.openWindow('workbench', { unique: true })
         return
       }
+      if (item.id === 'online') {
+        electron.window.openWindow('online', { unique: true })
+        return
+      }
       if (item.router) {
         const path = item.router
         nextTick(() => {

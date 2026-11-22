@@ -29,6 +29,8 @@ import circleSvg from 'renderModule/assets/image/leftBar/circle.svg'
 import circleActive from 'renderModule/assets/image/leftBar/circle_active.svg'
 import workbenchSvg from 'renderModule/assets/image/leftBar/workbench.svg'
 import workbenchActive from 'renderModule/assets/image/leftBar/workbench_active.svg'
+import onlineSvg from 'renderModule/assets/image/leftBar/online.svg'
+import onlineActive from 'renderModule/assets/image/leftBar/online_active.svg'
 import assistantSvg from 'renderModule/assets/image/leftBar/assistant.svg'
 import assistantActive from 'renderModule/assets/image/leftBar/assistant_active.svg'
 import logoutIcon from 'renderModule/assets/image/leftBar/settings/logout.svg'
@@ -78,6 +80,12 @@ export const appNavList: ISidebarNavItem[] = [
     title: '工作台',
     defaultIcon: workbenchSvg,
     activeIcon: workbenchActive,
+  },
+  {
+    id: 'online',
+    title: '在线文档',
+    defaultIcon: onlineSvg,
+    activeIcon: onlineActive,
   },
   {
     id: 'moment',

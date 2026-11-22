@@ -60,9 +60,12 @@ export const useAiPanelStore = defineStore('useAiPanelStore', {
   state: () => ({
     threads: {} as Record<string, IAiThread>,
     confirms: {} as Record<string, IAgentConfirmRequest[]>,
+    /** 每个场景会话当前选中的专家 agentId；空 = 用默认助手 */
+    selectedExpert: {} as Record<string, string>,
   }),
 
   getters: {
+    expertOf: state => (refId: string): string => state.selectedExpert[refId] || '',
     messagesOf: state => (refId: string): IAiChatMessage[] => state.threads[refId]?.messages || [],
     activeTopicIdOf: state => (refId: string): string => state.threads[refId]?.activeTopicId || '',
     /** 生成中：禁输入、禁切新话题 */
@@ -173,6 +176,11 @@ export const useAiPanelStore = defineStore('useAiPanelStore', {
         msg.streaming = false
       }
       thread.streamingId = ''
+    },
+
+    /** 选中专家；传空串恢复默认助手 */
+    selectExpert(refId: string, agentId: string): void {
+      this.selectedExpert[refId] = agentId
     },
 
     pushConfirm(refId: string, request: IAgentConfirmRequest): void {

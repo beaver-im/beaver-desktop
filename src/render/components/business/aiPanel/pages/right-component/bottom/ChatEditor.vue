@@ -108,6 +108,12 @@ export default defineComponent({
       nextTick(autoResize)
     }
 
+    /** 专家快捷提示词回填草稿（不自动发送，用户可改写） */
+    const setDraft = (text: string) => {
+      draft.value = text
+      nextTick(autoResize)
+    }
+
     const focus = () => {
       nextTick(() => inputRef.value?.focus())
     }
@@ -129,6 +135,7 @@ export default defineComponent({
           module: props.module,
           refId,
           topicId: aiStore.activeTopicIdOf(refId) || undefined,
+          agentId: aiStore.expertOf(refId) || undefined,
           clientMsgId: `cmsg_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
           interactMode: 'ask',
         })
@@ -162,7 +169,7 @@ export default defineComponent({
         focus()
     })
 
-    return { draft, focused, inputRef, streaming, canSend, autoResize, submit, onKeydown, reset, focus }
+    return { draft, focused, inputRef, streaming, canSend, autoResize, submit, onKeydown, reset, focus, setDraft }
   },
 })
 </script>

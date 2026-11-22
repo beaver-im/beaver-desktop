@@ -38,6 +38,9 @@ importers:
       '@beaver-im/app-moment':
         specifier: workspace:*
         version: link:packages/app-moment
+      '@beaver-im/app-online':
+        specifier: link:../beaver-desktop-package/beaver-desktop-online
+        version: link:../beaver-desktop-package/beaver-desktop-online
       '@beaver-im/app-search':
         specifier: workspace:*
         version: link:packages/app-search

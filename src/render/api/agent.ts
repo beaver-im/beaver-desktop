@@ -20,10 +20,17 @@
  */
 
 import type {
+  IConnectorRevokeReq,
+  IConnectorStartOAuthReq,
+  IConnectorStartOAuthRes,
   IListAgentMessagesReq,
   IListAgentMessagesRes,
   IListAgentTopicsReq,
   IListAgentTopicsRes,
+  IListConnectorsReq,
+  IListConnectorsRes,
+  IListExpertsReq,
+  IListExpertsRes,
   ISendAgentMessageReq,
   ISendAgentMessageRes,
 } from 'commonModule/type/ajax/agent'
@@ -74,6 +81,50 @@ export const submitAgentToolResultApi = (data: ISubmitClientToolResultReq) => {
   return ajax({
     method: 'POST',
     url: `${baseUrl}/beaver-ai/api/ai/message/v1/submit_client_tool_result`,
+    data,
+  })
+}
+
+/**
+ * @description: 专家中心：列官方预设 + 本人自建专家（走用户面 console）
+ */
+export const listExpertsApi = (data: IListExpertsReq = {}) => {
+  return ajax<IListExpertsRes>({
+    method: 'POST',
+    url: `${baseUrl}/beaver-ai/api/ai/console/v1/list_experts`,
+    data,
+  })
+}
+
+/**
+ * @description: 连接器中心：列全部连接器声明 + 当前用户授权态
+ */
+export const listConnectorsApi = (data: IListConnectorsReq = {}) => {
+  return ajax<IListConnectorsRes>({
+    method: 'POST',
+    url: `${baseUrl}/beaver-ai/api/ai/console/v1/list_connectors`,
+    data,
+  })
+}
+
+/**
+ * @description: 发起连接器 OAuth：返回授权 URL，前端开新窗跳转
+ */
+export const connectorStartOAuthApi = (data: IConnectorStartOAuthReq) => {
+  return ajax<IConnectorStartOAuthRes>({
+    method: 'POST',
+    url: `${baseUrl}/beaver-ai/api/ai/console/v1/connector_start_oauth`,
+    data,
+  })
+}
+
+/**
+ * @description: 撤销连接器授权
+ */
+export const connectorRevokeApi = (data: IConnectorRevokeReq) => {
+  return ajax({
+    method: 'POST',
+    url: `${baseUrl}/beaver-ai/api/ai/console/v1/connector_revoke`,
     data,
   })
 }

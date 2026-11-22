@@ -29,18 +29,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { toolList } from '../data'
-import { ChatType } from 'commonModule/utils/conversation/chatType'
-import Logger from 'renderModule/utils/logger'
-
-const logger = new Logger('ChatToolbar')
-import { useMessageViewStore } from 'renderModule/windows/app/pinia/view/message/index'
-import { ChatCore } from 'renderModule/core/message/index'
-import { useConversationStore } from 'renderModule/windows/app/pinia/conversation/conversation'
-import { selectAndUploadFile, uploadFileFromBase64 } from 'renderModule/utils/upload'
+import { ChatType, isGroupChatType } from 'commonModule/utils/conversation/chatType'
 import { MessageType } from 'commonModule/type/ajax/chat'
 import type { IMessageMsg } from 'commonModule/type/ws/message-types'
+import { ChatCore } from 'renderModule/core/message/index'
+import Logger from 'renderModule/utils/logger'
+import { useMessageViewStore } from 'renderModule/windows/app/pinia/view/message/index'
+import { useConversationStore } from 'renderModule/windows/app/pinia/conversation/conversation'
+import { selectAndUploadFile, uploadFileFromBase64 } from 'renderModule/utils/upload'
+
+const logger = new Logger('ChatToolbar')
 
 export default defineComponent({
   name: 'Toolbar',
@@ -48,8 +48,7 @@ export default defineComponent({
     const messageViewStore = useMessageViewStore()
     const conversationStore = useConversationStore()
 
-    // 会话类型以会话元数据为准。数字伙伴/机器人本身就是 AI，
-    // 会话里再放「AI助手」入口没有意义，按类型收起；其余工具与类型无关。
+    // 数字伙伴 / 机器人会话里没有「AI助手」的概念，工具栏隐藏该入口
     const visibleToolList = computed(() => {
       const conversationId = messageViewStore.currentChatId
       const chatType = conversationId
@@ -91,7 +90,7 @@ export default defineComponent({
         const uploadResults = await selectAndUploadFile(acceptMap[toolType], true)
 
         const conversationInfo = conversationStore.getConversationInfo(conversationId)
-        const chatType = conversationInfo?.chatType === 2 ? 'group' : 'private'
+        const chatType = isGroupChatType(conversationInfo?.chatType) ? 'group' : 'private'
 
         for (const res of uploadResults) {
           const mediaUrl = res.fileUrl
@@ -129,7 +128,7 @@ export default defineComponent({
         const uploadResult = await uploadFileFromBase64(base64)
 
         const conversationInfo = conversationStore.getConversationInfo(conversationId)
-        const chatType = conversationInfo?.chatType === 2 ? 'group' : 'private'
+        const chatType = isGroupChatType(conversationInfo?.chatType) ? 'group' : 'private'
 
         const msg: IMessageMsg = {
           type: MessageType.IMAGE,
@@ -146,7 +145,7 @@ export default defineComponent({
     }
 
     return {
-      toolList: visibleToolList,
+      visibleToolList,
       handleToolClick
     }
   }
