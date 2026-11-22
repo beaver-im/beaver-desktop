@@ -161,6 +161,8 @@ export interface DBGetByUserIdAndCategoriesReq {
   userId: string
   categories?: string[]
   limit?: number
+  /** 跳过条数，用于滚动分页 */
+  offset?: number
 }
 
 /**

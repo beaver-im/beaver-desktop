@@ -19,53 +19,35 @@
  * beaver-desktop-header-v2
  */
 
+/** 通知行上可执行的动作类型 */
+export type NotificationActionKind = 'friend-verify' | 'group-join'
+
+/**
+ * 通知列表的一行。
+ * 由「收件箱状态（已读/时间）」+「事件详情（谁、什么类型、参数）」拼成，
+ * 展示组件只认这个结构，不关心背后是哪个业务域。
+ */
 export interface INotificationItem {
-  /**
-   * 通知记录ID（UUID）
-   */
+  /** 事件ID，列表 key */
   id: string
-  /**
-   * 用户昵称
-   */
+  /** 事件类型，如 friend_request / group_join_request */
+  eventType: string
+  /** 事件分类：social / group / moment */
+  category: string
+  /** 触发方昵称，系统类事件为空 */
   name: string
-  /**
-   * 用户头像文件名
-   */
+  /** 触发方头像 */
   avatar?: string
-  /**
-   * 时间
-   */
+  /** 主文案 */
+  title: string
+  /** 副文案（申请附言等） */
+  desc: string
+  /** 展示用时间 */
   time: string
-  /**
-   * 消息内容
-   */
-  message: string
-  /**
-   * 状态值
-   */
-  status?: number
-  /**
-   * 是否为群通知
-   */
-  isGroup?: boolean
-  /**
-   * 状态文本（由父组件处理）
-   */
-  statusText?: string
-  /**
-   * 状态样式类（由父组件处理）
-   */
-  statusClass?: string
-  /**
-   * 是否可以同意
-   */
-  canApprove?: boolean
-  /**
-   * 是否可以拒绝
-   */
-  canReject?: boolean
-  /**
-   * 关联群组 ID（群通知跳转用）
-   */
+  /** 待处理动作，为空表示只能查看 */
+  action?: NotificationActionKind
+  /** 动作参数：好友=verifyId，群=入群申请ID */
+  actionRef?: string
+  /** 关联群ID，用于点击跳转会话 */
   groupId?: string
 }

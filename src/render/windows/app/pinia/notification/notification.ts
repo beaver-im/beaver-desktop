@@ -30,7 +30,8 @@ export interface INotificationSummary {
   byCat?: Array<{ category: string, unread: number }>
 }
 
-const DEFAULT_CATEGORIES = ['social', 'group', 'system', 'moment']
+// 与后端 notifyconst.Category* 对齐：只有 social / group / moment 三类
+const DEFAULT_CATEGORIES = ['social', 'group', 'moment']
 
 export const useNotificationStore = defineStore('useNotificationStore', {
   state: () => ({
@@ -48,7 +49,7 @@ export const useNotificationStore = defineStore('useNotificationStore', {
 
   actions: {
     /**
-     * 初始化未读数据（默认统计 social/group/system/moment 分类）
+     * 初始化未读数据（三类都统计：好友入口取 social/group，朋友圈入口取 moment）
      */
     async init(categories: string[] = DEFAULT_CATEGORIES) {
       this.reset()

@@ -46,9 +46,9 @@ export const POPUP_MENU_CONFIG = [
   },
 ]
 
-// 通知入口：好友申请 / 群申请 / 系统通知合并为一个入口，未读数取三者之和
+// 通知入口只管好友申请与群申请；朋友圈互动由左侧「朋友圈」入口自己的 moment 未读承载
 export const notificationList = [{
   key: 'notification',
   text: '通知',
-  badgeCategories: ['social', 'group', 'system'],
+  badgeCategories: ['social', 'group'],
 }]

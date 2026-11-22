@@ -67,7 +67,7 @@ export enum DataEmojiCommand {
 export enum DataNotificationCommand {
   GET_EVENTS_BY_IDS = 'notification:getEventsByIds',
   GET_INBOX_BY_IDS = 'notification:getInboxByIds',
-  GET_INBOX_BY_CATEGORY = 'notification:getInboxByCategory',
+  GET_INBOX_BY_CATEGORIES = 'notification:getInboxByCategories',
   GET_READ_CURSORS = 'notification:getReadCursors',
   GET_UNREAD_SUMMARY = 'notification:getUnreadSummary',
 }

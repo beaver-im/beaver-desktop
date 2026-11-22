@@ -23,7 +23,7 @@ import type { IChatConversationVerRangeReq, IChatConversationVerRangeRes, IChatH
 import type { IGetEmojiPackageEmojisReq, IGetEmojiPackageEmojisRes, IGetEmojiPackagesByIdsReq, IGetEmojiPackagesByIdsRes, IGetEmojiPackagesReq, IGetEmojiPackagesRes, IGetEmojisListReq, IGetEmojisListRes } from '../ajax/emoji'
 import type { IFriendListReq, IFriendListRes, IFriendVerRangeReq, IValidListReq, IValidListRes, IValidVerRangeReq } from '../ajax/friend'
 import type { IGetGroupListReq, IGetGroupMembersBatchReq, IGetGroupMembersReq, IGetGroupsBatchReq, IGroupJoinRequestListReq, IGroupJoinRequestListRes, IGroupListRes, IGroupMemberListRes } from '../ajax/group'
-import type { IGetNotificationEventsByIdsReq, IGetNotificationEventsByIdsRes, IGetNotificationInboxByIdsReq, IGetNotificationInboxByIdsRes, INotificationInboxItem, IGetNotificationReadCursorsReq, IGetNotificationReadCursorsRes } from '../ajax/notification'
+import type { IGetNotificationEventsByIdsReq, IGetNotificationEventsByIdsRes, IGetNotificationInboxByIdsReq, IGetNotificationInboxByIdsRes, IGetNotificationInboxByCategoriesReq, INotificationInboxItem, IGetNotificationReadCursorsReq, IGetNotificationReadCursorsRes } from '../ajax/notification'
 import type { IGetAllUsersRes, IUserInfoRes, IUserSyncByIdsReq, IUserSyncByIdsRes } from '../ajax/user'
 
 /**
@@ -145,9 +145,9 @@ export interface IDatabaseModule {
      */
     getInboxByIds(params: IGetNotificationInboxByIdsReq): Promise<IGetNotificationInboxByIdsRes>
     /**
-     * @description: 按分类获取通知收件箱
+     * @description: 按分类集合获取通知收件箱（收件时间倒序，支持滚动分页）
      */
-    getInboxByCategory(params: { category: string, limit?: number }): Promise<{ inboxes: INotificationInboxItem[] }>
+    getInboxByCategories(params: IGetNotificationInboxByCategoriesReq): Promise<{ inboxes: INotificationInboxItem[] }>
     /**
      * @description: 获取已读游标（可按分类）
      */

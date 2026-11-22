@@ -69,6 +69,16 @@ export interface IGetNotificationInboxByIdsRes {
   inbox: INotificationInboxItem[]
 }
 
+// 按分类集合拉取通知收件箱（收件时间倒序，offset 用于滚动分页）
+export interface IGetNotificationInboxByCategoriesReq {
+  /** 要合并展示的分类，如 ['social', 'group', 'moment'] */
+  categories: string[]
+  /** 单页条数 */
+  limit?: number
+  /** 跳过条数 */
+  offset?: number
+}
+
 
 // 按分类游标标记已读
 export interface IMarkReadByCursorReq {

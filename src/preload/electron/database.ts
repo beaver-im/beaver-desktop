@@ -23,7 +23,7 @@ import type { IChatConversationVerRangeReq, IChatConversationVerRangeRes, IChatH
 import type { IGetEmojiPackageEmojisReq, IGetEmojiPackageEmojisRes, IGetEmojiPackagesByIdsReq, IGetEmojiPackagesByIdsRes, IGetEmojiPackagesReq, IGetEmojiPackagesRes, IGetEmojisListReq, IGetEmojisListRes } from 'commonModule/type/ajax/emoji'
 import type { IFriendListReq, IFriendListRes, IFriendVerRangeReq, IValidListReq, IValidListRes, IValidVerRangeReq } from 'commonModule/type/ajax/friend'
 import type { IGetGroupListReq, IGetGroupMembersBatchReq, IGetGroupMembersReq, IGetGroupsBatchReq, IGroupJoinRequestListReq, IGroupJoinRequestListRes, IGroupListRes, IGroupMemberListRes } from 'commonModule/type/ajax/group'
-import type { IGetNotificationEventsByIdsReq, IGetNotificationEventsByIdsRes, IGetNotificationInboxByIdsReq, IGetNotificationInboxByIdsRes, IGetNotificationReadCursorsReq, IGetNotificationReadCursorsRes } from 'commonModule/type/ajax/notification'
+import type { IGetNotificationEventsByIdsReq, IGetNotificationEventsByIdsRes, IGetNotificationInboxByCategoriesReq, IGetNotificationInboxByIdsReq, IGetNotificationInboxByIdsRes, IGetNotificationReadCursorsReq, IGetNotificationReadCursorsRes, INotificationInboxItem } from 'commonModule/type/ajax/notification'
 import type { IGetAllUsersRes, IUserInfoRes, IUserSyncByIdsReq, IUserSyncByIdsRes } from 'commonModule/type/ajax/user'
 import type { IDatabaseModule } from 'commonModule/type/preload/database'
 import { DatabaseCommand } from 'commonModule/type/ipc/command'
@@ -216,9 +216,9 @@ export const databaseModule: IDatabaseModule = {
         data: params,
       })
     },
-    getInboxByCategory: async (params: { category: string, limit?: number }) => {
+    getInboxByCategories: async (params: IGetNotificationInboxByCategoriesReq): Promise<{ inboxes: INotificationInboxItem[] }> => {
       return await ipcRenderManager.invoke(IEvent.RenderToMainSyncMsg, DatabaseCommand.NOTIFICATION, {
-        command: DataNotificationCommand.GET_INBOX_BY_CATEGORY,
+        command: DataNotificationCommand.GET_INBOX_BY_CATEGORIES,
         data: params,
       })
     },

@@ -211,7 +211,7 @@ class dBServiceNotificationInbox extends BaseService {
    */
   async getByUserIdAndCategories(req: DBGetByUserIdAndCategoriesReq): Promise<DBGetByUserIdAndCategoriesRes> {
     logger.info({ text: 'getByUserIdAndCategories 开始' })
-    const { userId, categories, limit = 100 } = req
+    const { userId, categories, limit = 100, offset = 0 } = req
     if (!userId) return { inboxes: [] }
 
     const hasCategories = !!categories && categories.length > 0
@@ -228,6 +228,7 @@ class dBServiceNotificationInbox extends BaseService {
       )
       .orderBy(desc(notificationInboxes.createdAt))
       .limit(limit)
+      .offset(offset)
       .all()
     return { inboxes }
   }

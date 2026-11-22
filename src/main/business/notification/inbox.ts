@@ -183,19 +183,19 @@ class NotificationInboxBusiness extends BaseBusiness<NotificationInboxSyncItem> 
   }
 
   /**
-   * 按分类获取通知收件箱列表
+   * 按分类集合获取通知收件箱列表（按收件时间倒序，支持滚动分页）
    */
-  async getInboxByCategory(userId: string, category: string, limit = 100) {
+  async getInboxByCategories(userId: string, categories: string[], limit = 20, offset = 0) {
     try {
-      if (!userId || !category)
+      if (!userId || !categories || categories.length === 0)
         return { inboxes: [] }
 
-      const result = await dBServiceNotificationInbox.getByUserIdAndCategories({
+      return await dBServiceNotificationInbox.getByUserIdAndCategories({
         userId,
-        categories: [category],
+        categories,
         limit,
+        offset,
       })
-      return result
     }
     catch (error) {
       logger.error({ text: '按分类获取通知收件箱失败', data: { error: (error as any)?.message } })

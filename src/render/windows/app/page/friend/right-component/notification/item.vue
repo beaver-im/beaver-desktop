@@ -19,6 +19,7 @@
   beaver-desktop-header-v2
 -->
 
+<!-- 通知行：纯展示。是否显示「同意/拒绝」由 item.action 决定，不含任何业务判断。 -->
 <template>
   <div class="notification-item" @click="handleClick">
     <div class="item-left">
@@ -27,13 +28,11 @@
       </div>
       <div class="item-info">
         <div class="item-name-row">
-          <span class="item-name">{{ item.name }}</span>
-          <span v-if="item.headerText" class="item-status-inline" :class="item.statusClass">
-            {{ item.headerText }}
-          </span>
+          <span class="item-name">{{ item.name || '通知' }}</span>
+          <span class="item-title">{{ item.title }}</span>
         </div>
-        <div class="item-desc">
-          {{ item.message }}
+        <div v-if="item.desc" class="item-desc">
+          {{ item.desc }}
         </div>
       </div>
     </div>
@@ -41,7 +40,7 @@
       <div class="item-time">
         {{ item.time }}
       </div>
-      <div v-if="!item.statusResult" class="item-actions">
+      <div v-if="item.action" class="item-actions">
         <BeaverButton
           type="success"
           size="mini"
@@ -56,9 +55,6 @@
         >
           拒绝
         </BeaverButton>
-      </div>
-      <div v-else class="item-status-result">
-        {{ item.statusResult }}
       </div>
     </div>
   </div>
@@ -139,11 +135,6 @@ export default defineComponent({
   font-weight: 500;
   color: #636E72;
   flex-shrink: 0;
-
-  &.group-avatar {
-    background-color: #FF7D45;
-    color: #FFFFFF;
-  }
 }
 
 .item-info {
@@ -170,11 +161,10 @@ export default defineComponent({
   text-overflow: ellipsis;
 }
 
-.item-status-inline {
+.item-title {
   flex-shrink: 0;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 11px;
+  font-size: 12px;
+  color: #B2BEC3;
   white-space: nowrap;
 }
 
@@ -203,15 +193,5 @@ export default defineComponent({
 .item-actions {
   display: flex;
   gap: 8px;
-}
-
-.status-approved {
-  background-color: #E8F5E8;
-  color: #4CAF50;
-}
-
-.status-rejected {
-  background-color: #FFEBEE;
-  color: #FF5252;
 }
 </style>
