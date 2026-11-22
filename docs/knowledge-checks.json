@@ -1,0 +1,123 @@
+{
+    "schemaVersion":  1,
+    "description":  "Only structural checks; sources and package manifests remain authoritative.",
+    "rootScripts":  [
+                        "dev",
+                        "build:ai",
+                        "build:online",
+                        "build:packages",
+                        "build:renderer",
+                        "build:main",
+                        "package:win",
+                        "package:mac",
+                        "lint"
+                    ],
+    "packageScripts":  {
+                           "packages/beaver/package.json":  [
+                                                                "tsc",
+                                                                "build"
+                                                            ],
+                           "packages/beaver-biz/package.json":  [
+                                                                    "build"
+                                                                ],
+                           "packages/beaver-ui/package.json":  [
+                                                                   "build"
+                                                               ]
+                       },
+    "requiredPaths":  [
+                          "src/main/main.ts",
+                          "src/main/plugin/bind.ts",
+                          "src/main/plugin/activate-plugins.ts",
+                          "src/main/ws-manager/index.ts",
+                          "src/main/message-manager/index.ts",
+                          "src/main/datasync/manager.ts",
+                          "src/main/database/db.ts",
+                          "src/preload/electron",
+                          "src/render/windows/app/main.ts",
+                          "src/render/components/business/aiPanel",
+                          "src/main/mcp/index.ts",
+                          "src/main/tools",
+                          "build/plugin/catalog.ts",
+                          "build/plugin/discovery.ts",
+                          "build/installer/index.bat",
+                          "vite.apps.ts",
+                          "vite.config.ts",
+                          "pnpm-workspace.yaml",
+                          "turbo.json",
+                          "packages/app-circle/src/main/api/circle.ts",
+                          "packages/app-circle/src/common/type/ajax/circle.ts",
+                          "packages/beaver/src/main/bind/index.ts",
+                          "packages/beaver/src/common/type/plugin/index.ts"
+                      ],
+    "externalPackages":  {
+                             "@beaver-im/app-ai":  "link:../beaver-desktop-package/beaver-desktop-ai",
+                             "@beaver-im/app-online":  "link:../beaver-desktop-package/beaver-desktop-online"
+                         },
+    "chapters":  [
+                     "architecture.md",
+                     "standards/01-boundaries-and-naming.md",
+                     "standards/02-types-and-api.md",
+                     "standards/03-vue-and-state.md",
+                     "standards/04-electron-and-ipc.md",
+                     "standards/05-storage-and-sync.md",
+                     "standards/06-plugin-lifecycle.md",
+                     "standards/07-errors-and-resources.md",
+                     "how-to/01-add-page-or-feature.md",
+                     "how-to/02-add-ipc.md",
+                     "how-to/03-add-capability.md",
+                     "modules/runtime-ipc.md",
+                     "modules/messaging-sync-storage.md",
+                     "modules/renderer-im.md",
+                     "modules/capability-packages.md",
+                     "modules/shared-platform.md",
+                     "modules/ai-tools.md",
+                     "modules/build-release.md",
+                     "workflow.md",
+                     "decisions/README.md",
+                     "tasks/README.md"
+                 ],
+    "ruleFiles":  [
+                      ".cursor/rules/module-boundary.mdc"
+                  ],
+    "ruleMigration":  {
+                          "document":  "docs/standards/reference-and-existing-code.md",
+                          "clauseIds":  [
+                                            "L01",
+                                            "L02",
+                                            "L03",
+                                            "L04",
+                                            "L05",
+                                            "L06",
+                                            "L07",
+                                            "L08",
+                                            "L09",
+                                            "L10",
+                                            "L11",
+                                            "L12",
+                                            "L13",
+                                            "L14",
+                                            "L15",
+                                            "L16",
+                                            "L17",
+                                            "L18",
+                                            "L19",
+                                            "L20",
+                                            "L21",
+                                            "L22",
+                                            "L23",
+                                            "L24",
+                                            "L25",
+                                            "L26"
+                                        ],
+                          "requiredSections":  [
+                                                   {
+                                                       "document":  "docs/standards/01-boundaries-and-naming.md",
+                                                       "heading":  "## 2.5"
+                                                   },
+                                                   {
+                                                       "document":  "docs/standards/02-types-and-api.md",
+                                                       "heading":  "## 3.5"
+                                                   }
+                                               ]
+                      }
+}
