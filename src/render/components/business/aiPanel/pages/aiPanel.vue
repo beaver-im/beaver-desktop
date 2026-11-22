@@ -30,7 +30,6 @@
     :subtitle="subtitle"
     :ref-id="refId"
     @new-topic="onNewTopic"
-    @pick-prompt="onPickPrompt"
     @close="emit('close')"
   />
 
@@ -59,11 +58,10 @@ import AiConfirmPanel from './right-component/bottom/confirm/index.vue'
 import AiPanelContent from './right-component/content/content.vue'
 import AiPanelHeader from './right-component/header/header.vue'
 
-/** 输入区只暴露「清空 + 聚焦 + 回填草稿」，新话题后由页面调 */
+/** 输入区只暴露「清空 + 聚焦」，新话题后由页面调 */
 interface IEditorHandle {
   reset(): void
   focus(): void
-  setDraft(text: string): void
 }
 
 export default defineComponent({
@@ -121,13 +119,7 @@ export default defineComponent({
       editorRef.value?.focus()
     }
 
-    // 专家卡片上的快捷提示词：回填输入框并聚焦，用户可直接发送或改写
-    const onPickPrompt = (text: string) => {
-      editorRef.value?.setDraft(text)
-      editorRef.value?.focus()
-    }
-
-    return { editorRef, onNewTopic, onPickPrompt, emit }
+    return { editorRef, onNewTopic, emit }
   },
 })
 </script>

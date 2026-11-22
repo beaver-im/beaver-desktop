@@ -39,22 +39,11 @@
         <span v-if="subtitle" class="brand-subtitle" :title="subtitle">
           {{ subtitle }}
         </span>
-        <button
-          v-if="currentExpertName"
-          type="button"
-          class="expert-tag"
-          title="点击更换专家"
-          @click="showExpert = true"
-        >
-          专家 · {{ currentExpertName }} ×
-        </button>
       </div>
     </div>
 
     <div class="actions">
       <slot name="actions" />
-      <button class="action-btn" type="button" title="专家中心" @click="showExpert = true">专家</button>
-      <button class="action-btn" type="button" title="连接器" @click="showConnector = true">连接器</button>
       <button
         v-if="showNewTopic"
         class="new-topic"
@@ -70,27 +59,14 @@
       </button>
     </div>
   </header>
-
-  <ExpertPicker
-    :visible="showExpert"
-    :selected-id="selectedExpertId"
-    @select="onSelectExpert"
-    @pick-prompt="onPickPrompt"
-    @close="showExpert = false"
-  />
-  <ConnectorPicker :visible="showConnector" @close="showConnector = false" />
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
-import type { IExpertItem } from 'commonModule/type/ajax/agent'
+import { computed, defineComponent } from 'vue'
 import { useAiPanelStore } from '../../../store'
-import ExpertPicker from '../pickers/ExpertPicker.vue'
-import ConnectorPicker from '../pickers/ConnectorPicker.vue'
 
 export default defineComponent({
   name: 'AiPanelHeader',
-  components: { ExpertPicker, ConnectorPicker },
   props: {
     title: {
       type: String,
@@ -111,22 +87,12 @@ export default defineComponent({
       default: true,
     },
   },
-  emits: ['close', 'newTopic', 'pickPrompt'],
+  emits: ['close', 'newTopic'],
   setup(props, { emit }) {
     const aiStore = useAiPanelStore()
-    const showExpert = ref(false)
-    const showConnector = ref(false)
 
     /** 流式输出中不允许切新话题，避免两路回复打架 */
     const streaming = computed(() => aiStore.isStreaming(props.refId))
-    const selectedExpertId = computed(() => aiStore.expertOf(props.refId))
-    const currentExpertName = computed(() => {
-      const id = selectedExpertId.value
-      if (!id)
-        return ''
-      // 名字在 picker 里加载，这里只回显 id 的语义尾段，够识别即可
-      return id.replace(/^exp_/, '')
-    })
 
     const onNewTopic = () => {
       if (streaming.value || !props.refId)
@@ -135,20 +101,7 @@ export default defineComponent({
       emit('newTopic')
     }
 
-    const onSelectExpert = (e: IExpertItem) => {
-      aiStore.selectExpert(props.refId, e.agentId)
-      showExpert.value = false
-    }
-    const onPickPrompt = (payload: { expert: IExpertItem, prompt: string }) => {
-      aiStore.selectExpert(props.refId, payload.expert.agentId)
-      emit('pickPrompt', payload.prompt)
-    }
-
-    return {
-      streaming, onNewTopic, emit,
-      showExpert, showConnector, selectedExpertId, currentExpertName,
-      onSelectExpert, onPickPrompt,
-    }
+    return { streaming, onNewTopic, emit }
   },
 })
 </script>
@@ -208,29 +161,6 @@ export default defineComponent({
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-    }
-
-    .expert-tag {
-      display: inline-block;
-      margin-top: 4px;
-      border: 0;
-      background: #FFF1EA;
-      color: #D85A30;
-      border-radius: 8px;
-      padding: 2px 8px;
-      font-size: 11px;
-      cursor: pointer;
-    }
-
-    .action-btn {
-      border: 1px solid #E4E7E9;
-      background: #fff;
-      color: #636B70;
-      border-radius: 7px;
-      padding: 4px 9px;
-      font-size: 12px;
-      cursor: pointer;
-      &:hover { border-color: #FF9A66; color: #D85A30; }
     }
 
   .actions {
