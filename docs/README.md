@@ -57,6 +57,11 @@
 20. [设计决策记录（ADR）：依据、模板与变更历史](decisions/README.md)
 21. [任务交接：进行中、阻塞、完成与归档](tasks/README.md)
 
+### 参考页（不计章序号）
+
+- [工程目录](directory.md)：找文件、判断能否改、确认副作用
+- [术语](glossary.md)：跨章高频且易混淆的名词，只在这里定义一次
+
 ### 附录
 
 - [Lingma逐条迁移对照、用户补充、待确认冲突与存量差异](standards/reference-and-existing-code.md)
