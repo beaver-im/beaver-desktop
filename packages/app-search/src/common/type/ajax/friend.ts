@@ -12,7 +12,7 @@
  * 宿主 commonModule/type/ajax/friend 同值；按模块边界允许重复。
  */
 
-export interface ISearchUser {
+export interface ISearchUserReq {
   /** 搜索关键词（用户ID或邮箱） */
   keyword: string
   /** 搜索类型：id(用户ID)/email(邮箱)，默认email */
@@ -31,7 +31,7 @@ export interface IAddFriendRes {
   direct?: boolean
 }
 
-export interface IResSearchUserInfo {
+export interface ISearchUserInfoRes {
   userId: string
   nickName: string
   avatar: string

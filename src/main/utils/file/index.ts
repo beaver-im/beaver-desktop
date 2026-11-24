@@ -24,7 +24,7 @@ import crypto from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('utils-file')
 
 
 /**

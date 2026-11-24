@@ -81,7 +81,7 @@
           class="message-status status-failed"
           @click="retrySend(message)"
         >
-          <img class="retry-icon" src="renderModule/assets/image/chat/retry.svg" alt="重试" />
+          <img class="retry-icon" src="renderModule/assets/images/chat/retry.svg" alt="重试" />
           发送失败，点击重试
         </div>
       </div>
@@ -111,7 +111,7 @@ import { useUserStore } from 'renderModule/windows/app/pinia/user/user'
 import { useMessageViewStore } from 'renderModule/windows/app/pinia/view/message'
 import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import Logger from 'renderModule/utils/logger'
-import ForwardDialog from './components/ForwardDialog.vue'
+import ForwardDialog from './components/forwardDialog.vue'
 import { getMenuItems, MessageHandlerFactory } from './contentHandler'
 import AudioFileMessage from './message/audio.vue'
 import CallMessage from './message/call.vue'

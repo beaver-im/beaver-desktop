@@ -32,7 +32,7 @@
       <slot name="empty">
         <div class="empty">
           <div class="empty-icon">
-            <img src="renderModule/assets/image/ai/robot.svg" alt="">
+            <img src="renderModule/assets/images/ai/robot.svg" alt="">
           </div>
           <p class="empty-title">
             {{ emptyTitle }}

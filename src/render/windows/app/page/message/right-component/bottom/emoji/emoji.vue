@@ -59,9 +59,9 @@
 import Logger from 'renderModule/utils/logger';
 const logger = new Logger('emoji')
 
-import favoriteIcon from 'renderModule/assets/image/emoji/favorite.svg'
-import defaultIcon from 'renderModule/assets/image/emoji/smile.svg'
-import storeIcon from 'renderModule/assets/image/emoji/store.svg'
+import favoriteIcon from 'renderModule/assets/images/emoji/favorite.svg'
+import defaultIcon from 'renderModule/assets/images/emoji/smile.svg'
+import storeIcon from 'renderModule/assets/images/emoji/store.svg'
 import { useEmojiStore } from 'renderModule/windows/app/pinia/emoji/emoji'
 import { useGlobalStore } from 'renderModule/windows/app/pinia/view/global/index'
 import { useMessageViewStore } from 'renderModule/windows/app/pinia/view/message/index'

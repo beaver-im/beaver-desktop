@@ -20,7 +20,7 @@
  */
 
 import Logger from 'renderModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('utils-image')
 
 /**
  * 图片工具函数

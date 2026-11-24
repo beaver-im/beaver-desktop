@@ -21,7 +21,7 @@
 
 import BMF from 'browser-md5-file'
 import Logger from 'renderModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('utils-file')
 
 
 // 图片尺寸类型

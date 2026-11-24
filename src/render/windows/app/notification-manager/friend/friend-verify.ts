@@ -20,7 +20,7 @@
  */
 
 import Logger from 'renderModule/utils/logger'
-import { useFriendVerifyStore } from '../../pinia/friend/friend_verify'
+import { useFriendVerifyStore } from '../../pinia/friend/friend-verify'
 
 const logger = new Logger('DatabaseFriendVerifyEventManager')
 

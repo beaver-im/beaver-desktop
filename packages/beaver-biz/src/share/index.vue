@@ -49,7 +49,7 @@
 
 <script lang="ts">
 import { Logger } from '@beaver-im/beaver/renderer'
-const logger = new Logger('index')
+const logger = new Logger('beaver-biz-share')
 
 import type { IShareMessagePayload } from '../types'
 import { CardType, MessageType } from '../types'

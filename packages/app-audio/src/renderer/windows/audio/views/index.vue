@@ -24,10 +24,7 @@
     <div v-if="audioUrl" class="player-container">
       <div class="player-header">
         <div class="audio-icon">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 3V12M12 12C10.3431 12 9 13.3431 9 15C9 16.6569 10.3431 18 12 18C13.6569 18 15 16.6569 15 15C15 13.3431 13.6569 12 12 12Z" stroke="#FF7D45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M19 10V14M17 12H21" stroke="#FF7D45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+          <img width="64" height="64" src="../../../assets/image/audio/audio-logo.svg" alt="音频图标">
         </div>
         <div v-if="audioTitle" class="audio-title">
           {{ audioTitle }}
@@ -63,25 +60,14 @@
 
         <div class="control-buttons">
           <button class="control-btn" @click="togglePlay">
-            <svg v-if="isPlaying" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="6" y="4" width="4" height="16" fill="currentColor" />
-              <rect x="14" y="4" width="4" height="16" fill="currentColor" />
-            </svg>
-            <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 5V19L19 12L8 5Z" fill="currentColor" />
-            </svg>
+            <img v-if="isPlaying" width="24" height="24" src="../../../assets/image/audio/pause.svg" alt="暂停">
+            <img v-else width="24" height="24" src="../../../assets/image/audio/play.svg" alt="播放">
           </button>
           <button class="control-btn" @click="seekBackward">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11 18V6L4 12L11 18Z" fill="currentColor" />
-              <path d="M18 6V18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            </svg>
+            <img width="24" height="24" src="../../../assets/image/audio/seek-backward.svg" alt="后退">
           </button>
           <button class="control-btn" @click="seekForward">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13 18V6L20 12L13 18Z" fill="currentColor" />
-              <path d="M6 6V18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            </svg>
+            <img width="24" height="24" src="../../../assets/image/audio/seek-forward.svg" alt="前进">
           </button>
         </div>
       </div>
@@ -375,7 +361,7 @@ export default defineComponent({
     transform: scale(0.95);
   }
 
-  svg {
+  img {
     width: 24px;
     height: 24px;
   }

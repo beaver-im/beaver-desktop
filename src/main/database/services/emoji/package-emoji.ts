@@ -21,7 +21,7 @@
 
 import { eq, inArray } from 'drizzle-orm'
 import { BaseService } from '../base'
-import { emojiPackageEmoji } from 'mainModule/database/tables/emoji/package_emoji'
+import { emojiPackageEmoji } from 'mainModule/database/tables/emoji/package-emoji'
 import Logger from 'mainModule/utils/logger';
 const logger = new Logger('package-emoji')
 

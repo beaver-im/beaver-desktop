@@ -32,11 +32,7 @@
         </div>
         <div class="member-status">
           <span v-if="member.isMuted" class="icon-svg">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M11 5L6 9H2V15H6L11 19V5Z" />
-              <line x1="23" y1="9" x2="17" y2="15" />
-              <line x1="17" y1="9" x2="23" y2="15" />
-            </svg>
+            <img src="../../../../assets/image/call/member-muted.svg" alt="已静音">
           </span>
         </div>
       </div>
@@ -120,7 +116,7 @@ export default defineComponent({
       }
 
       .member-status {
-        .icon-svg {
+        .icon-img {
           width: 14px;
           height: 14px;
           color: #ff5252;

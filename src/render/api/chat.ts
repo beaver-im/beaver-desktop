@@ -67,7 +67,7 @@ export const getRecentChatListApi = (params: IRecentChatListReq) => {
 /**
  * @description: 创建会话
  */
-export const getcreateConversationApi = (data: ICreateConversationReq) => {
+export const createConversationApi = (data: ICreateConversationReq) => {
   return ajax<IRecentChatRes>({
     method: 'POST',
     data,

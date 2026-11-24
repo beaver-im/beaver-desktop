@@ -26,7 +26,7 @@
         <img v-if="formAvatar" :src="formAvatar" class="bot-custom-manage__avatar-image" alt="">
         <img v-else :src="defaultAvatar" class="bot-custom-manage__avatar-image" alt="">
         <span class="bot-custom-manage__edit-badge">
-          <img src="renderModule/assets/image/groupAssistant/edit.svg" alt="">
+          <img src="renderModule/assets/images/groupAssistant/edit.svg" alt="">
         </span>
       </div>
       <input ref="avatarInputRef" type="file" accept="image/*" class="bot-custom-manage__avatar-input" @change="onAvatarChange">
@@ -65,17 +65,17 @@
           <label class="bot-custom-manage__checkbox-item">
             <input v-model="keywordsEnabled" type="checkbox">
             <span class="bot-custom-manage__checkbox-text">自定义关键词</span>
-            <img src="renderModule/assets/image/common/help.svg" class="bot-custom-manage__help-icon" alt="帮助" @click.stop="showKeywordsHelp">
+            <img src="renderModule/assets/images/common/help.svg" class="bot-custom-manage__help-icon" alt="帮助" @click.stop="showKeywordsHelp">
           </label>
           <label class="bot-custom-manage__checkbox-item">
             <input v-model="ipWhitelistEnabled" type="checkbox">
             <span class="bot-custom-manage__checkbox-text">IP白名单</span>
-            <img src="renderModule/assets/image/common/help.svg" class="bot-custom-manage__help-icon" alt="帮助" @click.stop="showIpHelp">
+            <img src="renderModule/assets/images/common/help.svg" class="bot-custom-manage__help-icon" alt="帮助" @click.stop="showIpHelp">
           </label>
           <label class="bot-custom-manage__checkbox-item">
             <input v-model="signEnabled" type="checkbox">
             <span class="bot-custom-manage__checkbox-text">签名校验</span>
-            <img src="renderModule/assets/image/common/help.svg" class="bot-custom-manage__help-icon" alt="帮助" @click.stop="showSignHelp">
+            <img src="renderModule/assets/images/common/help.svg" class="bot-custom-manage__help-icon" alt="帮助" @click.stop="showSignHelp">
           </label>
         </div>
 
@@ -104,12 +104,12 @@
     <div class="bot-custom-manage__footer">
       <div class="bot-custom-manage__footer-left">
         <a href="javascript:void(0)" class="bot-custom-manage__link">
-          <img src="renderModule/assets/image/groupAssistant/help.svg" alt="">
+          <img src="renderModule/assets/images/groupAssistant/help.svg" alt="">
           配置说明
         </a>
         <span class="bot-custom-manage__divider">|</span>
         <span class="bot-custom-manage__delete-btn" @click="handleDelete">
-          <img src="renderModule/assets/image/groupAssistant/delete.svg" alt="">
+          <img src="renderModule/assets/images/groupAssistant/delete.svg" alt="">
           删除群助手
         </span>
       </div>

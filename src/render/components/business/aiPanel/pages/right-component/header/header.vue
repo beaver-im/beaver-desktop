@@ -29,7 +29,7 @@
     <div class="brand">
       <span class="brand-icon">
         <slot name="icon">
-          <img src="renderModule/assets/image/leftBar/assistant_active.svg" alt="">
+          <img src="renderModule/assets/images/leftBar/assistant-active.svg" alt="">
         </slot>
       </span>
       <div class="brand-text">
@@ -55,7 +55,7 @@
         <span class="plus">+</span> 新话题
       </button>
       <button class="close" type="button" title="关闭" @click="emit('close')">
-        <img src="renderModule/assets/image/common/close.svg" alt="关闭">
+        <img src="renderModule/assets/images/common/close.svg" alt="关闭">
       </button>
     </div>
   </header>

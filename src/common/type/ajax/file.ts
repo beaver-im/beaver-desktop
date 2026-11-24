@@ -61,7 +61,7 @@ export interface IFileRes {
 }
 
 // 文件上传结果类型（用于内部Promise返回）
-export interface IFileUploadResult {
+export interface IFileUploadRes {
   fileUrl: string
   originalName: string
   fileInfo?: IFileInfo

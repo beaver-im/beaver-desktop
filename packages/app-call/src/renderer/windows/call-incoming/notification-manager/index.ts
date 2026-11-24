@@ -22,7 +22,7 @@
 import { type INotificationPayload, NotificationModule, NotificationCallCommand } from '../../../../common/type/preload/notification'
 import { useIncomingStore } from '../pinia/incoming'
 import { Logger } from '@beaver-im/beaver/renderer';
-const logger = new Logger('index')
+const logger = new Logger('call-incoming-notification')
 
 
 /**

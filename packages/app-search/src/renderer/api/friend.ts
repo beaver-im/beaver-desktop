@@ -19,15 +19,15 @@
  * beaver-desktop-header-v2
  */
 
-import type { IAddFriendReq, IAddFriendRes, IResSearchUserInfo, ISearchUser } from '../../common/type/ajax/friend'
+import type { IAddFriendReq, IAddFriendRes, ISearchUserInfoRes, ISearchUserReq } from '../../common/type/ajax/friend'
 import { baseUrl } from '@beaver-im/beaver'
 import { ajax } from '@beaver-im/beaver/renderer'
 
 /**
  * @description: 搜索好友（通过用户ID或邮箱）
  */
-export const getSearchFriendApi = (data: ISearchUser) => {
-  return ajax<IResSearchUserInfo>({
+export const getSearchFriendApi = (data: ISearchUserReq) => {
+  return ajax<ISearchUserInfoRes>({
     method: 'GET',
     params: data, // 使用 params 而不是 data，因为是 GET 请求
     url: `${baseUrl}/beaver/api/relation/friend/v1/search`,

@@ -22,7 +22,7 @@
 import { SyncStatus } from 'commonModule/type/datasync'
 import { NotificationFriendCommand, NotificationModule } from 'commonModule/type/preload/notification'
 import { datasyncGetSyncFriendsApi } from 'mainModule/api/datasync'
-import { getFriendsListByIdsApi } from 'mainModule/api/friened'
+import { getFriendsListByIdsApi } from 'mainModule/api/friend'
 import dbServiceDataSync  from 'mainModule/database/services/datasync/datasync'
 import dBServiceFriend  from 'mainModule/database/services/friend/friend'
 import { sendMainNotification } from 'mainModule/ipc/main-to-render'

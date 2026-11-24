@@ -25,13 +25,13 @@
 
     <div class="window-controls">
       <div class="window-control-button minimize" @click="handleMinimize">
-        <img src="renderModule/assets/image/header/minimize.svg" alt="minimize">
+        <img src="renderModule/assets/images/header/minimize.svg" alt="minimize">
       </div>
       <div class="window-control-button maximize" @click="handleMaximize">
-        <img src="renderModule/assets/image/header/maximize.svg" alt="maximize">
+        <img src="renderModule/assets/images/header/maximize.svg" alt="maximize">
       </div>
       <div class="window-control-button close" @click="handleClose">
-        <img src="renderModule/assets/image/header/close.svg" alt="close">
+        <img src="renderModule/assets/images/header/close.svg" alt="close">
       </div>
     </div>
   </header>

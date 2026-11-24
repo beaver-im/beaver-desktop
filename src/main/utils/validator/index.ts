@@ -20,7 +20,7 @@
  */
 
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('utils-validator')
 
 /**
  * 验证缓存键格式

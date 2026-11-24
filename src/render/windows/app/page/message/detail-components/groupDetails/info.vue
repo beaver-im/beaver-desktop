@@ -33,7 +33,7 @@
             />
             <span v-else class="group-details-info__avatar-text">{{ groupInfo.title }}</span>
             <div class="group-details-info__avatar-edit">
-              <img src="renderModule/assets/image/group/edit.svg" alt="编辑">
+              <img src="renderModule/assets/images/group/edit.svg" alt="编辑">
             </div>
           </div>
           <input
@@ -66,7 +66,7 @@
             type="button"
             @click="handleAddMember"
           >
-            <img src="renderModule/assets/image/group/add.svg" alt="添加">
+            <img src="renderModule/assets/images/group/add.svg" alt="添加">
             添加成员
           </button>
         </div>
@@ -91,7 +91,7 @@
                 type="button"
                 @click.stop="handleRemoveMember(member.userId)"
               >
-                <img src="renderModule/assets/image/create-group/remove.svg" alt="删除">
+                <img src="renderModule/assets/images/create-group/remove.svg" alt="删除">
               </button>
             </div>
             <div class="group-details-info__member-name">
@@ -108,7 +108,7 @@
         >
           {{ showAllMembers ? '收起成员列表' : '查看更多成员' }}
           <img
-            src="renderModule/assets/image/group/expand.svg"
+            src="renderModule/assets/images/group/expand.svg"
             alt="展开"
             :style="{ transform: showAllMembers ? 'rotate(180deg)' : 'rotate(0)' }"
           >
@@ -121,7 +121,7 @@
         @click="$emit('open', 'assistant')"
       >
         <span class="group-details-info__assistant-label">智能群助手</span>
-        <img class="group-details-info__assistant-arrow" src="renderModule/assets/image/group/expand.svg" alt="">
+        <img class="group-details-info__assistant-arrow" src="renderModule/assets/images/group/expand.svg" alt="">
       </div>
 
       <div class="group-details-info__settings">
@@ -132,7 +132,7 @@
           <div class="group-details-info__settings-label">
             分享群聊
           </div>
-          <img class="group-details-info__settings-arrow" src="renderModule/assets/image/group/expand.svg" alt="">
+          <img class="group-details-info__settings-arrow" src="renderModule/assets/images/group/expand.svg" alt="">
         </div>
         <div class="group-details-info__settings-item">
           <div class="group-details-info__settings-label">

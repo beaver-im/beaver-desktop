@@ -68,16 +68,7 @@ class Store implements IStore {
 
   // 类型安全的获取数据方法
   get<T extends keyof IStoreDataMap>(key: IStoreKey<T>): IStoreValue<T> | undefined {
-    try {
-      console.log('get', key)
-      let _value = this.memoryStore.get(key)
-
-      return _value
-    }
-    catch (error) {
-      console.error(`Failed to get store value for key "${key}":`, error)
-      return null
-    }
+    return this.memoryStore.get(key)
   }
 
   clearAll(): void {

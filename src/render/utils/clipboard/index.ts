@@ -20,7 +20,7 @@
  */
 
 import Logger from 'renderModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('utils-clipboard')
 
 /**
  * @description: 从 ClipboardEvent 中获取所有文件

@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import ChatEditor from './right-component/bottom/ChatEditor.vue'
+import ChatEditor from './right-component/bottom/chatEditor.vue'
 import AiConfirmPanel from './right-component/bottom/confirm/index.vue'
 import AiPanelContent from './right-component/content/content.vue'
 import AiPanelHeader from './right-component/header/header.vue'

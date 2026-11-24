@@ -23,7 +23,7 @@ import type { IBeaverBridgeResult } from 'commonModule/type/preload/bridge'
 import type { IBridgeSession } from '@beaver-im/beaver/main'
 import { store } from 'mainModule/store'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('ipc-bridge-user')
 
 
 class BridgeUserHandler {

@@ -31,13 +31,13 @@
     <div class="group-assistant-overlay__shell">
       <div class="group-assistant-overlay__header" >
         <button class="group-assistant-overlay__header-btn" type="button" @click="onBack" v-if="!localBotType">
-          <img src="renderModule/assets/image/common/back.svg" alt="返回">
+          <img src="renderModule/assets/images/common/back.svg" alt="返回">
         </button>
         <h3 class="group-assistant-overlay__title">
           {{ localBotType ? '管理群助手' : '添加群助手' }}
         </h3>
         <button class="group-assistant-overlay__header-btn" type="button" @click="close">
-          <img src="renderModule/assets/image/group/close.svg" alt="关闭">
+          <img src="renderModule/assets/images/group/close.svg" alt="关闭">
         </button>
       </div>
 

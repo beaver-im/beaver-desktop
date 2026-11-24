@@ -109,7 +109,7 @@ import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'v
 import refreshIcon from '../../../../assets/image/moment/refresh.svg'
 import { useMomentStore } from '../../store/moment/moment'
 import { useUserStore } from '../../store/user/user'
-import MomentContentCard from '../common/MomentContentCard.vue'
+import MomentContentCard from '../common/momentContentCard.vue'
 import BottomInputSection from './bottomInputSection.vue'
 import CommentSection from './commentSection.vue'
 import LikeSection from './likeSection.vue'

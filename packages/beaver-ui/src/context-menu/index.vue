@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import { Logger } from '@beaver-im/beaver/renderer'
-const logger = new Logger('index')
+const logger = new Logger('beaver-ui-context-menu')
 
 import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 

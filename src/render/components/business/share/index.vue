@@ -49,7 +49,7 @@
 
 <script lang="ts">
 import Logger from 'renderModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('share')
 
 import type { IMessageMsg } from 'commonModule/type/ws/message-types'
 import { CardType, MessageType } from 'commonModule/type/ajax/chat'

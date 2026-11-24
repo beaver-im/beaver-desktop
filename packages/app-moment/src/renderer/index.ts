@@ -8,4 +8,4 @@
  */
 
 /** @beaver-im/app-moment 渲染进程出口（对外暴露的组件） */
-export { default as MomentContentCard } from './windows/moment/components/common/MomentContentCard.vue'
+export { default as MomentContentCard } from './windows/moment/components/common/momentContentCard.vue'

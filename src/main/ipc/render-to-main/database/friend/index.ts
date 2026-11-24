@@ -24,10 +24,10 @@ import { DataFriendCommand } from 'commonModule/type/ipc/database'
 import friendBusiness from 'mainModule/business/friend/friend'
 import friendVerifyBusiness from 'mainModule/business/friend/friend-verify'
 import dBServiceFriend  from 'mainModule/database/services/friend/friend'
-import dBServiceFriendVerify  from 'mainModule/database/services/friend/friend_verify'
+import dBServiceFriendVerify  from 'mainModule/database/services/friend/friend-verify'
 import { store } from 'mainModule/store'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('ipc-database-friend')
 
 
 class FriendHandler {

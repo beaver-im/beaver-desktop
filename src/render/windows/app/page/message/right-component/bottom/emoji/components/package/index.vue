@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import Logger from 'renderModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('emoji-package')
 
 import type { IEmojiBase } from 'renderModule/windows/app/pinia/emoji/emoji'
 import { useEmojiStore } from 'renderModule/windows/app/pinia/emoji/emoji'

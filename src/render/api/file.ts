@@ -19,7 +19,7 @@
  * beaver-desktop-header-v2
  */
 
-import type { IFileRes, IFileUploadResult } from 'commonModule/type/ajax/file'
+import type { IFileRes, IFileUploadRes } from 'commonModule/type/ajax/file'
 import { baseUrl } from 'commonModule/config'
 import Message from 'renderModule/components/ui/message'
 import { getFileInfo } from 'renderModule/utils/file/index'
@@ -31,7 +31,7 @@ const logger = new Logger('file')
 /**
  * @description: 文件上传总入口
  */
-export const uploadFileApi = async (file: File, fileKey?: string): Promise<IFileUploadResult> => {
+export const uploadFileApi = async (file: File, fileKey?: string): Promise<IFileUploadRes> => {
     logger.info({ text: 'uploadFileApi 开始' })
   //  if(source === 'local') {
   return await uploadToLocalApi(file, fileKey)
@@ -44,7 +44,7 @@ export const uploadFileApi = async (file: File, fileKey?: string): Promise<IFile
 /**
  * @description: 通用文件上传函数
  */
-const uploadFileApiWithTarget = async (file: File, fileKey?: string, target: 'local' | 'qiniu' = 'local'): Promise<IFileUploadResult> => {
+const uploadFileApiWithTarget = async (file: File, fileKey?: string, target: 'local' | 'qiniu' = 'local'): Promise<IFileUploadRes> => {
     logger.info({ text: 'uploadFileApiWithTarget 开始' })
   // 根据目标选择URL
   const uploadPath = target === 'qiniu' ? '/beaver/api/asset/file/v1/upload_qiniu' : '/beaver/api/asset/file/v1/upload_local'

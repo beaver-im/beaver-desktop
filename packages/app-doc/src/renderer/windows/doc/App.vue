@@ -6,176 +6,6 @@
 
   beaver-desktop-header-v2
 -->
-<script setup lang="ts">
-import type { Editor as TiptapEditor } from '@tiptap/vue-3'
-import type { IDocPresence } from '@packageCommon/type/ajax/doc'
-import type { DocSyncStatus } from './composables/useDocProvider'
-import { importDocApi } from '@packageRender/api/doc'
-import { computed, onMounted, ref } from 'vue'
-import AuditPanel from './components/AuditPanel.vue'
-import BlockPanel from './components/BlockPanel.vue'
-import CommentPanel from './components/CommentPanel.vue'
-import DocEditor from './components/DocEditor.vue'
-import DocToolbar from './components/DocToolbar.vue'
-import HistoryPanel from './components/HistoryPanel.vue'
-import NotificationPanel from './components/NotificationPanel.vue'
-import PresenceBar from './components/PresenceBar.vue'
-import SearchPanel from './components/SearchPanel.vue'
-import ShareDialog from './components/ShareDialog.vue'
-import Sidebar from './components/Sidebar.vue'
-import TemplateCenter from './components/TemplateCenter.vue'
-import TrashPanel from './components/TrashPanel.vue'
-import { useDocStore } from './store/doc'
-
-const store = useDocStore()
-
-const userName = ref('我')
-const userId = ref('')
-const presence = ref<IDocPresence[]>([])
-const connected = ref(false)
-const syncStatus = ref<DocSyncStatus>('connecting')
-const pendingCount = ref(0)
-const readOnly = ref(false)
-const editor = ref<TiptapEditor | undefined>()
-const showShare = ref(false)
-const showDiff = ref(false)
-const diffResult = ref<{ addedLines: string[], removedLines: string[], baseText: string, targetText: string } | null>(null)
-const baseRev = ref('')
-const targetRev = ref('')
-const fileInput = ref<HTMLInputElement | null>(null)
-const toast = ref('')
-
-const editorKey = computed(() => `${store.currentDocId}@${store.epoch}`)
-const isFavorite = computed(() => store.favoriteIds.has(store.currentDocId))
-
-function flash(message: string) {
-  toast.value = message
-  window.setTimeout(() => {
-    if (toast.value === message)
-      toast.value = ''
-  }, 2600)
-}
-
-async function loadSelf() {
-  const bridge = ((globalThis as any).electron || (globalThis as any).window?.electron)
-  try {
-    const info = await bridge?.storage?.getAsync?.('userInfo')
-    if (info?.userId)
-      userId.value = info.userId
-    if (info?.name)
-      userName.value = info.name
-  }
-  catch { /* 未登录窗口下忽略 */ }
-}
-
-function b64(buffer: ArrayBuffer): string {
-  const bytes = new Uint8Array(buffer)
-  let bin = ''
-  for (let i = 0; i < bytes.length; i++)
-    bin += String.fromCharCode(bytes[i])
-  return btoa(bin)
-}
-
-async function onFileChange(ev: Event) {
-  const input = ev.target as HTMLInputElement
-  const file = input.files?.[0]
-  if (!file || !store.currentSpaceId)
-    return
-  try {
-    const res = await importDocApi({
-      spaceId: store.currentSpaceId,
-      fileName: file.name,
-      title: file.name,
-      data: b64(await file.arrayBuffer()),
-    })
-    if (res.result?.docId) {
-      await store.selectSpace(store.currentSpaceId)
-      await store.openDoc(res.result.docId)
-      flash(res.result.parsed ? `已导入 ${file.name}` : (res.result.message || '文件已保存为附件文档'))
-    }
-  }
-  catch (err) {
-    flash(err instanceof Error ? err.message : '导入失败')
-  }
-  input.value = ''
-}
-
-function download(name: string, mime: string, data: string | Uint8Array) {
-  const blob = data instanceof Uint8Array
-    ? new Blob([data as BlobPart], { type: mime })
-    : new Blob([data], { type: mime })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = name
-  a.click()
-  URL.revokeObjectURL(url)
-}
-
-async function onExport(format: 'md' | 'html' | 'txt' | 'json' | 'docx') {
-  const r = await store.exportDoc(format)
-  if (!r)
-    return
-  if (format === 'docx' && r.data) {
-    const bin = atob(r.data)
-    const bytes = new Uint8Array(bin.length)
-    for (let i = 0; i < bin.length; i++)
-      bytes[i] = bin.charCodeAt(i)
-    download(r.fileName || 'document.docx', r.mimeType || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', bytes)
-  }
-  else {
-    download(r.fileName || `document.${format}`, r.mimeType || 'text/plain;charset=utf-8', r.text || '')
-  }
-  flash(`已导出 ${format.toUpperCase()}`)
-}
-
-async function onCompare() {
-  if (!baseRev.value || !targetRev.value) {
-    flash('请先选择两个版本')
-    return
-  }
-  const r = await store.diffRevisions(baseRev.value, targetRev.value)
-  if (!r)
-    return
-  diffResult.value = r
-  showDiff.value = true
-}
-
-async function onRollback(revisionId: string) {
-  const r = await store.rollback(revisionId)
-  if (r?.epoch)
-    flash(`已回滚，协同纪元更新为 ${r.epoch}，正在重建会话`)
-}
-
-async function onDuplicate() {
-  const r = await store.duplicateDoc(`${store.currentDoc?.title || '文档'} 副本`)
-  if (r?.docId)
-    flash('已创建副本')
-}
-
-async function onToggleFavorite() {
-  await store.toggleFavorite()
-  flash(isFavorite.value ? '已收藏' : '已取消收藏')
-}
-
-function onEpochChange(epoch: number) {
-  store.epoch = epoch
-  flash(`检测到文档版本更新（纪元 ${epoch}），正在重建协同会话`)
-}
-
-onMounted(async () => {
-  await loadSelf()
-  await Promise.all([
-    store.loadSpaces(),
-    store.loadRecent(),
-    store.loadFavorites(),
-    store.loadNotifications(),
-  ])
-  if (store.currentSpaceId)
-    await store.selectSpace(store.currentSpaceId)
-})
-</script>
-
 <template>
   <div class="doc-app">
     <Sidebar
@@ -342,6 +172,212 @@ onMounted(async () => {
   </div>
 </template>
 
+<script lang="ts">
+import type { Editor as TiptapEditor } from '@tiptap/vue-3'
+import type { IDocPresence } from '@packageCommon/type/ajax/doc'
+import type { DocSyncStatus } from './composables/useDocProvider'
+import { importDocApi } from '@packageRender/api/doc'
+import { defineComponent, computed, onMounted, ref } from 'vue'
+import AuditPanel from './components/auditPanel.vue'
+import BlockPanel from './components/blockPanel.vue'
+import CommentPanel from './components/commentPanel.vue'
+import DocEditor from './components/docEditor.vue'
+import DocToolbar from './components/docToolbar.vue'
+import HistoryPanel from './components/historyPanel.vue'
+import NotificationPanel from './components/notificationPanel.vue'
+import PresenceBar from './components/presenceBar.vue'
+import SearchPanel from './components/searchPanel.vue'
+import ShareDialog from './components/shareDialog.vue'
+import Sidebar from './components/sidebar.vue'
+import TemplateCenter from './components/templateCenter.vue'
+import TrashPanel from './components/trashPanel.vue'
+import { useDocStore } from './store/doc'
+
+export default defineComponent({
+  name: 'App',
+  setup(props) {
+    const store = useDocStore()
+
+    const userName = ref('我')
+    const userId = ref('')
+    const presence = ref<IDocPresence[]>([])
+    const connected = ref(false)
+    const syncStatus = ref<DocSyncStatus>('connecting')
+    const pendingCount = ref(0)
+    const readOnly = ref(false)
+    const editor = ref<TiptapEditor | undefined>()
+    const showShare = ref(false)
+    const showDiff = ref(false)
+    const diffResult = ref<{ addedLines: string[], removedLines: string[], baseText: string, targetText: string } | null>(null)
+    const baseRev = ref('')
+    const targetRev = ref('')
+    const fileInput = ref<HTMLInputElement | null>(null)
+    const toast = ref('')
+
+    const editorKey = computed(() => `${store.currentDocId}@${store.epoch}`)
+    const isFavorite = computed(() => store.favoriteIds.has(store.currentDocId))
+
+    function flash(message: string) {
+      toast.value = message
+      window.setTimeout(() => {
+        if (toast.value === message)
+          toast.value = ''
+      }, 2600)
+    }
+
+    async function loadSelf() {
+      const bridge = ((globalThis as any).electron || (globalThis as any).window?.electron)
+      try {
+        const info = await bridge?.storage?.getAsync?.('userInfo')
+        if (info?.userId)
+          userId.value = info.userId
+        if (info?.name)
+          userName.value = info.name
+      }
+      catch { /* 未登录窗口下忽略 */ }
+    }
+
+    function b64(buffer: ArrayBuffer): string {
+      const bytes = new Uint8Array(buffer)
+      let bin = ''
+      for (let i = 0; i < bytes.length; i++)
+        bin += String.fromCharCode(bytes[i])
+      return btoa(bin)
+    }
+
+    async function onFileChange(ev: Event) {
+      const input = ev.target as HTMLInputElement
+      const file = input.files?.[0]
+      if (!file || !store.currentSpaceId)
+        return
+      try {
+        const res = await importDocApi({
+          spaceId: store.currentSpaceId,
+          fileName: file.name,
+          title: file.name,
+          data: b64(await file.arrayBuffer()),
+        })
+        if (res.result?.docId) {
+          await store.selectSpace(store.currentSpaceId)
+          await store.openDoc(res.result.docId)
+          flash(res.result.parsed ? `已导入 ${file.name}` : (res.result.message || '文件已保存为附件文档'))
+        }
+      }
+      catch (err) {
+        flash(err instanceof Error ? err.message : '导入失败')
+      }
+      input.value = ''
+    }
+
+    function download(name: string, mime: string, data: string | Uint8Array) {
+      const blob = data instanceof Uint8Array
+        ? new Blob([data as BlobPart], { type: mime })
+        : new Blob([data], { type: mime })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = name
+      a.click()
+      URL.revokeObjectURL(url)
+    }
+
+    async function onExport(format: 'md' | 'html' | 'txt' | 'json' | 'docx') {
+      const r = await store.exportDoc(format)
+      if (!r)
+        return
+      if (format === 'docx' && r.data) {
+        const bin = atob(r.data)
+        const bytes = new Uint8Array(bin.length)
+        for (let i = 0; i < bin.length; i++)
+          bytes[i] = bin.charCodeAt(i)
+        download(r.fileName || 'document.docx', r.mimeType || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', bytes)
+      }
+      else {
+        download(r.fileName || `document.${format}`, r.mimeType || 'text/plain;charset=utf-8', r.text || '')
+      }
+      flash(`已导出 ${format.toUpperCase()}`)
+    }
+
+    async function onCompare() {
+      if (!baseRev.value || !targetRev.value) {
+        flash('请先选择两个版本')
+        return
+      }
+      const r = await store.diffRevisions(baseRev.value, targetRev.value)
+      if (!r)
+        return
+      diffResult.value = r
+      showDiff.value = true
+    }
+
+    async function onRollback(revisionId: string) {
+      const r = await store.rollback(revisionId)
+      if (r?.epoch)
+        flash(`已回滚，协同纪元更新为 ${r.epoch}，正在重建会话`)
+    }
+
+    async function onDuplicate() {
+      const r = await store.duplicateDoc(`${store.currentDoc?.title || '文档'} 副本`)
+      if (r?.docId)
+        flash('已创建副本')
+    }
+
+    async function onToggleFavorite() {
+      await store.toggleFavorite()
+      flash(isFavorite.value ? '已收藏' : '已取消收藏')
+    }
+
+    function onEpochChange(epoch: number) {
+      store.epoch = epoch
+      flash(`检测到文档版本更新（纪元 ${epoch}），正在重建协同会话`)
+    }
+
+    onMounted(async () => {
+      await loadSelf()
+      await Promise.all([
+        store.loadSpaces(),
+        store.loadRecent(),
+        store.loadFavorites(),
+        store.loadNotifications(),
+      ])
+      if (store.currentSpaceId)
+        await store.selectSpace(store.currentSpaceId)
+    })
+    return {
+      ref,
+      store,
+      userName,
+      userId,
+      presence,
+      connected,
+      syncStatus,
+      pendingCount,
+      readOnly,
+      editor,
+      showShare,
+      showDiff,
+      diffResult,
+      baseRev,
+      targetRev,
+      fileInput,
+      toast,
+      editorKey,
+      isFavorite,
+      input,
+      file,
+      url,
+      onFileChange,
+      onExport,
+      onCompare,
+      onRollback,
+      onDuplicate,
+      onToggleFavorite,
+      onEpochChange,
+    }
+  },
+})
+</script>
+
 <style>
 /* ===== 全局设计系统（供 app-doc 内所有面板复用） ===== */
 .doc-app {
@@ -451,7 +487,6 @@ onMounted(async () => {
   font-size: 11px; line-height: 1.6; white-space: pre-wrap; word-break: break-all; max-height: 52vh; overflow: auto;
 }
 </style>
-
 <style scoped>
 .doc-app {
   display: flex;

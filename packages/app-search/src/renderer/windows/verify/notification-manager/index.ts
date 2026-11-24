@@ -22,7 +22,7 @@
 import SearchToVerifyEventManager from './searchToVerify'
 import { Logger } from '@beaver-im/beaver/renderer'
 
-const logger = new Logger('index')
+const logger = new Logger('verify-notification')
 
 /**
  * @description: 事件中心

@@ -22,13 +22,7 @@
 <template>
   <div class="file-message" @click.stop="handleOpen">
     <div class="file-icon">
-      <svg viewBox="0 0 24 24" width="28" height="28" fill="none">
-        <path
-          d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
-          fill="#2196F3"
-        />
-        <path d="M14 2v6h6" fill="#64B5F6" />
-      </svg>
+      <img width="28" height="28" src="../../../../../../../assets/images/message/file-icon.svg" alt="文件">
     </div>
     <div class="file-info">
       <div class="file-name" :title="fileName">
@@ -47,7 +41,7 @@
 <script lang="ts">
 import { CacheType } from 'commonModule/type/cache/cache'
 import { IMessageMsg } from 'commonModule/type/ws/message-types'
-import downloadSvg from 'renderModule/assets/image/chat/download.svg'
+import downloadSvg from 'renderModule/assets/images/chat/download.svg'
 import Message from 'renderModule/components/ui/message'
 import { getFileNameFromUrl } from 'renderModule/utils/file/index'
 import { computed, defineComponent, PropType } from 'vue'

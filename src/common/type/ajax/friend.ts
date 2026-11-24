@@ -39,7 +39,7 @@ export interface IFriendListRes {
   list: IFriendInfo[]
 }
 
-export interface ISearchUser {
+export interface ISearchUserReq {
   keyword: string // 搜索关键词（用户ID或邮箱）
   type?: string // 搜索类型：id(用户ID)/email(邮箱)，默认email
 }
@@ -148,7 +148,7 @@ export interface ISearchValidInfoRes {
   verifyId: string // 验证记录ID
 }
 
-export interface IResSearchUserInfo {
+export interface ISearchUserInfoRes {
   userId: string
   nickName: string
   avatar: string

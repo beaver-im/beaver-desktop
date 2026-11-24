@@ -21,7 +21,7 @@
 
 import crypto from 'node:crypto'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('utils-crypto')
 
 
 /**

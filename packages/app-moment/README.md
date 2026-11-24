@@ -29,7 +29,7 @@ packages/app-moment/
 
 ```ts
 import momentApplication from '@beaver-im/app-moment/main/application/moment'
-import MomentContentCard from '@beaver-im/app-moment/renderer/windows/moment/components/common/MomentContentCard.vue'
+import MomentContentCard from '@beaver-im/app-moment/renderer/windows/moment/components/common/momentContentCard.vue'
 ```
 
 宿主无需为包配置任何 alias / tsconfig paths，`exports` 即入口表。

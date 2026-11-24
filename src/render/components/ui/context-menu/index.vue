@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import Logger from 'renderModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('ui-context-menu')
 
 import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 

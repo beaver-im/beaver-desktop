@@ -22,7 +22,7 @@
 import { emojiController } from './controller'
 import { emojiSyncModule } from './emoji'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('datasync-emoji')
 
 
 export const emojiDatasync = new class emojiDatasync {

@@ -23,7 +23,7 @@ import type { ICommonHeader } from 'commonModule/type/ajax/common'
 import type { IFriendInfo, IFriendListReq, IFriendListRes } from 'commonModule/type/ajax/friend'
 import type { QueueItem } from '../base/base'
 import { NotificationFriendCommand, NotificationModule } from 'commonModule/type/preload/notification'
-import { getFriendsListByIdsApi } from 'mainModule/api/friened'
+import { getFriendsListByIdsApi } from 'mainModule/api/friend'
 import dBServiceFriend  from 'mainModule/database/services/friend/friend'
 import dBServiceUser  from 'mainModule/database/services/user/user'
 

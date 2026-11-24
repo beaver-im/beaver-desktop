@@ -20,10 +20,10 @@
  */
 
 import muteIcon from '../../../../assets/image/call/mute.svg'
-import muteActiveIcon from '../../../../assets/image/call/mute_on.svg'
-import cameraOffIcon from '../../../../assets/image/call/video_off.svg'
+import muteActiveIcon from '../../../../assets/image/call/mute-on.svg'
+import cameraOffIcon from '../../../../assets/image/call/video-off.svg'
 import cameraOnIcon from '../../../../assets/image/call/video.svg'
-import addMemberIcon from '../../../../assets/image/call/add_member.svg'
+import addMemberIcon from '../../../../assets/image/call/add-member.svg'
 
 export interface FooterActionItem {
   id: string

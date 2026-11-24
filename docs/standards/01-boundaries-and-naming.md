@@ -41,13 +41,13 @@ app-circle：独立圈子窗口 + 本域 activate / 数据库 / 同步 / IPC
 | 对象 | 新代码约束 | 示例（名字示意） |
 | --- | --- | --- |
 | 业务目录、普通 TS 文件 | 小写开头，多词按相邻领域统一用 kebab-case 或 lowerCamelCase；目录已表达业务时不重复长前缀 | friend/read-cursor.ts，而非 Friend/UserFriendReadCursor.ts |
-| Vue 文件 | 小写开头，沿相邻模块用 lowerCamelCase 或 kebab-case；index.vue 入口可沿用 | messageCard.vue |
+| Vue 文件 | 小写开头 lowerCamelCase（小驼峰）；**App.vue 是 Vue 默认根组件文件名，固定保留、禁止改成 app.vue**；index.vue 入口可沿用 | messageCard.vue、App.vue、index.vue |
 | 类型/类、组件注册名 | PascalCase；请求响应接口按第3章 | MessageCard 是符号名，不要求文件首字母大写 |
 | Pinia 导出 | use + 领域名 + Store | useConversationStore |
 | 网络 API 方法 | 描述动作并以 Api 结尾 | getChatHistoryApi（仓库已有） |
 
-**现状与整改要求**：仓里当前存在 App.vue、ChatEditor.vue 等未统一命名（本次文档任务未改业务代码）。
-ESLint 当前没有替你强制以上全部命名；按“哪里有问题改哪里、不留兼容代码”原则，在对应任务中可直接规范重命名并同步修改全部引用，不需要保留旧文件名别名或兼容导出。
+**整改结果**：原 ChatEditor.vue 等大写开头业务组件已改为 lowerCamelCase（如 auditPanel.vue、chatMenus.vue），业务目录采用 kebab-case（如 chat-actions、chat-reply），并同步全部引用。**App.vue 不参与重命名**：它是 Vue 默认根组件文件名，所有窗口入口固定为 `App.vue`；index.vue 入口同样保留。
+ESLint 当前没有替你强制以上全部命名；按“哪里有问题改哪里、不留兼容代码”原则，存量已按此处理，后续新增同样直接规范重命名并同步修改全部引用，不需要保留旧文件名别名或兼容导出。
 
 导入遵循 [vite.apps.ts](../../vite.apps.ts) 与 [tsconfig.app.json](../../tsconfig.app.json)：
 

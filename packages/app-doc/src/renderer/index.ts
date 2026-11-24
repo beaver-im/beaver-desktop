@@ -9,5 +9,5 @@
 
 /** @beaver-im/app-doc 渲染进程出口（对外暴露的 API 与组件） */
 export * from './api/doc'
-export { default as DocEditor } from './windows/doc/components/DocEditor.vue'
-export { default as NodeTree } from './windows/doc/components/NodeTree.vue'
+export { default as DocEditor } from './windows/doc/components/docEditor.vue'
+export { default as NodeTree } from './windows/doc/components/nodeTree.vue'

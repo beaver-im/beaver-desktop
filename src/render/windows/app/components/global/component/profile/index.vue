@@ -29,7 +29,7 @@
         </div>
         <BeaverButton type="text" circle class="close-btn" @click="handleClose">
           <template #icon>
-            <img src="renderModule/assets/image/common/close.svg" alt="关闭">
+            <img src="renderModule/assets/images/common/close.svg" alt="关闭">
           </template>
         </BeaverButton>
       </div>
@@ -132,7 +132,7 @@
 </template>
 
 <script lang="ts">
-import cameraIcon from 'renderModule/assets/image/leftBar/settings/camera.svg'
+import cameraIcon from 'renderModule/assets/images/leftBar/settings/camera.svg'
 import BeaverButton from 'renderModule/components/ui/button/index.vue'
 import Message from 'renderModule/components/ui/message'
 import { uploadFile } from 'renderModule/utils/upload'

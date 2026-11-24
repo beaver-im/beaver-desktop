@@ -24,7 +24,7 @@ import conversationMetaSync from './conversation-meta'
 import messageMediaSync from './message-media'
 import userConversationSync from './user-conversation'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('datasync-chat')
 
 
 // 聊天数据同步统一入口

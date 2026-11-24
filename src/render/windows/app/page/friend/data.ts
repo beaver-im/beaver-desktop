@@ -20,8 +20,8 @@
  */
 
 // 好友页面数据配置
-import addFriendIcon from 'renderModule/assets/image/friend/user-plus.svg'
-import createGroupIcon from 'renderModule/assets/image/friend/users.svg'
+import addFriendIcon from 'renderModule/assets/images/friend/user-plus.svg'
+import createGroupIcon from 'renderModule/assets/images/friend/users.svg'
 
 // 选项卡配置：tab 层是稳定的三个大类，新类型一律并进「机器人」列表靠行内标签区分，tab 不再增加
 export const TABS_CONFIG = [

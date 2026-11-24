@@ -136,10 +136,7 @@
           <div>
             <div class="form-actions">
               <button class="back-button" @click="goToStep1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M19 12H5M12 19l-7-7 7-7" />
-                </svg>
+                <img width="20" height="20" src="../../../../assets/images/register/register-back.svg" alt="返回">
               </button>
               <button class="next-button" @click="handleRegister">
                 注册
@@ -152,13 +149,7 @@
       <!-- 注册成功状态 -->
       <div v-show="showSuccess" class="register-success">
         <div class="success-icon">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#E86835" stroke-width="3"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path id="successCheck" d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
-              style="stroke-dasharray: 100; stroke-dashoffset: 100;" />
-            <polyline id="successCheckmark" points="22 4 12 14.01 9 11.01"
-              style="stroke-dasharray: 100; stroke-dashoffset: 100;" />
-          </svg>
+          <img width="40" height="40" src="../../../../assets/images/register/register-success.svg" alt="注册成功">
         </div>
         <h3 class="success-title">
           注册成功!
@@ -177,14 +168,14 @@
 <script lang="ts">
 import { MD5 } from 'crypto-js'
 import { emailRegisterApi, getEmailCodeApi } from 'renderModule/api/auth'
-import eyeOffIcon from 'renderModule/assets/image/register/eye-off.svg'
-import eyeIcon from 'renderModule/assets/image/register/eye.svg'
+import eyeOffIcon from 'renderModule/assets/images/register/eye-off.svg'
+import eyeIcon from 'renderModule/assets/images/register/eye.svg'
 import Message from 'renderModule/components/ui/message'
 import Logger from 'renderModule/utils/logger'
 import { useRouterHelper } from 'renderModule/utils/router'
-import { defineComponent, ref } from 'vue'
-import BrandSection from '../../components/BrandSection.vue'
-import WindowControls from '../../components/WindowControls.vue'
+import { defineComponent, onUnmounted, ref } from 'vue'
+import BrandSection from '../../components/brandSection.vue'
+import WindowControls from '../../components/windowControls.vue'
 import { LOGIN_CONFIG } from '../../config'
 import { validateField } from '../../utils/validation'
 
@@ -201,6 +192,8 @@ export default defineComponent({
     const step = ref(1)
     const showSuccess = ref(false)
     const countdown = ref(0)
+    /** 倒计时句柄由 setup 持有，组件销毁或重复点击时必须能精确停掉上一个计时器 */
+    let countdownTimer: ReturnType<typeof setInterval> | null = null
     const isAgreed = ref(false)
 
     const form = ref({
@@ -279,12 +272,17 @@ export default defineComponent({
           logger.info({ text: '注册验证码已发送', data: { email: form.value.email } })
           Message.success('验证码已发送')
           countdown.value = 60
+          if (countdownTimer)
+            clearInterval(countdownTimer)
           const timer = setInterval(() => {
             countdown.value--
             if (countdown.value <= 0) {
               clearInterval(timer)
+              if (countdownTimer === timer)
+                countdownTimer = null
             }
           }, 1000)
+          countdownTimer = timer
         }
         else {
           logger.error({ text: '获取注册验证码失败', data: { email: form.value.email, code: res.code, msg: res.msg } })
@@ -351,6 +349,12 @@ export default defineComponent({
     const handleNavigation = (path: string) => {
       push(path)
     }
+
+    onUnmounted(() => {
+      if (countdownTimer)
+        clearInterval(countdownTimer)
+      countdownTimer = null
+    })
 
     return {
       step,
@@ -791,13 +795,4 @@ export default defineComponent({
   }
 }
 
-@keyframes checkmark {
-  0% {
-    stroke-dashoffset: 100;
-  }
-
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
 </style>

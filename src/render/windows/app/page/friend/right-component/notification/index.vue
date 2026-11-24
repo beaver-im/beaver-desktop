@@ -59,7 +59,7 @@
 import type { INotificationEventItem, INotificationInboxItem } from 'commonModule/type/ajax/notification'
 import type { INotificationItem } from 'commonModule/type/view/notification'
 import { Message } from '@beaver-im/beaver-ui'
-import { valiFrienddAPi } from 'renderModule/api/friend'
+import { validateFriendApi } from 'renderModule/api/friend'
 import { handleGroupJoinRequestApi } from 'renderModule/api/group'
 import Logger from 'renderModule/utils/logger'
 import { useRouterHelper } from 'renderModule/utils/router/index'
@@ -199,7 +199,7 @@ export default defineComponent({
 
       try {
         if (item.action === 'friend-verify') {
-          const res = await valiFrienddAPi({ verifyId: item.actionRef || '', status })
+          const res = await validateFriendApi({ verifyId: item.actionRef || '', status })
           // ajax 对业务错误码（code!==0）不抛异常，必须显式判断
           if (res?.code !== 0) {
             logger.error({ text: '处理好友申请被拒绝', data: { verifyId: item.actionRef, code: res?.code, msg: res?.msg } })

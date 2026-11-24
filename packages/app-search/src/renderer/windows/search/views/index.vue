@@ -56,12 +56,12 @@ import type { ISearchResult } from '../../../../common/type/view/search'
 import { isValidEmail } from '../../../../common/utils/validation'
 import { searchGroupApi } from '../../../api/group'
 import BeaverButton from '@beaver-im/beaver-ui/button/index.vue'
-import BeaverInput from '@beaver-im/beaver-ui/input/Input.vue'
-import TabsComponent from '@beaver-im/beaver-ui/tabs/Tabs.vue'
+import BeaverInput from '@beaver-im/beaver-ui/input/input.vue'
+import TabsComponent from '@beaver-im/beaver-ui/tabs/tabs.vue'
 import { Logger } from '@beaver-im/beaver/renderer'
 import { defineComponent, ref } from 'vue'
 import { getSearchFriendApi } from '../../../api/friend'
-import SearchResults from './components/SearchResults.vue'
+import SearchResults from './components/searchResults.vue'
 
 const logger = new Logger('SearchView')
 

@@ -27,7 +27,7 @@
 
 import os from 'node:os'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('utils-ua')
 
 
 function encodeUAToken(value: string): string {

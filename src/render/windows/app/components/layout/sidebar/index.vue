@@ -83,7 +83,7 @@
         title="有可用更新"
         @click="handleUpdateClick"
       >
-        <img src="renderModule/assets/image/update/update.svg" alt="更新">
+        <img src="renderModule/assets/images/update/update.svg" alt="更新">
         <span class="update-badge" />
       </div>
 
@@ -93,7 +93,7 @@
 
       <div class="about-entry app__no_drag" title="开源致谢" @click="handleAboutClick">
         <div class="about-entry__icon">
-          <img src="renderModule/assets/image/leftBar/settings/about.svg" alt="开源致谢">
+          <img src="renderModule/assets/images/leftBar/settings/about.svg" alt="开源致谢">
         </div>
         <div class="about-entry__label">
           开源致谢

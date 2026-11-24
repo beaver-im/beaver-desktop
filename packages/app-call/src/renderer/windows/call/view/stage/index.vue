@@ -60,7 +60,7 @@ import { CacheType } from '../../../../../common/type/cache/cache'
 import { usecallStore } from '../../pinia/call'
 import { useUserStore } from '../../pinia/user'
 import { getMemberStatusHint } from '../../type/notification'
-import VideoRenderer from '../../components/VideoRenderer.vue'
+import VideoRenderer from '../../components/videoRenderer.vue'
 import BeaverImage from '@beaver-im/beaver-ui/image/index.vue'
 
 export default defineComponent({

@@ -64,7 +64,7 @@
 
 <script lang="ts">
 import { Logger } from '@beaver-im/beaver/renderer';
-const logger = new Logger('index')
+const logger = new Logger('circle-page')
 
 import type { ICirclePostItem } from '../../../../../common/type/ajax/circle'
 import { defineComponent, ref } from 'vue'

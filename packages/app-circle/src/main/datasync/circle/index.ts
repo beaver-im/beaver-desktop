@@ -10,7 +10,7 @@
 import { Logger } from '@beaver-im/beaver/main'
 import circleSync from './circle'
 
-const logger = new Logger('index')
+const logger = new Logger('circle-datasync')
 
 export const circleDatasync = new class CircleDatasync {
   async checkAndSync() {

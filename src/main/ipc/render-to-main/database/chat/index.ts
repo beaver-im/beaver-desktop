@@ -27,7 +27,7 @@ import dbServiceChatUserConversation from 'mainModule/database/services/chat/use
 import dbServiceChatMessageMedia from 'mainModule/database/services/chat/message-media'
 import { store } from 'mainModule/store'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('ipc-database-chat')
 
 
 class ChatHandler {

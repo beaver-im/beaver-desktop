@@ -33,7 +33,7 @@ import { notificationNotificationRouter } from './notification/index'
 import { userNotificationRouter } from './user/index'
 import Logger from 'renderModule/utils/logger'
 
-const logger = new Logger('index')
+const logger = new Logger('notification-manager')
 
 /**
  * @description: 通知管理中心 - 统一入口，委托给子模块处理

@@ -44,8 +44,8 @@ import { oauthId } from 'commonModule/config'
 import Message from 'renderModule/components/ui/message'
 import { oauthCodeLoginApi } from 'renderModule/api/auth'
 import { defineComponent, onMounted } from 'vue'
-import BrandSection from './components/BrandSection.vue'
-import WindowControls from './components/WindowControls.vue'
+import BrandSection from './components/brandSection.vue'
+import WindowControls from './components/windowControls.vue'
 import { getCurrentConfig } from 'commonModule/config'
 
 function parseLoginEvent(payload: CustomEvent | ISdkLoginEvent): ISdkLoginEvent | null {

@@ -36,19 +36,19 @@
     <div class="header-actions">
       <!-- 数字伙伴：会话下可开多个话题，每个话题是独立的 AI 上下文边界 -->
       <div v-if="isDigital" class="action-btn" title="新话题" @click="handleNewTopic">
-        <img src="renderModule/assets/image/common/add.svg" alt="新话题">
+        <img src="renderModule/assets/images/common/add.svg" alt="新话题">
       </div>
       <!-- 机器人 / 数字伙伴没有客户端可以接听通话 -->
       <template v-if="canCall">
         <div class="action-btn" @click="handleCall('audio')">
-          <img src="renderModule/assets/image/chat/phone.svg" alt="语音通话">
+          <img src="renderModule/assets/images/chat/phone.svg" alt="语音通话">
         </div>
         <div class="action-btn" @click="handleCall('video')">
-          <img src="renderModule/assets/image/chat/video.svg" alt="视频通话">
+          <img src="renderModule/assets/images/chat/video.svg" alt="视频通话">
         </div>
       </template>
       <div class="action-btn" @click="handleMore">
-        <img src="renderModule/assets/image/chat/more.svg" alt="更多">
+        <img src="renderModule/assets/images/chat/more.svg" alt="更多">
       </div>
     </div>
   </div>

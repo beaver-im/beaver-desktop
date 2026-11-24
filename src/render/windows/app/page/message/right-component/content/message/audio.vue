@@ -53,9 +53,9 @@
 </template>
 
 <script lang="ts">
-import AudioIconSvg from 'renderModule/assets/image/chat/audio-icon.svg'
-import downloadSvg from 'renderModule/assets/image/chat/download.svg'
-import playerSvg from 'renderModule/assets/image/chat/play.svg'
+import AudioIconSvg from 'renderModule/assets/images/chat/audio-icon.svg'
+import downloadSvg from 'renderModule/assets/images/chat/download.svg'
+import playerSvg from 'renderModule/assets/images/chat/play.svg'
 import { AudioPlayer } from 'renderModule/core/media/audio'
 import Message from 'renderModule/components/ui/message'
 import { IMessageMsg } from 'commonModule/type/ws/message-types'

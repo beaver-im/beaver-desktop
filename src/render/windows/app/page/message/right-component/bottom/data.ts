@@ -19,11 +19,11 @@
  * beaver-desktop-header-v2
  */
 
-import CodeSvg from 'renderModule/assets/image/chat/code.svg'
-import EmojiSvg from 'renderModule/assets/image/chat/emoji.svg'
-import FileSvg from 'renderModule/assets/image/chat/file.svg'
-import ImageSvg from 'renderModule/assets/image/chat/image.svg'
-import ScreenshotSvg from 'renderModule/assets/image/chat/screenshot.svg'
+import CodeSvg from 'renderModule/assets/images/chat/code.svg'
+import EmojiSvg from 'renderModule/assets/images/chat/emoji.svg'
+import FileSvg from 'renderModule/assets/images/chat/file.svg'
+import ImageSvg from 'renderModule/assets/images/chat/image.svg'
+import ScreenshotSvg from 'renderModule/assets/images/chat/screenshot.svg'
 
 /** PC 端不提供「按住说话」语音消息发送，仅支持播放移动端发来的 type=5 语音 */
 export const toolList = [

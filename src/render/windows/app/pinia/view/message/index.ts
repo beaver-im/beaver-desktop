@@ -26,7 +26,7 @@ import { calculateImageSize } from 'renderModule/utils/image/index'
 import { useConversationStore } from '../../conversation/conversation'
 import { AudioPlayer } from 'renderModule/core/media/audio'
 import Logger from 'renderModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('pinia-view-message')
 
 
 /**

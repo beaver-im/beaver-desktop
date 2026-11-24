@@ -34,12 +34,12 @@ export { emojiCollect } from './emoji/collect'
 export { emoji } from './emoji/emoji'
 
 export { emojiPackage } from './emoji/package'
-export { emojiPackageCollect } from './emoji/package_collect'
-export { emojiPackageEmoji } from './emoji/package_emoji'
+export { emojiPackageCollect } from './emoji/package-collect'
+export { emojiPackageEmoji } from './emoji/package-emoji'
 // 好友相关表
 export { friends } from './friend/friend'
 
-export { friendVerifies } from './friend/friend_verify'
+export { friendVerifies } from './friend/friend-verify'
 
 // 群组相关表
 export { groups } from './group/groups'

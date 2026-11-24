@@ -49,14 +49,14 @@ import { AudioPlayer, audioPlayerState } from 'renderModule/core/media/audio'
 import { useMessageMediaStore } from 'renderModule/windows/app/pinia/message/message-media'
 import { computed, defineComponent, PropType, toRefs } from 'vue'
 
-import voiceIconDark from 'renderModule/assets/image/chat/voice-icon-dark.svg'
-import voiceIconLight from 'renderModule/assets/image/chat/voice-icon-light.svg'
-import voiceWedgeDark from 'renderModule/assets/image/chat/voice-wedge-dark.svg'
-import voiceWedgeLight from 'renderModule/assets/image/chat/voice-wedge-light.svg'
-import voiceArc2Dark from 'renderModule/assets/image/chat/voice-arc2-dark.svg'
-import voiceArc2Light from 'renderModule/assets/image/chat/voice-arc2-light.svg'
-import voiceArc3Dark from 'renderModule/assets/image/chat/voice-arc3-dark.svg'
-import voiceArc3Light from 'renderModule/assets/image/chat/voice-arc3-light.svg'
+import voiceIconDark from 'renderModule/assets/images/chat/voice-icon-dark.svg'
+import voiceIconLight from 'renderModule/assets/images/chat/voice-icon-light.svg'
+import voiceWedgeDark from 'renderModule/assets/images/chat/voice-wedge-dark.svg'
+import voiceWedgeLight from 'renderModule/assets/images/chat/voice-wedge-light.svg'
+import voiceArc2Dark from 'renderModule/assets/images/chat/voice-arc2-dark.svg'
+import voiceArc2Light from 'renderModule/assets/images/chat/voice-arc2-light.svg'
+import voiceArc3Dark from 'renderModule/assets/images/chat/voice-arc3-dark.svg'
+import voiceArc3Light from 'renderModule/assets/images/chat/voice-arc3-light.svg'
 
 export default defineComponent({
   name: 'VoiceMessage',

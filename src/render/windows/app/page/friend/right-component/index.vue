@@ -31,9 +31,9 @@
 <script lang="ts">
 import { useFriendViewStore } from 'renderModule/windows/app/pinia/view/friend'
 import { computed } from 'vue'
-import GroupDetailContent from './group/GroupDetailContent.vue'
+import GroupDetailContent from './group/groupDetailContent.vue'
 import NotificationContent from './notification/index.vue'
-import FriendDetailContent from './private/FriendDetailContent.vue'
+import FriendDetailContent from './private/friendDetailContent.vue'
 
 export default {
   name: 'FriendRightComponent',

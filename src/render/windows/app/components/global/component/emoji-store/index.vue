@@ -32,7 +32,7 @@
           </div>
           <BeaverButton type="text" circle class="close-btn" @click="handleClose">
             <template #icon>
-              <img src="renderModule/assets/image/common/close.svg" alt="关闭">
+              <img src="renderModule/assets/images/common/close.svg" alt="关闭">
             </template>
           </BeaverButton>
         </div>

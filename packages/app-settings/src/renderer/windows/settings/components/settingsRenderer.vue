@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import type { Component } from 'vue'
-import type { ISettingsSection, SettingsFieldType } from '../../config/settingsRegistry'
+import type { ISettingsSection, SettingsFieldType } from '../config/settingsRegistry'
 import { defineComponent, computed, type PropType } from 'vue'
 import AboutField from './fields/aboutField.vue'
 import DeviceListField from './fields/deviceListField.vue'

@@ -105,7 +105,7 @@
 
 <script lang="ts">
 import { Logger } from '@beaver-im/beaver/renderer'
-const logger = new Logger('index')
+const logger = new Logger('beaver-biz-selectConversation')
 
 import type { IConversationPickItem, IShareMessagePayload } from '../types'
 import { CacheType } from '@beaver-im/beaver-ui'
@@ -113,7 +113,7 @@ import searchIcon from '../assets/search.svg'
 import BeaverButton from '@beaver-im/beaver-ui/button/index.vue'
 import BeaverDialog from '@beaver-im/beaver-ui/dialog/dialog.vue'
 import BeaverImage from '@beaver-im/beaver-ui/image/index.vue'
-import BeaverInput from '@beaver-im/beaver-ui/input/Input.vue'
+import BeaverInput from '@beaver-im/beaver-ui/input/input.vue'
 import Message from '@beaver-im/beaver-ui/message'
 import { computed, defineComponent, onMounted, type PropType, ref } from 'vue'
 

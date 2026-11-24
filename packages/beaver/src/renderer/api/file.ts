@@ -14,14 +14,14 @@ import Logger from '../utils/logger'
 
 const logger = new Logger('file-api')
 
-export interface IFileUploadResult {
+export interface IFileUploadRes {
   fileUrl: string
   originalName?: string
   fileInfo?: any
 }
 
 /** 上传文件到本地存储服务 */
-export async function uploadFileApi(file: File, fileKey?: string): Promise<IFileUploadResult> {
+export async function uploadFileApi(file: File, fileKey?: string): Promise<IFileUploadRes> {
   logger.info({ text: 'uploadFileApi 开始' })
 
   let uploadUrl = `${getBaseUrl()}/beaver/api/asset/file/v1/upload_local`

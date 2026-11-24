@@ -21,7 +21,7 @@
 
 import type { MessageApiMethods, MessageInstance, MessageOptions } from './types'
 import { createApp } from 'vue'
-import MessageComponent from './Message.vue'
+import MessageComponent from './message.vue'
 
 // 存储当前的消息实例
 interface MessageInstanceData {

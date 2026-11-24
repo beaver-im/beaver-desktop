@@ -6,133 +6,6 @@
 
   beaver-desktop-header-v2
 -->
-<script setup lang="ts">
-import type { INodeItem } from '@packageCommon/type/ajax/doc'
-import { computed, ref } from 'vue'
-import { useDocStore } from '../store/doc'
-
-const emit = defineEmits<{
-  (e: 'import'): void
-  (e: 'export', format: 'md' | 'html' | 'txt' | 'json' | 'docx'): void
-  (e: 'duplicate'): void
-}>()
-
-const store = useDocStore()
-const keyword = ref('')
-const collapsed = ref<Set<string>>(new Set())
-const newSpaceName = ref('')
-const showNewSpace = ref(false)
-const menuFor = ref('')
-const renameValue = ref('')
-const renaming = ref('')
-
-interface ITreeNode {
-  node: INodeItem
-  children: ITreeNode[]
-  depth: number
-}
-
-/** 扁平节点按 parentId 组装成树，孤儿节点挂到根，避免数据不一致时整棵树消失。 */
-const tree = computed<ITreeNode[]>(() => {
-  const map = new Map<string, ITreeNode>()
-  for (const n of store.nodes)
-    map.set(n.nodeId, { node: n, children: [], depth: 0 })
-  const roots: ITreeNode[] = []
-  for (const item of map.values()) {
-    const parent = item.node.parentId ? map.get(item.node.parentId) : undefined
-    if (parent && parent !== item)
-      parent.children.push(item)
-    else
-      roots.push(item)
-  }
-  const assign = (list: ITreeNode[], depth: number) => {
-    list.sort((a, b) => a.node.sort - b.node.sort || a.node.title.localeCompare(b.node.title))
-    for (const item of list) {
-      item.depth = depth
-      assign(item.children, depth + 1)
-    }
-  }
-  assign(roots, 0)
-  return roots
-})
-
-const visibleTree = computed(() => {
-  const out: ITreeNode[] = []
-  const walk = (list: ITreeNode[]) => {
-    for (const item of list) {
-      out.push(item)
-      if (!collapsed.value.has(item.node.nodeId))
-        walk(item.children)
-    }
-  }
-  walk(tree.value)
-  return out
-})
-
-function toggle(id: string) {
-  const next = new Set(collapsed.value)
-  if (next.has(id))
-    next.delete(id)
-  else
-    next.add(id)
-  collapsed.value = next
-}
-
-async function onSearch() {
-  if (!keyword.value.trim()) {
-    store.setPanel('none')
-    return
-  }
-  await store.search(keyword.value.trim())
-  store.panel = 'search'
-}
-
-function openPanel(panel: 'recent' | 'favorites' | 'trash' | 'templates' | 'notifications' | 'audit' | 'blocks') {
-  store.panel = panel
-  if (panel === 'recent')
-    void store.loadRecent()
-  if (panel === 'favorites')
-    void store.loadFavorites()
-  if (panel === 'trash')
-    void store.loadTrash()
-  if (panel === 'templates')
-    void store.loadTemplates()
-  if (panel === 'notifications')
-    void store.loadNotifications()
-  if (panel === 'audit')
-    void store.loadAuditLogs()
-  if (panel === 'blocks')
-    void store.loadBlocks()
-}
-
-async function createSpace() {
-  const name = newSpaceName.value.trim()
-  if (!name)
-    return
-  await store.createSpace(name)
-  newSpaceName.value = ''
-  showNewSpace.value = false
-}
-
-function startRename(node: INodeItem) {
-  renaming.value = node.nodeId
-  renameValue.value = node.title
-  menuFor.value = ''
-}
-
-async function commitRename(node: INodeItem) {
-  const title = renameValue.value.trim()
-  if (title && title !== node.title)
-    await store.renameNode(node.nodeId, title)
-  renaming.value = ''
-}
-
-async function addChild(node?: INodeItem, folder = false) {
-  await store.addPage(node?.nodeId || '', folder ? '新建文件夹' : '未命名文档', folder ? 'folder' : 'doc')
-  menuFor.value = ''
-}
-</script>
-
 <template>
   <aside class="sb">
     <div class="sb__brand">
@@ -234,6 +107,154 @@ async function addChild(node?: INodeItem, folder = false) {
     </div>
   </aside>
 </template>
+
+<script lang="ts">
+import type { INodeItem } from '@packageCommon/type/ajax/doc'
+import { defineComponent, computed, ref } from 'vue'
+import { useDocStore } from '../store/doc'
+
+export default defineComponent({
+  name: 'Sidebar',
+  emits: ['import', 'export', 'duplicate'],
+  setup(props, { emit }) {
+    const store = useDocStore()
+    const keyword = ref('')
+    const collapsed = ref<Set<string>>(new Set())
+    const newSpaceName = ref('')
+    const showNewSpace = ref(false)
+    const menuFor = ref('')
+    const renameValue = ref('')
+    const renaming = ref('')
+
+    interface ITreeNode {
+      node: INodeItem
+      children: ITreeNode[]
+      depth: number
+    }
+
+    /** 扁平节点按 parentId 组装成树，孤儿节点挂到根，避免数据不一致时整棵树消失。 */
+    const tree = computed<ITreeNode[]>(() => {
+      const map = new Map<string, ITreeNode>()
+      for (const n of store.nodes)
+        map.set(n.nodeId, { node: n, children: [], depth: 0 })
+      const roots: ITreeNode[] = []
+      for (const item of map.values()) {
+        const parent = item.node.parentId ? map.get(item.node.parentId) : undefined
+        if (parent && parent !== item)
+          parent.children.push(item)
+        else
+          roots.push(item)
+      }
+      const assign = (list: ITreeNode[], depth: number) => {
+        list.sort((a, b) => a.node.sort - b.node.sort || a.node.title.localeCompare(b.node.title))
+        for (const item of list) {
+          item.depth = depth
+          assign(item.children, depth + 1)
+        }
+      }
+      assign(roots, 0)
+      return roots
+    })
+
+    const visibleTree = computed(() => {
+      const out: ITreeNode[] = []
+      const walk = (list: ITreeNode[]) => {
+        for (const item of list) {
+          out.push(item)
+          if (!collapsed.value.has(item.node.nodeId))
+            walk(item.children)
+        }
+      }
+      walk(tree.value)
+      return out
+    })
+
+    function toggle(id: string) {
+      const next = new Set(collapsed.value)
+      if (next.has(id))
+        next.delete(id)
+      else
+        next.add(id)
+      collapsed.value = next
+    }
+
+    async function onSearch() {
+      if (!keyword.value.trim()) {
+        store.setPanel('none')
+        return
+      }
+      await store.search(keyword.value.trim())
+      store.panel = 'search'
+    }
+
+    function openPanel(panel: 'recent' | 'favorites' | 'trash' | 'templates' | 'notifications' | 'audit' | 'blocks') {
+      store.panel = panel
+      if (panel === 'recent')
+        void store.loadRecent()
+      if (panel === 'favorites')
+        void store.loadFavorites()
+      if (panel === 'trash')
+        void store.loadTrash()
+      if (panel === 'templates')
+        void store.loadTemplates()
+      if (panel === 'notifications')
+        void store.loadNotifications()
+      if (panel === 'audit')
+        void store.loadAuditLogs()
+      if (panel === 'blocks')
+        void store.loadBlocks()
+    }
+
+    async function createSpace() {
+      const name = newSpaceName.value.trim()
+      if (!name)
+        return
+      await store.createSpace(name)
+      newSpaceName.value = ''
+      showNewSpace.value = false
+    }
+
+    function startRename(node: INodeItem) {
+      renaming.value = node.nodeId
+      renameValue.value = node.title
+      menuFor.value = ''
+    }
+
+    async function commitRename(node: INodeItem) {
+      const title = renameValue.value.trim()
+      if (title && title !== node.title)
+        await store.renameNode(node.nodeId, title)
+      renaming.value = ''
+    }
+
+    async function addChild(node?: INodeItem, folder = false) {
+      await store.addPage(node?.nodeId || '', folder ? '新建文件夹' : '未命名文档', folder ? 'folder' : 'doc')
+      menuFor.value = ''
+    }
+    return {
+      store,
+      keyword,
+      collapsed,
+      newSpaceName,
+      showNewSpace,
+      menuFor,
+      renameValue,
+      renaming,
+      visibleTree,
+      name,
+      title,
+      toggle,
+      onSearch,
+      openPanel,
+      createSpace,
+      startRename,
+      commitRename,
+      addChild,
+      emit,
+    }
+  },
+})
+</script>
 
 <style scoped>
 .sb {

@@ -16,7 +16,7 @@
 | L03 / 9–10 | vite + electron + vue3 | [第1章](../architecture.md)、[第18章](../modules/build-release.md) | 采纳 | 保留真实技术栈与配置入口 |
 | L04 / 13 | 全部文件含组件小写开头，多词kebab-case或lowCamelCase | [第2章](01-boundaries-and-naming.md) | 澄清 | 保留两种选项并随领域一致；撤销上一版按TS/Vue擅自收窄为唯一风格 |
 | L05 / 14 | 目录已有功能前缀，子文件不重复 | [第2章](01-boundaries-and-naming.md) | 采纳 | 有命名正反例 |
-| L06 / 15 | 文件/目录禁止大写首字母 | [第2章](01-boundaries-and-naming.md) | 采纳 | 适用于全仓；存量App.vue等尚未整改，可在对应任务直接重命名并同步引用 |
+| L06 / 15 | 文件/目录禁止大写首字母 | [第2章](01-boundaries-and-naming.md) | 采纳 | 适用于全仓，**唯一例外是 `App.vue`**——它是 Vue 约定的默认根组件文件名，所有窗口入口固定写 `App.vue`，不参与重命名；存量大写开头业务文件与目录已在本轮整改中重命名并同步引用，index.vue 入口保留 |
 | L07 / 17–18 | Less、嵌套结构 | [第4章](03-vue-and-state.md) | 采纳 | 明确组件内Less及嵌套关系，先前漏强调嵌套已补 |
 | L08 / 19 | 禁止抽离.less，留在.vue style | [第4章](03-vue-and-state.md) | 冲突需决定 | 新组件严格不抽离；是否也禁止新增全局/共享Less需确认，存量全局文件不是新例外授权 |
 | L09 / 21–34 | Pinia defineStore；state/getters/actions模板 | [第4章](03-vue-and-state.md) | 采纳 | 不只口头引用，已补可直接替换领域名的完整模板 |

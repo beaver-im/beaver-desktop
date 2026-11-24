@@ -26,7 +26,7 @@
     <div class="panel-header">
       <BeaverButton type="text" circle class="back-btn" @click="handleBack">
         <template #icon>
-          <img src="renderModule/assets/image/common/back.svg" alt="返回">
+          <img src="renderModule/assets/images/common/back.svg" alt="返回">
         </template>
       </BeaverButton>
       <div class="header-title">
@@ -34,7 +34,7 @@
       </div>
       <BeaverButton type="text" circle class="close-btn" @click="handleClose">
         <template #icon>
-          <img src="renderModule/assets/image/common/close.svg" alt="关闭">
+          <img src="renderModule/assets/images/common/close.svg" alt="关闭">
         </template>
       </BeaverButton>
     </div>

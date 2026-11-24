@@ -26,7 +26,7 @@
         <img v-if="formAvatar" :src="formAvatar" class="bot-custom-add__avatar" alt="">
         <img v-else :src="defaultAvatar" class="bot-custom-add__avatar" alt="">
         <span class="bot-custom-add__edit-badge">
-          <img src="renderModule/assets/image/groupAssistant/edit.svg" alt="">
+          <img src="renderModule/assets/images/groupAssistant/edit.svg" alt="">
         </span>
       </div>
       <input ref="avatarInputRef" type="file" accept="image/*" class="bot-custom-add__avatar-input" @change="onAvatarChange">

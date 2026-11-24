@@ -42,7 +42,7 @@
 <script lang="ts">
 import { IMessageMsg } from 'commonModule/type/ws/message-types'
 import { VideoPlayer } from 'renderModule/core/media/video'
-import playerSvg from 'renderModule/assets/image/chat/play.svg'
+import playerSvg from 'renderModule/assets/images/chat/play.svg'
 import BeaverImage from 'renderModule/components/ui/image/index.vue'
 import { calculateImageSize } from 'renderModule/utils/image/index'
 import { computed, defineComponent, PropType } from 'vue'

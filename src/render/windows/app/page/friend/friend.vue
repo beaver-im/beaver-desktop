@@ -41,7 +41,7 @@
 import { useFriendViewStore } from 'renderModule/windows/app/pinia/view/friend'
 import { defineComponent, onMounted } from 'vue'
 import CreateGroupComponent from './detail-component/create-group.vue'
-import FriendLeftComponent from './left-component/FriendLeft.vue'
+import FriendLeftComponent from './left-component/friendLeft.vue'
 import FriendRightComponent from './right-component/index.vue'
 import Logger from 'renderModule/utils/logger'
 

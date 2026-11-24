@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import { Logger } from '@beaver-im/beaver/renderer';
-const logger = new Logger('index')
+const logger = new Logger('moment-content')
 
 import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
 import { useMomentStore } from '../../store/moment/moment'

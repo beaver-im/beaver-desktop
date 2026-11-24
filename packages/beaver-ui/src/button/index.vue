@@ -36,9 +36,7 @@
     @click="handleClick"
   >
     <span v-if="loading" class="beaver-button__loading">
-      <svg class="circular" viewBox="25 25 50 50">
-        <circle class="path" cx="50" cy="50" r="20" fill="none" />
-      </svg>
+      <img class="circular" src="../assets/image/ui/button-loading.svg" alt="加载中">
     </span>
 
     <span v-if="$slots.icon && !loading" class="beaver-button__icon">
@@ -448,15 +446,6 @@ export default defineComponent({
       height: 14px;
       animation: rotate 2s linear infinite;
     }
-
-    .path {
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-dasharray: 90, 150;
-      stroke-dashoffset: 0;
-      stroke-linecap: round;
-      animation: dash 1.5s ease-in-out infinite;
-    }
   }
 
   &__icon {
@@ -477,21 +466,6 @@ export default defineComponent({
 @keyframes rotate {
   100% {
     transform: rotate(360deg);
-  }
-}
-
-@keyframes dash {
-  0% {
-    stroke-dasharray: 1, 150;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -35;
-  }
-  100% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -124;
   }
 }
 </style>

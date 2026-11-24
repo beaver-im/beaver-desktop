@@ -23,7 +23,7 @@ import groupSync from './group'
 import groupJoinRequestSync from './group-join-request'
 import groupMemberSync from './group-member'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('datasync-group')
 
 
 // 群组数据同步统一入口

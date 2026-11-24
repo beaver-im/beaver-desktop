@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import circleActiveIcon from '../../../../assets/image/leftBar/circle_active.svg'
+import circleActiveIcon from '../../../../assets/image/leftBar/circle-active.svg'
 import refreshIcon from '../../../../assets/image/moment/refresh.svg'
 import minimizeIcon from '../../../../assets/image/header/minimize.svg'
 import closeIcon from '../../../../assets/image/header/close.svg'

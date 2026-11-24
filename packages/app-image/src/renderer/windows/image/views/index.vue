@@ -35,18 +35,14 @@
           :disabled="currentIndex === 0"
           @click="prevImage"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+          <img width="24" height="24" src="../../../assets/image/image/image-prev.svg" alt="上一张">
         </button>
         <button
           class="nav-btn next-btn"
           :disabled="currentIndex === imageList.length - 1"
           @click="nextImage"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+          <img width="24" height="24" src="../../../assets/image/image/image-next.svg" alt="下一张">
         </button>
       </div>
       <div v-if="imageList.length > 1" class="image-counter">

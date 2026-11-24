@@ -19,7 +19,7 @@
  * beaver-desktop-header-v2
  */
 
-import customAvatar from 'renderModule/assets/image/groupAssistant/custom.svg'
+import customAvatar from 'renderModule/assets/images/groupAssistant/custom.svg'
 /** 与服务端 GroupBotModel.type 一致 */
 export type GroupBotType = 'custom' | 'gitlab' | ''
 

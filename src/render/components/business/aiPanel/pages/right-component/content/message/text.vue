@@ -26,7 +26,7 @@
 <template>
   <div class="msg" :class="msg.role === 'user' ? 'is-user' : 'is-assistant'">
     <span v-if="msg.role === 'assistant'" class="avatar">
-      <img src="renderModule/assets/image/leftBar/assistant_active.svg" alt="">
+      <img src="renderModule/assets/images/leftBar/assistant-active.svg" alt="">
     </span>
     <div class="bubble">
       <span class="text">{{ msg.content || (msg.streaming ? '' : '—') }}</span>

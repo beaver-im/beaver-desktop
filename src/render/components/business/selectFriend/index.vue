@@ -60,7 +60,7 @@
               <div class="friend-checkbox">
                 <img
                   v-if="isSelected(friend.userId)"
-                  src="renderModule/assets/image/create-group/check.svg"
+                  src="renderModule/assets/images/create-group/check.svg"
                   alt="选中"
                 >
               </div>
@@ -82,7 +82,7 @@
               >
                 <span>{{ friend.nickName }}</span>
                 <button class="remove-friend" @click="removeFriend(friend.userId)">
-                  <img src="renderModule/assets/image/create-group/remove.svg" alt="删除">
+                  <img src="renderModule/assets/images/create-group/remove.svg" alt="删除">
                 </button>
               </div>
               <div v-if="selectedFriends.length === 0" class="empty-tip">
@@ -112,15 +112,15 @@
 
 <script lang="ts">
 import Logger from 'renderModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('selectFriend')
 
 import type { IFriendInfo } from 'commonModule/type/ajax/friend'
 import { CacheType } from 'commonModule/type/cache/cache'
-import searchIcon from 'renderModule/assets/image/create-group/search.svg'
+import searchIcon from 'renderModule/assets/images/create-group/search.svg'
 import BeaverButton from 'renderModule/components/ui/button/index.vue'
 import BeaverDialog from 'renderModule/components/ui/dialog/dialog.vue'
 import BeaverImage from 'renderModule/components/ui/image/index.vue'
-import BeaverInput from 'renderModule/components/ui/input/Input.vue'
+import BeaverInput from 'renderModule/components/ui/input/input.vue'
 import { computed, defineComponent, onMounted, type PropType, ref } from 'vue'
 
 export default defineComponent({

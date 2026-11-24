@@ -21,7 +21,7 @@
 
 import { and, eq, inArray } from 'drizzle-orm'
 import { BaseService } from '../base'
-import { emojiPackageCollect } from 'mainModule/database/tables/emoji/package_collect'
+import { emojiPackageCollect } from 'mainModule/database/tables/emoji/package-collect'
 import type {
   DBCreatePackageCollectReq,
   DBBatchCreatePackageCollectsReq,

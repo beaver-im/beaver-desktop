@@ -22,7 +22,7 @@
 import { friendSyncModule } from './friend'
 import { friendVerifySyncModule } from './friend-verify'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('datasync-friend')
 
 
 export const friendDatasync = new class friendDatasync {

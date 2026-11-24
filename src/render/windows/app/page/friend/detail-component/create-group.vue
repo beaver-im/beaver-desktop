@@ -26,7 +26,7 @@
       <div class="modal-header">
         <h3>创建群聊</h3>
         <button class="close-button" @click="handleClose">
-          <img src="renderModule/assets/image/common/close.svg" alt="关闭">
+          <img src="renderModule/assets/images/common/close.svg" alt="关闭">
         </button>
       </div>
 
@@ -56,7 +56,7 @@
               >
                 <span>{{ friend.nickName }}</span>
                 <button class="remove-friend" @click="removeFriend(friend.userId)">
-                  <img src="renderModule/assets/image/create-group/remove.svg" alt="删除">
+                  <img src="renderModule/assets/images/create-group/remove.svg" alt="删除">
                 </button>
               </div>
             </div>
@@ -72,7 +72,7 @@
         <div class="group-creation-right">
           <!-- 搜索好友 -->
           <div class="search-friends">
-            <img class="search-icon" src="renderModule/assets/image/create-group/search.svg" alt="搜索">
+            <img class="search-icon" src="renderModule/assets/images/create-group/search.svg" alt="搜索">
             <input
               v-model="searchKeyword"
               type="text"
@@ -100,7 +100,7 @@
                 {{ friend.nickName }}
               </div>
               <div class="friend-checkbox">
-                <img v-if="isSelected(friend.userId)" src="renderModule/assets/image/create-group/check.svg" alt="选中">
+                <img v-if="isSelected(friend.userId)" src="renderModule/assets/images/create-group/check.svg" alt="选中">
               </div>
             </div>
           </div>

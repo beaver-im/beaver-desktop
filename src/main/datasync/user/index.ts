@@ -21,7 +21,7 @@
 
 import { userSyncModule } from './user'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('datasync-user')
 
 
 export const userDatasync = new class userDatasync {

@@ -199,14 +199,14 @@
 import { MD5 } from 'crypto-js'
 import { getEmailCodeApi, resetPasswordApi } from 'renderModule/api/auth'
 import BeaverButton from 'renderModule/components/ui/button/index.vue'
-import BeaverInput from 'renderModule/components/ui/input/Input.vue'
+import BeaverInput from 'renderModule/components/ui/input/input.vue'
 import Message from 'renderModule/components/ui/message'
 import Logger from 'renderModule/utils/logger'
 import { useRouterHelper } from 'renderModule/utils/router'
 import { validateField } from 'renderModule/windows/login/utils/validation'
 import { computed, onUnmounted, ref } from 'vue'
-import BrandSection from '../../components/BrandSection.vue'
-import WindowControls from '../../components/WindowControls.vue'
+import BrandSection from '../../components/brandSection.vue'
+import WindowControls from '../../components/windowControls.vue'
 
 const logger = new Logger('ForgotPasswordView')
 

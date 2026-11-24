@@ -23,7 +23,7 @@ import type { Size } from 'electron'
 import { desktopCapturer } from 'electron'
 import Screenshots from 'electron-screenshots'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('utils-capture')
 
 
 /** 选区截屏插件单例（复用窗口加快二次打开），首次调用 getScreenshots 时创建 */

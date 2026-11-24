@@ -24,10 +24,7 @@
     <div class="header-content">
       <div class="header-left">
         <button class="header-btn message-btn" @click="handleOpenMessages">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M18 8A6 6 0 1 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+          <img width="16" height="16" src="../../../../assets/image/moment/notification.svg" alt="通知">
           <span v-if="notificationStore.unreadCount > 0" class="message-badge">
             {{ notificationStore.unreadCount > 99 ? '99+' : notificationStore.unreadCount }}
           </span>
@@ -41,14 +38,10 @@
       <!-- 窗口控制按钮 -->
       <div class="window-controls">
         <button class="header-btn minimize-btn" @click="handleMinimize">
-          <svg width="10" height="1" viewBox="0 0 10 1" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="10" height="1" fill="currentColor" />
-          </svg>
+          <img width="10" height="1" src="../../../../assets/image/moment/window-minimize.svg" alt="最小化">
         </button>
         <button class="header-btn close-btn" @click="handleClose">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7.5 2.5L2.5 7.5M2.5 2.5L7.5 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
+          <img width="10" height="10" src="../../../../assets/image/moment/window-close.svg" alt="关闭">
         </button>
       </div>
     </div>

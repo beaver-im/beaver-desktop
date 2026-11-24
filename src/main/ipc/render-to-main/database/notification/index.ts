@@ -26,7 +26,7 @@ import notificationReadCursorBusiness from 'mainModule/business/notification/rea
 import notificationEventBusiness from 'mainModule/business/notification/event'
 import { store } from 'mainModule/store'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('ipc-database-notification')
 
 
 class NotificationHandler {

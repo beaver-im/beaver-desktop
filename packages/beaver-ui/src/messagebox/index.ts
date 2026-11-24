@@ -21,7 +21,7 @@
 
 import type { MessageBoxApiMethods, MessageBoxOptions } from './types'
 import { createApp } from 'vue'
-import MessageBoxComponent from './MessageBox.vue'
+import MessageBoxComponent from './messageBox.vue'
 
 // 存储当前的消息框实例
 interface MessageBoxInstanceData {

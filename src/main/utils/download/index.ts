@@ -30,7 +30,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import head from 'mainModule/utils/request/head'
 import Logger from 'mainModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('utils-download')
 
 
 export interface DownloadedFileInfo {

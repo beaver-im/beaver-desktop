@@ -57,64 +57,76 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { computed } from 'vue'
+<script lang="ts">
+import { defineComponent, computed } from 'vue'
 import { useAppStore } from '../../../pinia/app/app'
 import Logger from 'renderModule/utils/logger'
 
-const logger = new Logger('AppStatus')
-const appStore = useAppStore()
+export default defineComponent({
+  name: 'AppStatus',
+  setup(props) {
+    const logger = new Logger('AppStatus')
+    const appStore = useAppStore()
 
-// 组件内部的状态转换逻辑
-const lifecycleStatusText = computed(() => {
-  switch (appStore.lifecycleStatus) {
-    case 'connecting': return '连接中'
-    case 'syncing': return '同步中'
-    case 'ready': return '就绪'
-    case 'connect_error': return '连接失败'
-    case 'sync_error': return '数据同步失败'
-    default: return '未知状态'
-  }
-})
+    // 组件内部的状态转换逻辑
+    const lifecycleStatusText = computed(() => {
+      switch (appStore.lifecycleStatus) {
+        case 'connecting': return '连接中'
+        case 'syncing': return '同步中'
+        case 'ready': return '就绪'
+        case 'connect_error': return '连接失败'
+        case 'sync_error': return '数据同步失败'
+        default: return '未知状态'
+      }
+    })
 
-// 状态条显示 loading 图标的状态
-const showStatusIcon = computed(() => {
-  const currentStatus = appStore.lifecycleStatus
+    // 状态条显示 loading 图标的状态
+    const showStatusIcon = computed(() => {
+      const currentStatus = appStore.lifecycleStatus
 
-  return [
-    'connecting', // 连接中显示loading
-    'syncing', // 同步中显示loading
-  ].includes(currentStatus)
-})
+      return [
+        'connecting', // 连接中显示loading
+        'syncing', // 同步中显示loading
+      ].includes(currentStatus)
+    })
 
-// 聊天内容区域显示 loading 的状态（除了 ready 都显示）
-const isLoading = computed(() => {
-  const currentStatus = appStore.lifecycleStatus
+    // 聊天内容区域显示 loading 的状态（除了 ready 都显示）
+    const isLoading = computed(() => {
+      const currentStatus = appStore.lifecycleStatus
 
-  return currentStatus !== 'ready'
-})
+      return currentStatus !== 'ready'
+    })
 
-// 重试操作
-const handleRetry = async () => {
-  try {
-    const currentStatus = appStore.lifecycleStatus
+    // 重试操作
+    const handleRetry = async () => {
+      try {
+        const currentStatus = appStore.lifecycleStatus
 
-    if (currentStatus === 'connect_error') {
-      // 连接错误或断开连接：重新连接WebSocket
-      appStore.updateLifecycleStatus('connecting')
-      await window.electron.websocket.reconnect()
-      logger.info({ text: '重新连接WebSocket' })
+        if (currentStatus === 'connect_error') {
+          // 连接错误或断开连接：重新连接WebSocket
+          appStore.updateLifecycleStatus('connecting')
+          await window.electron.websocket.reconnect()
+          logger.info({ text: '重新连接WebSocket' })
+        }
+        else if (currentStatus === 'sync_error') {
+          // 同步错误：重新执行数据同步
+          appStore.updateLifecycleStatus('syncing')
+          await window.electron.datasync.manualSync()
+        }
+      }
+      catch (error) {
+        logger.error({ text: '重试失败', data: { error } })
+      }
     }
-    else if (currentStatus === 'sync_error') {
-      // 同步错误：重新执行数据同步
-      appStore.updateLifecycleStatus('syncing')
-      await window.electron.datasync.manualSync()
+    return {
+      appStore,
+      lifecycleStatusText,
+      showStatusIcon,
+      isLoading,
+      handleRetry,
     }
-  }
-  catch (error) {
-    logger.error({ text: '重试失败', data: { error } })
-  }
-}
+  },
+})
 </script>
 
 <style scoped>

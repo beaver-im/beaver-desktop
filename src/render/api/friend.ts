@@ -30,8 +30,8 @@ import type {
   IFriendListRes,
   INoticeUpdateReq,
   INoticeUpdateRes,
-  IResSearchUserInfo,
-  ISearchUser,
+  ISearchUserInfoRes,
+  ISearchUserReq,
   ISearchValidInfoReq,
   ISearchValidInfoRes,
   IValidListReq,
@@ -67,8 +67,8 @@ export const getFriendInfoApi = (data: IFriendInfoReq) => {
 /**
  * @description: 搜索好友（通过用户ID或邮箱）
  */
-export const getSearchFriendApi = (data: ISearchUser) => {
-  return ajax<IResSearchUserInfo>({
+export const getSearchFriendApi = (data: ISearchUserReq) => {
+  return ajax<ISearchUserInfoRes>({
     method: 'GET',
     params: data, // 使用 params 而不是 data，因为是 GET 请求
     url: `${baseUrl}/beaver/api/relation/friend/v1/search`,
@@ -89,7 +89,7 @@ export const applyAddFriendApi = (data: IAddFriendReq) => {
 /**
  * @description: 校验好友通过
  */
-export const valiFrienddAPi = (data: IValidStatusReq) => {
+export const validateFriendApi = (data: IValidStatusReq) => {
   return ajax<IValidStatusRes>({
     data,
     method: 'POST',
@@ -100,7 +100,7 @@ export const valiFrienddAPi = (data: IValidStatusReq) => {
 /**
  * @description: 删除好友
  */
-export const deleteFriendAPi = (data: IDeleteFriendReq) => {
+export const deleteFriendApi = (data: IDeleteFriendReq) => {
   return ajax<IDeleteFriendRes>({
     data,
     method: 'DELETE',

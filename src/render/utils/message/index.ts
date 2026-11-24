@@ -22,7 +22,7 @@
 import { MessageType } from 'commonModule/type/ajax/chat'
 import type { IMessageMsg } from 'commonModule/type/ws/message-types'
 import Logger from 'renderModule/utils/logger';
-const logger = new Logger('index')
+const logger = new Logger('utils-message')
 
 
 /**
