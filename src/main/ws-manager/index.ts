@@ -155,7 +155,7 @@ class WsManager {
 
       this.socket = new WebSocket(`${wsUrl}?${params.toString()}`, {
         headers: {
-          'User-Agent': userAgent,
+          'User-Agent': userAgent
         },
       })
 
