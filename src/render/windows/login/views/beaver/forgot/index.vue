@@ -196,7 +196,7 @@
 </template>
 
 <script lang="ts">
-import { MD5 } from 'crypto-js'
+import md5 from 'js-md5'
 import { getEmailCodeApi, resetPasswordApi } from 'renderModule/api/auth'
 import BeaverButton from 'renderModule/components/ui/button/index.vue'
 import BeaverInput from 'renderModule/components/ui/input/input.vue'
@@ -205,8 +205,8 @@ import Logger from 'renderModule/utils/logger'
 import { useRouterHelper } from 'renderModule/utils/router'
 import { validateField } from 'renderModule/windows/login/utils/validation'
 import { computed, onUnmounted, ref } from 'vue'
-import BrandSection from '../../components/brandSection.vue'
-import WindowControls from '../../components/windowControls.vue'
+import BrandSection from '../../../components/brandSection.vue'
+import WindowControls from '../../../components/windowControls.vue'
 
 const logger = new Logger('ForgotPasswordView')
 
@@ -371,7 +371,7 @@ export default {
         const res = await resetPasswordApi({
           email: form.value.email,
           code: form.value.code,
-          password: MD5(form.value.newPassword).toString(),
+          password: md5(form.value.newPassword),
         })
 
         if (res.code === 0) {

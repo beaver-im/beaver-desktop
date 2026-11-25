@@ -136,7 +136,7 @@
           <div>
             <div class="form-actions">
               <button class="back-button" @click="goToStep1">
-                <img width="20" height="20" src="../../../../assets/images/register/register-back.svg" alt="返回">
+                <img width="20" height="20" src="../../../../../assets/images/register/register-back.svg" alt="返回">
               </button>
               <button class="next-button" @click="handleRegister">
                 注册
@@ -149,7 +149,7 @@
       <!-- 注册成功状态 -->
       <div v-show="showSuccess" class="register-success">
         <div class="success-icon">
-          <img width="40" height="40" src="../../../../assets/images/register/register-success.svg" alt="注册成功">
+          <img width="40" height="40" src="../../../../../assets/images/register/register-success.svg" alt="注册成功">
         </div>
         <h3 class="success-title">
           注册成功!
@@ -166,7 +166,7 @@
 </template>
 
 <script lang="ts">
-import { MD5 } from 'crypto-js'
+import md5 from 'js-md5'
 import { emailRegisterApi, getEmailCodeApi } from 'renderModule/api/auth'
 import eyeOffIcon from 'renderModule/assets/images/register/eye-off.svg'
 import eyeIcon from 'renderModule/assets/images/register/eye.svg'
@@ -174,10 +174,10 @@ import Message from 'renderModule/components/ui/message'
 import Logger from 'renderModule/utils/logger'
 import { useRouterHelper } from 'renderModule/utils/router'
 import { defineComponent, onUnmounted, ref } from 'vue'
-import BrandSection from '../../components/brandSection.vue'
-import WindowControls from '../../components/windowControls.vue'
-import { LOGIN_CONFIG } from '../../config'
-import { validateField } from '../../utils/validation'
+import BrandSection from '../../../components/brandSection.vue'
+import WindowControls from '../../../components/windowControls.vue'
+import { LOGIN_CONFIG } from '../../../config'
+import { validateField } from '../../../utils/validation'
 
 const logger = new Logger('RegisterView')
 
@@ -325,7 +325,7 @@ export default defineComponent({
       try {
         const registerData = {
           email: form.value.email,
-          password: MD5(form.value.password).toString(),
+          password: md5(form.value.password),
           code: form.value.code,
         }
 

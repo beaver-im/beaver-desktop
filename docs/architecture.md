@@ -54,8 +54,8 @@ SQLite/Drizzle 实例从 [db.ts](../src/main/database/db.ts) 进入，具体表�
 
 | 对端 | 本仓关系 | 修改时需要确认 |
 | --- | --- | --- |
-| ../beaver-desktop-package/beaver-desktop-ai | link 依赖 @beaver-im/app-ai；build:ai 构建 | 独立 main/preload/renderer 导出、通知与宿主面板契约同步（不留旧接口兼容层） |
-| ../beaver-desktop-package/beaver-desktop-online | link 依赖 @beaver-im/app-online；build:online 构建 | 独立文档应用契约及包内测试 |
+| [beaver-desktop-ai](../../beaver-desktop-package/beaver-desktop-ai/) | link 依赖 @beaver-im/app-ai；build:ai 构建 | 独立 main/preload/renderer 导出、通知与宿主面板契约同步；见[包工程手册](../../beaver-desktop-package/beaver-desktop-ai/docs/README.md) |
+| [beaver-desktop-online](../../beaver-desktop-package/beaver-desktop-online/) | link 依赖 @beaver-im/app-online；build:online 构建 | HTTP/WS 契约、包内测试与真机联调；见[包工程手册](../../beaver-desktop-package/beaver-desktop-online/docs/README.md)和[已知差异](../../beaver-desktop-package/beaver-desktop-online/docs/03-contracts/03-已知差异与联调检查.md) |
 | beaver-server 及各拆分服务 | HTTP/WS 远端，非本工作区编译依赖 | 类型、错误码、鉴权、流式帧和序列语义 |
 | beaver-sdk | 本仓依赖 @beaver-im/js-sdk 发布包 | OAuth 回调和实际安装版本，不假设总连同级源码 |
 | beaver-flutter | 独立客户端，共享服务端协议 | 协议变更时同步对齐各端实现与同步行为，不保留旧协议兼容层 |

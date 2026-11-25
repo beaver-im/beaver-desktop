@@ -26,6 +26,8 @@ export interface IHostCustom {
   deviceId: string
   version: string
   platform: string
+  /** 登录方式，open 开放平台 SDK（开放平台签发身份）/ beaver 主服务自有账号 */
+  loginMode: 'open' | 'beaver'
   /** 可选，来自 config.ini 的 baseUrl 覆盖 */
   baseUrl?: string
 }

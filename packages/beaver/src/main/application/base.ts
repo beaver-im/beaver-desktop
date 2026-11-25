@@ -57,6 +57,7 @@ export default class ApplicationBase {
       token: store.get('userInfo')?.token,
       devicedId: custom.deviceId,
       version: custom.version,
+      loginMode: custom.loginMode,
       // 仅透传 config.ini 覆盖；默认域名由 common 按 env 解析
       ...(custom.baseUrl ? { baseUrl: custom.baseUrl } : {}),
     }

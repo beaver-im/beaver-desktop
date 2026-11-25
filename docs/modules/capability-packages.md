@@ -22,7 +22,7 @@
 [catalog.ts](../../build/plugin/catalog.ts) 定义 enabled/optional/root/preload/renderer，[discovery.ts](../../build/plugin/discovery.ts) 构建期生成虚拟模块；不能把目录存在视为已经启用。
 [平台契约](../../packages/beaver/src/main/index.ts) 连接宿主与能力包；[vite.apps.ts](../../vite.apps.ts) 处理宿主 HTML 和开发窗口路由。
 主进程可注册本域表/同步/WS/IPC/MCP；渲染窗口使用平台接口。主窗组合侧的 store/API 不为“统一”而搬入能力包。
-外置 @beaver-im/app-ai 与 @beaver-im/app-online 不在 packages/* 内，见[架构](../architecture.md)；不要把 app-doc 当作 online 全部实现。
+外置 @beaver-im/app-ai 与 @beaver-im/app-online 不在 packages/* 内，见[架构](../architecture.md)；不要把 app-doc 当作 online 全部实现。两个外置包各有独立工程手册：[app-ai](../../../beaver-desktop-package/beaver-desktop-ai/docs/README.md)、[app-online](../../../beaver-desktop-package/beaver-desktop-online/docs/README.md)。online 的 block 路由、WS 身份头和只读绑定差异见[联调检查](../../../beaver-desktop-package/beaver-desktop-online/docs/03-contracts/03-已知差异与联调检查.md)。
 
 ## 定位关键词与典型改动
 

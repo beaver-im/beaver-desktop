@@ -69,6 +69,7 @@ export function initCustom() {
     DEVICE_ID: deviceId,
     VERSION: getVersion(),
     PLATFORM: platform,
+    LOGIN_MODE: 'open',
   }
 }
 
@@ -105,6 +106,10 @@ function loadConfigFile(configPath: string) {
         if (baseUrl) {
           process.custom.BASE_URL = baseUrl
         }
+      }
+      // 登录方式：仅 beaver 启用主服务自有账号登录，其余值一律回退 open
+      if (config.loginMode) {
+        process.custom.LOGIN_MODE = String(config.loginMode).trim() === 'beaver' ? 'beaver' : 'open'
       }
     }
     catch {

@@ -82,7 +82,7 @@
 </template>
 
 <script lang="ts">
-import { MD5 } from 'crypto-js'
+import md5 from 'js-md5'
 import { emailPasswordLoginApi } from 'renderModule/api/auth'
 import eyeOffIcon from 'renderModule/assets/images/login/eye-off.svg'
 import eyeIcon from 'renderModule/assets/images/login/eye.svg'
@@ -92,9 +92,9 @@ import Logger from 'renderModule/utils/logger'
 import { useRouterHelper } from 'renderModule/utils/router'
 import { validateField } from 'renderModule/windows/login/utils/validation'
 import { computed, defineComponent, ref } from 'vue'
-import BrandSection from '../../components/brandSection.vue'
-import WindowControls from '../../components/windowControls.vue'
-import { LOGIN_CONFIG } from '../../config'
+import BrandSection from '../../../components/brandSection.vue'
+import WindowControls from '../../../components/windowControls.vue'
+import { LOGIN_CONFIG } from '../../../config'
 
 const logger = new Logger('LoginView')
 
@@ -156,7 +156,7 @@ export default defineComponent({
       try {
         const res = await emailPasswordLoginApi({
           email: form.value.email,
-          password: MD5(form.value.password).toString(),
+          password: md5(form.value.password),
         })
 
         if (res.code === 0) {

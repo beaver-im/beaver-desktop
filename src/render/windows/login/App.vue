@@ -20,108 +20,27 @@
 -->
 
 <template>
-  <div class="login-page">
-    <WindowControls />
-    <BrandSection />
-    <section class="login-page__main">
-      <beaver-login
-        class="login-page__sdk"
-        :oauth-id="oauthId"
-        :api-base="currentConfig.baseUrl"
-        @login="handleLogin"
-      />
-    </section>
-  </div>
+  <component :is="loginComponent" />
 </template>
 
 <script lang="ts">
 import Logger from 'renderModule/utils/logger';
 const logger = new Logger('App')
 
-import BeaverSDK from '@beaver-im/js-sdk'
-import type { ISdkLoginEvent } from '@beaver-im/js-sdk'
-import { oauthId } from 'commonModule/config'
-import Message from 'renderModule/components/ui/message'
-import { oauthCodeLoginApi } from 'renderModule/api/auth'
-import { defineComponent, onMounted } from 'vue'
-import BrandSection from './components/brandSection.vue'
-import WindowControls from './components/windowControls.vue'
-import { getCurrentConfig } from 'commonModule/config'
-
-function parseLoginEvent(payload: CustomEvent | ISdkLoginEvent): ISdkLoginEvent | null {
-  if (payload instanceof CustomEvent) {
-    const detail = payload.detail as ISdkLoginEvent | ISdkLoginEvent[]
-    if (Array.isArray(detail)) {
-      return detail[0] ?? null
-    }
-    return detail ?? null
-  }
-  return payload
-}
+import { defineComponent } from 'vue'
+import OpenLogin from './views/open/index.vue'
+import BeaverLogin from './views/beaver/index.vue'
 
 export default defineComponent({
   name: 'LoginApp',
-  components: {
-    WindowControls,
-    BrandSection,
-  },
   setup() {
-    logger.info({ text: 'setup 开始' })
-    onMounted(() => {
-      BeaverSDK.register()
-    })
-
-    const handleLogin = async (payload: CustomEvent | ISdkLoginEvent) => {
-    logger.info({ text: 'handleLogin 开始' })
-      const event = parseLoginEvent(payload)
-      if (!event || event.code === 0 ) {
-        const res = await oauthCodeLoginApi({ oauthId: oauthId, code: event.result.authCode })
-        if (res.code === 0) {
-          electron.storage.setAsync('userInfo', {
-            userId: res.result.userId,
-            token: res.result.token,
-          }, { persist: true })
-          
-          electron.auth.login()
-        }
-        else {
-          Message.error(res.msg )
-        }
-      }
-    }
+    const loginMode = electron.app.loginMode
+    const loginComponent = loginMode === 'beaver' ? BeaverLogin : OpenLogin
+    logger.info({ text: '登录窗口启动', data: { loginMode } })
 
     return {
-      oauthId,
-      currentConfig: getCurrentConfig(),
-      handleLogin,
+      loginComponent,
     }
   },
 })
 </script>
-
-<style lang="less" scoped>
-.login-page {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  overflow: hidden;
-  position: relative;
-  background: #ffffff;
-  flex-shrink: 0;
-}
-
-.login-page__main {
-  flex: 1;
-  width: 400px;
-  min-width: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-
-  .login-page__sdk {
-    width: 100%;
-    max-width: 360px;
-  }
-}
-</style>

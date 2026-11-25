@@ -29,6 +29,7 @@ function parseAdditionalArguments() {
     token: undefined as string | undefined,
     devicedId: undefined as string | undefined,
     version: '1.0.0.0' as string,
+    loginMode: 'open' as 'open' | 'beaver',
     baseUrl: undefined as string | undefined,
   }
   args.forEach((arg) => {
@@ -56,5 +57,6 @@ export const appModule: IAppModule = {
   env: appParsedArgs.env,
   devicedId: appParsedArgs.devicedId,
   version: appParsedArgs.version,
+  loginMode: appParsedArgs.loginMode,
   baseUrl: appParsedArgs.baseUrl,
 }

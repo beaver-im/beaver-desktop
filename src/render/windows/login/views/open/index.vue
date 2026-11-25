@@ -1,0 +1,134 @@
+<!--
+  Copyright (c) 2024-2026 Beaver IM Team
+  SPDX-License-Identifier: MIT
+  Project: beaver-desktop
+  https://github.com/wsrh8888/beaver-desktop
+
+  中文：
+  本文件为海狸 IM（Beaver IM）开源项目源代码。
+  版权所有 © 2024-2026 Beaver IM Team，基于 MIT 协议授权。
+  禁止删除、篡改或替换本文件头部版权与许可声明。
+  使用与商业授权说明：https://wsrh8888.github.io/beaver-docs/community/license.html
+
+  English:
+  This file is part of the Beaver IM open-source project.
+  Copyright (c) 2024-2026 Beaver IM Team. Licensed under the MIT License.
+  Do not remove, alter, or replace this copyright and license header.
+  Usage & commercial licensing: https://wsrh8888.github.io/beaver-docs/community/license.html
+
+  beaver-desktop-header-v2
+-->
+
+<template>
+  <div class="login-page">
+    <WindowControls />
+    <BrandSection />
+    <section class="login-page__main">
+      <beaver-login
+        class="login-page__sdk"
+        :oauth-id="oauthId"
+        :api-base="currentConfig.baseUrl"
+        @login="handleLogin"
+      />
+    </section>
+  </div>
+</template>
+
+<script lang="ts">
+import type { ISdkLoginEvent } from '@beaver-im/js-sdk'
+import BeaverSDK from '@beaver-im/js-sdk'
+import { getCurrentConfig, oauthId } from 'commonModule/config'
+import { oauthCodeLoginApi } from 'renderModule/api/auth'
+import Message from 'renderModule/components/ui/message'
+import Logger from 'renderModule/utils/logger'
+import { defineComponent, onMounted } from 'vue'
+import BrandSection from '../../components/brandSection.vue'
+import WindowControls from '../../components/windowControls.vue'
+
+const logger = new Logger('OpenLogin')
+
+function parseLoginEvent(payload: CustomEvent | ISdkLoginEvent): ISdkLoginEvent | null {
+  if (payload instanceof CustomEvent) {
+    const detail = payload.detail as ISdkLoginEvent | ISdkLoginEvent[]
+    if (Array.isArray(detail)) {
+      return detail[0] ?? null
+    }
+    return detail ?? null
+  }
+  return payload
+}
+
+export default defineComponent({
+  name: 'OpenLogin',
+  components: {
+    WindowControls,
+    BrandSection,
+  },
+  setup() {
+    onMounted(() => {
+      BeaverSDK.register()
+    })
+
+    const handleLogin = async (payload: CustomEvent | ISdkLoginEvent) => {
+      logger.info({ text: '收到开放平台登录事件' })
+      const event = parseLoginEvent(payload)
+      if (event?.code !== 0) {
+        logger.warn({ text: '开放平台登录未成功', data: { event } })
+        Message.error(event?.msg || '登录失败')
+        return
+      }
+
+      try {
+        const res = await oauthCodeLoginApi({ oauthId, code: event.result.authCode })
+        if (res.code === 0) {
+          electron.storage.setAsync('userInfo', {
+            userId: res.result.userId,
+            token: res.result.token,
+          }, { persist: true })
+          electron.auth.login()
+        }
+        else {
+          Message.error(res.msg || '登录失败')
+        }
+      }
+      catch (error) {
+        logger.error({ text: '授权码换票异常', data: { error } })
+        Message.error('登录失败')
+      }
+    }
+
+    return {
+      oauthId,
+      currentConfig: getCurrentConfig(),
+      handleLogin,
+    }
+  },
+})
+</script>
+
+<style lang="less" scoped>
+.login-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+
+.login-page__main {
+  flex: 1;
+  width: 400px;
+  min-width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  .login-page__sdk {
+    width: 100%;
+    max-width: 360px;
+  }
+}
+</style>

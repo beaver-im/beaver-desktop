@@ -66,6 +66,7 @@ src/
 
 外置能力包**不在本仓**：`app-ai`、`app-online` 以 `link:` 指向 `../beaver-desktop-package/`，
 真实路径以 `package.json` 与 `build/plugin/catalog.ts` 为准，不猜同名目录。
+外置包手册：[app-ai](../../beaver-desktop-package/beaver-desktop-ai/docs/README.md)、[app-online](../../beaver-desktop-package/beaver-desktop-online/docs/README.md)。
 包边界与装配顺序见[第 2 章](standards/01-boundaries-and-naming.md)、[第 7 章](standards/06-plugin-lifecycle.md)。
 
 ## build 与 scripts

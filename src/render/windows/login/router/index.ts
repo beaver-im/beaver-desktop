@@ -29,15 +29,15 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/login',
-    component: () => import('renderModule/windows/login/views/login/index.vue'),
+    component: () => import('renderModule/windows/login/views/beaver/login/index.vue'),
   },
   {
     path: '/register',
-    component: () => import('renderModule/windows/login/views/register/index.vue'),
+    component: () => import('renderModule/windows/login/views/beaver/register/index.vue'),
   },
   {
     path: '/forgot',
-    component: () => import('renderModule/windows/login/views/forgot/index.vue'),
+    component: () => import('renderModule/windows/login/views/beaver/forgot/index.vue'),
   },
 ]
 

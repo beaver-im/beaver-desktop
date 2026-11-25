@@ -45,6 +45,7 @@ export function bindBeaverMain(): void {
         deviceId: process.custom.DEVICE_ID,
         version: process.custom.VERSION,
         platform: process.custom.PLATFORM,
+        loginMode: process.custom.LOGIN_MODE,
         ...(process.custom.BASE_URL ? { baseUrl: process.custom.BASE_URL } : {}),
       }),
     },

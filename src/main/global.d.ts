@@ -49,6 +49,10 @@ declare namespace NodeJS {
        * @description: 可选，来自 config.ini 的 baseUrl 覆盖
        */
       BASE_URL?: string
+      /**
+       * @description: 登录方式，默认 open（开放平台 SDK，身份由开放平台签发）；beaver 为直连主服务自有账号登录
+       */
+      LOGIN_MODE: 'open' | 'beaver'
     }
   }
 }
