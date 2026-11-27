@@ -27,7 +27,7 @@ export const circleSyncApi = (data: ICircleSyncReq): Promise<IAjaxResponse<ICirc
   return ajax<IAjaxResponse<ICircleSyncRes>>({
     method: 'POST',
     data,
-    url: `${getBaseUrl()}/beaver-social/api/circle/circle/v1/sync`,
+    url: `${getBaseUrl()}/beaver-social/api/social/circle/v1/sync`,
   })
 }
 
