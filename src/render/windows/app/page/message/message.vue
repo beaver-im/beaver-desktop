@@ -85,10 +85,11 @@
 import Logger from 'renderModule/utils/logger'
 const logger = new Logger('message')
 
-import type { ICirclePostItem } from '@beaver-im/app-circle/common/type/ajax/circle'
+import type { ICirclePostItem } from 'commonModule/type/ajax/circle'
 import { computed, defineComponent, ref, watch } from 'vue'
 import { ChatType } from 'commonModule/utils/conversation/chatType'
-import { CircleDetails as CircleDetailsComponent, CirclePostDetail, CircleRight, parseCircleId } from '@beaver-im/app-circle/renderer'
+import { parseCircleId } from 'commonModule/utils/conversation/circle'
+import { CircleDetails as CircleDetailsComponent, CirclePostDetail, CircleRight } from '@beaver-im/app-circle/renderer'
 import { useConversationStore } from '../../pinia/conversation/conversation'
 import { useMessageViewStore } from '../../pinia/view/message'
 import AiPanelComponent from 'renderModule/components/business/aiPanel/index.vue'

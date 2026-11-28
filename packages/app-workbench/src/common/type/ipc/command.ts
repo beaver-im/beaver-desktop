@@ -8,13 +8,7 @@
  */
 
 /**
- * @description: 工作台内嵌 WebContentsView 相关 Command
+ * 工作台内嵌视图命令由 @beaver-im/beaver/common 唯一定义：宿主 preload 发起、本包 handler 受理，
+ * 两侧不能互引，因此不在这里另写一份枚举。
  */
-export enum WorkbenchCommand {
-  EMBED_OPEN = 'workbench:embedOpen',
-  EMBED_HIDE_ALL = 'workbench:embedHideAll',
-  EMBED_SET_BOUNDS = 'workbench:embedSetBounds',
-  EMBED_RELOAD = 'workbench:embedReload',
-  EMBED_CLOSE = 'workbench:embedClose',
-  OPEN_EXTERNAL = 'workbench:openExternal',
-}
+export { WorkbenchCommand } from '@beaver-im/beaver/common'

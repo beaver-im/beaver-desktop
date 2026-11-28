@@ -118,8 +118,9 @@ export function createSummaryMainApi(
 readSummary 可能抛错时须明确负责处理的边界，不能据这个片段宣称已处理所有失败。
 code/msg/result 为当前包装约定；对返回 boolean/void 等不一致的存量 IPC 协议，若统一为结构化契约须同步修改所有调用方与 handler，不留旧返回值兼容分支。
 
-**真实对照**：[圈子 main/api/circle.ts](../../packages/app-circle/src/main/api/circle.ts) 已有 circleSyncApi、datasyncGetSyncCircleInfoApi，
-请求/响应类型来自同包 [common/type/ajax/circle.ts](../../packages/app-circle/src/common/type/ajax/circle.ts)。
+**真实对照**：[宿主 main/api/group.ts](../../src/main/api/group.ts) 已有 groupSyncApi 等 `Api` 后缀方法，
+请求/响应类型来自 [common/type/ajax/group.ts](../../src/common/type/ajax/group.ts)；数据在宿主的域按此形态组织。
+圈子已按同一形态归位：[src/main/api/circle.ts](../../src/main/api/circle.ts) + [src/common/type/ajax/circle.ts](../../src/common/type/ajax/circle.ts)。
 [MainRuntime](../../packages/beaver/src/main/bind/index.ts)、[IMainPluginModule](../../packages/beaver/src/common/type/plugin/index.ts)
 也说明主进程存在非 HTTP 的显式契约；它们的存量命名不是本轮已统一到新业务 API 后缀的证明。
 

@@ -156,7 +156,7 @@
 </template>
 
 <script lang="ts">
-import { NotificationModule } from '../../../common/type/preload/notification'
+import { NotificationModule } from '@beaver-im/beaver/common'
 import BeaverButton from '@beaver-im/beaver-ui/button/index.vue'
 import { defineComponent, onMounted, onUnmounted, ref, computed } from 'vue'
 import { Logger } from '@beaver-im/beaver/renderer'

@@ -10,18 +10,24 @@
 
 - enabled=false 是构建期开关，不是启动后隐藏一个按钮。
 - optional 允许包缺失；必需包缺失不能指望运行时 try/catch 挽救构建。
-- root 指外置仓；preload 给命名空间；renderer 显式声明主窗 UI 注入，不把所有插件 UI 都打入主窗。
+- root 指外置仓；renderer 显式声明主窗 UI 注入，不把所有插件 UI 都打入主窗。
+- preload **只服务仓库外商业包**（宿主无法静态 import 它）：仓内包一律不声明，平台桥由宿主 `src/preload` 装配。
+  目前只有 `agent` 带 `preload`；settings / workbench 的平台能力已归宿主。
 - 窗口由 application / extraApplications 注册；不在另一处另写一套窗口清单。
 
 ## 7.2 副作用放 activate，不放 import 顶层
 
-**真实摘录（节选）**：[圈子 activate.ts](../../packages/app-circle/src/main/activate.ts) 在 activate 内注册：
+**真实摘录（节选）**：[settings activate.ts](../../packages/app-settings/src/main/activate.ts) 在 activate 内注册：
 
 ```ts
-registerDataSync(circleDatasync)
-registerWsHandler('CIRCLE_OPERATION', content => circleMessageRouter.processCircleMessage(content))
-registerTableInit(initCircleTables)
+registerIpcHandler(Object.values(SettingsCommand), (event, command, data) =>
+  settingsHandler.handle(event, command as any, data),
+)
+registerPostLoginHook(() => settingsHandler.handle(void 0 as any, SettingsCommand.SETTINGS_INIT, {}))
 ```
+
+不需要注册任何东西的包（只提供窗口，如 [app-circle](../../packages/app-circle/src/main/index.ts)）不写空 `activate`：
+该字段在 [plugin 契约](../../packages/beaver/src/common/type/plugin/index.ts) 里是可选的。
 
 上述调用是 activate 函数体节选，不能复制到文件顶层直接运行。
 **新代码约束**：顶层只定义类型、常量、函数与安全构造；连接网络、注册监听、建表、启动定时器等放明确生命周期。

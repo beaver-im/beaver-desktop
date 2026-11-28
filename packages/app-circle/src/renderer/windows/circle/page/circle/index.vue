@@ -66,13 +66,15 @@
 import { Logger } from '@beaver-im/beaver/renderer';
 const logger = new Logger('circle-page')
 
-import type { ICirclePostItem } from '../../../../../common/type/ajax/circle'
-import { defineComponent, ref } from 'vue'
+import type { ICirclePostItem } from '@beaver-im/beaver/common'
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
+import { DATABASE_CIRCLE_CHANNEL, NotificationCircleCommand } from '@beaver-im/beaver/common'
 import CircleCreateModal from '../../components/createCircle/index.vue'
 import CircleDetails from '../../page/circle/detail-components/details/index.vue'
 import CirclePostDetail from '../../page/circle/detail-components/postDetail/index.vue'
 import CircleLeft from '../../page/circle/left-components/index.vue'
 import CircleRight from '../../page/circle/right-component/index.vue'
+import { parseCircleId } from '../../store/circle/circle'
 
 export default defineComponent({
   name: 'CirclePage',
@@ -151,6 +153,26 @@ export default defineComponent({
     }
 
     expose({ refresh })
+
+    /** 资料推送（改名/换头像）后本地库已由主进程更新，这里按通知重拉，否则窗口只在挂载时读一次 */
+    const circleUpdateHandler = (params: { command?: string, data?: { updatedCircles?: Array<{ circleId: string }> } }) => {
+      if (params?.command !== NotificationCircleCommand.CIRCLE_UPDATE)
+        return
+      logger.info({ text: '收到圈子资料更新通知，刷新界面', data: params.data })
+      const updatedIds = (params.data?.updatedCircles || []).map(item => item.circleId).filter(Boolean)
+      const currentId = parseCircleId(selectedCircleId.value)
+      leftRef.value?.loadList()
+      if (!updatedIds.length || (currentId && updatedIds.includes(currentId)))
+        rightRef.value?.loadAll()
+    }
+
+    onMounted(() => {
+      electron.notification.on(DATABASE_CIRCLE_CHANNEL, circleUpdateHandler)
+    })
+
+    onUnmounted(() => {
+      electron.notification.off(DATABASE_CIRCLE_CHANNEL, circleUpdateHandler)
+    })
 
     return {
       selectedCircleId,

@@ -374,3 +374,22 @@ export interface IAgentConversationVersionItem {
   module: string // 入口模块
   workspaceId: string // 本机空间 id；空=云端轻会话，有值=本机空间（可远程控盘）
 }
+
+// ── 圈子资料同步（对应服务端 circle_models 版本摘要） ──
+
+// 圈子资料版本摘要请求
+export interface IGetSyncCircleInfoReq {
+  since?: number // 圈子 version 游标，只返回 version > since
+}
+
+// 圈子版本信息
+export interface ICircleInfoVersionItem {
+  circleId: string // 圈子ID
+  version: number // 圈子版本号
+}
+
+// 圈子资料版本摘要响应
+export interface IGetSyncCircleInfoRes {
+  circleVersions: ICircleInfoVersionItem[] // 变更的圈子摘要
+  serverTimestamp: number // 服务端处理时间戳
+}

@@ -105,7 +105,7 @@
 </template>
 
 <script lang="ts">
-import type { ICirclePostItem } from '../../../../../../../../common/type/ajax/circle'
+import type { ICirclePostItem } from '@beaver-im/beaver/common'
 import { CacheType } from '@beaver-im/beaver-ui'
 import { computed, defineComponent } from 'vue'
 import likeIcon from '../../../../../../../assets/image/moment/like-default.svg'

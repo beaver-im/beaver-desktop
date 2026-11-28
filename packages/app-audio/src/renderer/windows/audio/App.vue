@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { NotificationModule } from '../../../common/type/preload/notification'
+import { NotificationModule } from '@beaver-im/beaver/common'
 import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import AudioPlayer from './views/index.vue'
 import closeIcon from '../../assets/image/common/close.svg'

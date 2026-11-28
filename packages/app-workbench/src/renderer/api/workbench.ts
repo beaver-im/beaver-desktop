@@ -29,6 +29,6 @@ export const listWorkbenchAppsApi = (data?: IListWorkbenchAppsReq) => {
   return ajax<IListWorkbenchAppsRes>({
     method: 'GET',
     params: data || {},
-    url: `${getBaseUrl()}/beaver/beaver/api/platform/workbench/v1/list_workbench`,
+    url: `${getBaseUrl()}/beaver/api/platform/workbench/v1/list_workbench`,
   })
 }

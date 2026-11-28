@@ -25,6 +25,7 @@ import type { IFriendListReq, IFriendListRes, IFriendVerRangeReq, IValidListReq,
 import type { IGetGroupListReq, IGetGroupMembersBatchReq, IGetGroupMembersReq, IGetGroupsBatchReq, IGroupJoinRequestListReq, IGroupJoinRequestListRes, IGroupListRes, IGroupMemberListRes } from '../ajax/group'
 import type { IGetNotificationEventsByIdsReq, IGetNotificationEventsByIdsRes, IGetNotificationInboxByIdsReq, IGetNotificationInboxByIdsRes, IGetNotificationInboxByCategoriesReq, INotificationInboxItem, IGetNotificationReadCursorsReq, IGetNotificationReadCursorsRes } from '../ajax/notification'
 import type { IGetAllUsersRes, IUserInfoRes, IUserSyncByIdsReq, IUserSyncByIdsRes } from '../ajax/user'
+import type { IDBCircle } from '../database/db/circle'
 
 /**
  * @description: 数据库模块接口 - 按业务分类
@@ -134,6 +135,15 @@ export interface IDatabaseModule {
      * @description: 获取表情包内表情列表
      */
     getEmojiPackageEmojis(params: IGetEmojiPackageEmojisReq): Promise<IGetEmojiPackageEmojisRes>
+  }
+  /**
+   * @description: 圈子相关
+   */
+  circle: {
+    /**
+     * @description: 读取本地已同步的圈子列表
+     */
+    getCircleList(): Promise<{ list: IDBCircle[] }>
   }
   notification: {
     /**

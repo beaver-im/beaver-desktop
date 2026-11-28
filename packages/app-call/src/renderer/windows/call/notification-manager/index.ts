@@ -19,7 +19,7 @@
  * beaver-desktop-header-v2
  */
 
-import { NotificationModule, NotificationCallCommand, type INotificationPayload } from '../../../../common/type/preload/notification'
+import { NotificationModule, NotificationCallCommand, type INotificationPayload } from '@beaver-im/beaver/common'
 import callManager from '../core'
 import { usecallStore } from '../pinia/call'
 import { Logger } from '@beaver-im/beaver/renderer'

@@ -14,7 +14,7 @@
 ### 可验证事实
 
 - [catalog.ts](../../build/plugin/catalog.ts) 同时用 `enabled`、`optional`、`root`、`preload`、`renderer` 五个开关描述能力，`ai` / `online` 带 `optional: true` 与仓外 `root`，其余为仓内必装包。
-- [app-circle/activate.ts](../../packages/app-circle/src/main/activate.ts) 一个 `activate` 注册了 5 类扩展点（datasync / ws / database IPC / 建表 / 会话展示），是完整闭环黑盒。
+- ~~app-circle/activate.ts 一个 `activate` 注册了 5 类扩展点，是完整闭环黑盒~~ —— **该反例已于 2026-11-28 消除**：圈子数据归位宿主、`activate.ts` 删除，见 [circle-data-relocation](../tasks/active/2026-11-28-circle-data-relocation.md)。现在注册最多的是 [app-settings/activate.ts](../../packages/app-settings/src/main/activate.ts)（IPC + 登录钩子两类）。
 - [app-call/activate.ts](../../packages/app-call/src/main/activate.ts) 的 `activate` 为空并明确注释"通话信令路由在宿主 message-manager/receivers/call"，但 [宿主 call receiver](../../src/main/message-manager/receivers/call/index.ts) 直接向 `app` / `call` / `call-incoming` 三个窗口发通知——**挂包的壳、干平台的事**。
 - [beaver/main/index.ts](../../packages/beaver/src/main/index.ts) 出口聚合了 10 个 registry 与 7 类 common 类型；[beaver/common/type/ajax](../../packages/beaver/src/common/type/ajax/) 只有通用壳类型（`IAjaxResponse` 等），宿主 [src/common/type/ajax](../../src/common/type/ajax/) 有 19 个业务类型文件——类型事实源已切开，但此切分未成文。
 - [plugin/index.ts](../../packages/beaver/src/common/type/plugin/index.ts) 定义 `activate(ctx)` 为插件唯一入口；现有 registry 多为只增不减的全局数组，无反注册。
@@ -31,7 +31,7 @@
 | --- | --- | --- | --- | --- | --- |
 | T1 | 核心平台模块 | 业务正确性依赖它、非独立窗口、无独立 manifest | 宿主 `src/main/business/*` 的 chat / friend / group / user / notification | 本就是宿主代码 | 否 |
 | T2 | 一等能力包 | 仓内 `packages/app-*`，`enabled: true` 且非 `optional` | circle / moment / doc / call / settings / search 等 | **禁止** | 否 |
-| T3 | 可选外置模块 | `optional: true` 且有仓外 `root`，或需独立 preload | ai / online（外置仓）；workbench（独立 preload） | **禁止** | 是 |
+| T3 | 可选外置模块 | `optional: true` 且有仓外 `root` | ai / online（外置仓） | **禁止** | 是 |
 
 判定顺序固定：先看 catalog 条目（身份的机器可读事实源）→ 再看是否是独立窗口 → 最后才是业务名。**同名业务可以分属不同级**：AI 的独立窗口是 T3，主窗 AI 面板是 T1 宿主组合，二者不因都叫"AI"而合并。
 
@@ -71,6 +71,8 @@
 
 ## 证据与复审触发
 
-- 证据：[catalog.ts](../../build/plugin/catalog.ts)、[beaver/main/index.ts](../../packages/beaver/src/main/index.ts)、[beaver/common/type/ajax](../../packages/beaver/src/common/type/ajax/)、[app-circle/activate.ts](../../packages/app-circle/src/main/activate.ts)、[app-call/activate.ts](../../packages/app-call/src/main/activate.ts)、[宿主 call receiver](../../src/main/message-manager/receivers/call/index.ts)、[plugin 契约](../../packages/beaver/src/common/type/plugin/index.ts)。
+- 证据：[catalog.ts](../../build/plugin/catalog.ts)、[beaver/main/index.ts](../../packages/beaver/src/main/index.ts)、[beaver/common/type/ajax](../../packages/beaver/src/common/type/ajax/)、[app-settings/activate.ts](../../packages/app-settings/src/main/activate.ts)、[app-call/activate.ts](../../packages/app-call/src/main/activate.ts)、[宿主 call receiver](../../src/main/message-manager/receivers/call/index.ts)、[plugin 契约](../../packages/beaver/src/common/type/plugin/index.ts)。
 - 复审触发：新增第 4 类身份；catalog 出现 `optional` 与 `root` 之外的新组合；某 T2 包开始被宿主源码 import；beaver 出口新增业务类型；registry 需要反注册却仍不提供。
-- 未解决问题：call 的 (a)/(b) 归属、aiPanel 宿主侧厚度、workbench 是否因独立 preload 单列 T3——三项均待项目负责人裁决，裁决前不擅自改码。
+- ~~workbench 是否因独立 preload 单列 T3~~ —— 2026-11-28 起 workbench / settings 的 preload 已收回宿主（平台窗口能力由宿主装配），
+  “独立 preload”不再是 T3 的判据，workbench 归 T2。见 [circle-data-relocation](../tasks/active/2026-11-28-circle-data-relocation.md) 同批改动。
+- 未解决问题：call 的 (a)/(b) 归属、aiPanel 宿主侧厚度——两项待项目负责人裁决，裁决前不擅自改码。

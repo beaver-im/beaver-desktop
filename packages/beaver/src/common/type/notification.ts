@@ -1,0 +1,303 @@
+/**
+ * Copyright (c) 2024-2026 Beaver IM Team
+ * SPDX-License-Identifier: MIT
+ * Project: beaver-desktop
+ * https://github.com/wsrh8888/beaver-desktop
+ *
+ * beaver-desktop-header-v2
+ */
+
+/**
+ * 主进程 → 渲染进程的通知通道表
+ *
+ * 宿主与能力包共用的唯一一份定义：能力包按通道名订阅，不再各自复制枚举。
+ */
+export enum NotificationModule {
+  /**
+   * 群组通知
+   */
+  DATABASE_GROUP = 'database:group',
+  /**
+   * 圈子通知
+   */
+  DATABASE_CIRCLE = 'database:circle',
+  /**
+   * 好友通知
+   */
+  DATABASE_FRIEND = 'database:friend',
+  /**
+   * 用户通知
+   */
+  DATABASE_USER = 'database:user',
+  /**
+   * 聊天消息通知
+   */
+  DATABASE_CHAT = 'database:chat',
+  /**
+   * 应用生命周期状态通知
+   * 简化的状态流：连接 -> 同步 -> 就绪
+   */
+  APP_LIFECYCLE = 'app:lifecycle',
+
+  /**
+   * 搜索结果通知到验证窗口
+   */
+  SEARCH_TO_VERIFY = 'search:to:verify',
+  /**
+   * 媒体查看器更新通知
+   */
+  MEDIA_VIEWER = 'media:viewer',
+  /**
+   * 表情通知
+   */
+  EMOJI = 'database:emoji',
+  /**
+   * 通知中心相关数据
+   */
+  DATABASE_NOTIFICATION = 'database:notification',
+  /**
+   * 通话通知
+   */
+  CALL = 'ws:call',
+  /**
+   * MCP 工具确认通知（主进程 → AI 渲染进程）
+   * 服务端下发 requiresConfirm 工具的 client_tool 事件后，主进程把工具入参 + schema
+   * 发给 AI 渲染进程渲染确认卡片，用户确认/编辑后经 IPC 回传主进程续跑。
+   */
+  MCP_CONFIRM = 'mcp:confirm',
+}
+
+/** 圈子主进程 → 渲染通知命令 */
+export enum NotificationCircleCommand {
+  /**
+   * 圈子资料更新
+   */
+  CIRCLE_UPDATE = 'circleUpdate',
+}
+
+/** 圈子通知通道（等价于 NotificationModule.DATABASE_CIRCLE，供只订阅一个通道的窗口直接使用） */
+export const DATABASE_CIRCLE_CHANNEL = NotificationModule.DATABASE_CIRCLE
+
+export enum NotificationCallCommand {
+  /**
+   * 发起来电 (主叫方发起)
+   */
+  CALL_START = 'callStart',
+  /**
+   * 收到来电 (被叫方收到邀请)
+   */
+  CALL_INVITE = 'callInvite',
+  /**
+   * 加入通话 (被叫方点击接听进入)
+   */
+  CALL_JOIN = 'callJoin',
+  /**
+   * 对方同意 (已接听)
+   */
+  CALL_ACCEPTED = 'callAccepted',
+  /**
+   * 对方拒绝
+   */
+  CALL_REJECTED = 'callRejected',
+  /**
+   * 通话挂断
+   */
+  CALL_HANGUP = 'callHangup',
+  /**
+   * 通话取消 (未接前取消)
+   */
+  CALL_CANCELLED = 'callCancelled',
+  /**
+   * 流程结束 (App 列表移除)
+   */
+  CALL_ENDED = 'callEnded',
+}
+
+export enum NotificationFriendCommand {
+  /**
+   * 好友更新
+   */
+  FRIEND_UPDATE = 'friendUpdate',
+  /**
+   * 好友验证更新
+   */
+  FRIEND_VALID_UPDATE = 'friendValidUpdate',
+
+}
+
+export enum NotificationGroupCommand {
+  /**
+   * 群组更新
+   */
+  GROUP_UPDATE = 'groupUpdate',
+  /**
+   * 群组成员更新
+   */
+  GROUP_MEMBER_UPDATE = 'groupMemberUpdate',
+  /**
+   * 群组验证更新
+   */
+  GROUP_VALID_UPDATE = 'groupValidUpdate',
+}
+
+export enum NotificationUserCommand {
+  /**
+   * 用户更新
+   */
+  USER_UPDATE = 'userUpdate',
+}
+
+export enum NotificationSearchToVerifyCommand {
+  /**
+   * 搜索到验证
+   */
+  SEARCH_TO_VERIFY = 'searchToVerify',
+}
+
+export enum NotificationChatCommand {
+  /**
+   * 会话表更新 - conversations表有变更
+   */
+  CONVERSATION_UPDATE = 'conversationUpdate',
+  /**
+   * 消息表更新 - messages表有变更
+   */
+  MESSAGE_UPDATE = 'messageUpdate',
+  /**
+   * 用户会话设置表更新 - user_conversations表有变更
+   */
+  USER_CONVERSATION_UPDATE = 'userConversationUpdate',
+  /**
+   * 消息媒体状态表更新 - message_medias表有变更
+   */
+  MESSAGE_MEDIA_UPDATE = 'messageMediaUpdate',
+  /**
+   * 流式增量。不写库，窗口按 streamId 拼接，终稿仍走正式消息。
+   */
+  MESSAGE_STREAM = 'messageStream',
+}
+
+export enum NotificationEmojiCommand {
+  /**
+   * 表情更新
+   */
+  EMOJI_UPDATE = 'emojiUpdate',
+  /**
+   * 表情收藏更新
+   */
+  EMOJI_COLLECT_UPDATE = 'emojiCollectUpdate',
+  /**
+   * 表情包收藏更新
+   */
+  EMOJI_PACKAGE_COLLECT_UPDATE = 'emojiPackageCollectUpdate',
+  /**
+   * 表情包更新
+   */
+  EMOJI_PACKAGE_UPDATE = 'emojiPackageUpdate',
+  /**
+   * 表情包内容更新
+   */
+  EMOJI_PACKAGE_CONTENT_UPDATE = 'emojiPackageContentUpdate',
+}
+
+export enum NotificationNotificationCommand {
+  /**
+   * 通知事件更新
+   */
+  EVENT_UPDATE = 'eventUpdate',
+  /**
+   * 通知收件箱更新
+   */
+  INBOX_UPDATE = 'inboxUpdate',
+  /**
+   * 通知已读游标更新
+   */
+  READ_CURSOR_UPDATE = 'readCursorUpdate',
+}
+
+export enum NotificationMcpConfirmCommand {
+  /**
+   * 请求用户确认本机动作（代发消息、删文件等）。
+   * data: { requestId, conversationId, title, content, confirmText, cancelText, tone, expiresAt }
+   * 渲染进程据此在 AI 侧栏输入区上方渲染确认卡，用户表态后直接回传服务端。
+   */
+  REQUEST_CONFIRM = 'requestConfirm',
+  /**
+   * 取消确认（主进程主动取消，如超时）。渲染进程据此收起卡片。
+   * data: { requestId, conversationId }
+   */
+  CANCEL_CONFIRM = 'cancelConfirm',
+}
+
+export enum NotificationAppLifecycleCommand {
+  /**
+   * 应用生命周期状态变更 - 统一的状态变更通知
+   * data: {
+   *   status: AppLifecycleStatus,
+   *   progress?: number // 0-100，仅在syncing状态使用
+   * }
+   */
+  STATUS_CHANGE = 'statusChange',
+}
+
+export enum NotificationMediaViewerCommand {
+  /**
+   * 更新图片查看器
+   * data: { url: string, list?: string[], index?: number }
+   */
+  UPDATE_IMAGE = 'updateImage',
+  /**
+   * 更新视频播放器
+   * data: { url: string, title?: string }
+   */
+  UPDATE_VIDEO = 'updateVideo',
+  /**
+   * 更新音频播放器
+   * data: { url: string, title?: string }
+   */
+  UPDATE_AUDIO = 'updateAudio',
+  /**
+   * 更新朋友圈数据
+   * data: any
+   */
+  UPDATE_MOMENT = 'updateMoment',
+  /**
+   * 更新升级信息
+   */
+  UPDATE_UPDATER = 'updateUpdater',
+}
+
+/**
+ * 应用生命周期状态
+ * 细化的IM状态流：连接 -> 同步 -> 就绪，支持不同类型的错误
+ */
+export type AppLifecycleStatus
+  = | 'connecting' // WebSocket连接中
+  | 'syncing' // 数据同步中
+  | 'ready' // 应用就绪（隐藏状态条）
+  | 'connect_error' // WebSocket连接错误/断开
+  | 'sync_error' // 数据同步错误
+
+/**
+ * 主进程更新通知渲染进程
+ */
+export interface NotificationCommandMap {
+  [NotificationModule.DATABASE_FRIEND]: NotificationFriendCommand
+  [NotificationModule.DATABASE_USER]: NotificationUserCommand
+  [NotificationModule.DATABASE_GROUP]: NotificationGroupCommand
+  [NotificationModule.DATABASE_CIRCLE]: NotificationCircleCommand
+  [NotificationModule.DATABASE_CHAT]: NotificationChatCommand
+  [NotificationModule.EMOJI]: NotificationEmojiCommand
+  [NotificationModule.APP_LIFECYCLE]: NotificationAppLifecycleCommand
+  [NotificationModule.SEARCH_TO_VERIFY]: NotificationSearchToVerifyCommand
+  [NotificationModule.MEDIA_VIEWER]: NotificationMediaViewerCommand
+  [NotificationModule.DATABASE_NOTIFICATION]: NotificationNotificationCommand
+  [NotificationModule.CALL]: NotificationCallCommand
+  [NotificationModule.MCP_CONFIRM]: NotificationMcpConfirmCommand
+}
+
+export interface INotificationPayload<M extends NotificationModule = NotificationModule.CALL> {
+  command: NotificationCommandMap[M]
+  data?: any
+}
+

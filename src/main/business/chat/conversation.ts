@@ -27,13 +27,14 @@ import type {
 import type { ICommonHeader } from 'commonModule/type/ajax/common'
 import type { IConversationItem } from 'commonModule/type/pinia/conversation'
 import type { QueueItem } from '../base/base'
-import { resolveConversationDisplays } from '@beaver-im/beaver/main'
 import { NotificationChatCommand, NotificationModule } from 'commonModule/type/preload/notification'
 import { ChatType, isP2PChatType } from 'commonModule/utils/conversation/chatType'
+import { parseCircleId } from 'commonModule/utils/conversation/circle'
 import { getConversationsListByIdsApi } from 'mainModule/api/chat'
 import dBServiceChatConversation from 'mainModule/database/services/chat/conversation'
 import dbServiceChatUserConversation from 'mainModule/database/services/chat/user-conversation'
 import dBServiceFriend from 'mainModule/database/services/friend/friend'
+import dbServiceCircle from 'mainModule/database/services/circle/circle'
 import dbServiceGroup from 'mainModule/database/services/group/group'
 import { sendMainNotification } from 'mainModule/ipc/main-to-render'
 import { BaseBusiness } from '../base/base'
@@ -215,9 +216,12 @@ class ConversationBusiness extends BaseBusiness<ConversationSyncItem> {
         groupDetailsMap.set(group.groupId, group)
       })
 
-      const pluginDisplays = await resolveConversationDisplays(
-        paginatedConversations.filter((conv: any) => !isP2PChatType(conv.type) && conv.type !== ChatType.GROUP),
-      )
+      const circleIds = paginatedConversations
+        .filter((conv: any) => conv.type === ChatType.CIRCLE)
+        .map((conv: any) => parseCircleId(conv.conversationId))
+        .filter((id: string | null): id is string => !!id)
+      const circleDetails = await dbServiceCircle.getCirclesByIds(circleIds)
+      const circleDetailsMap = new Map(circleDetails.map(circle => [circle.circleId, circle]))
 
       // 7. 业务逻辑处理：数据聚合、未读消息计算等
       const list = paginatedConversations.map((conv: any): IConversationInfoRes => {
@@ -256,12 +260,12 @@ class ConversationBusiness extends BaseBusiness<ConversationSyncItem> {
             }
           }
         }
-        else {
-          const display = pluginDisplays.get(conv.conversationId)
-          if (display) {
-            avatar = display.avatar || ''
-            nickName = display.nickName || ''
-            notice = display.notice || ''
+        else if (conv.type === ChatType.CIRCLE) { // 圈子：从圈子资料获取显示数据
+          const circleId = parseCircleId(conv.conversationId)
+          const circle = circleId ? circleDetailsMap.get(circleId) : undefined
+          if (circle) {
+            avatar = circle.avatar || ''
+            nickName = circle.name || '圈子'
           }
         }
 
@@ -413,13 +417,12 @@ class ConversationBusiness extends BaseBusiness<ConversationSyncItem> {
         }
       }
     }
-    else {
-      const pluginDisplays = await resolveConversationDisplays([{ type: meta.type || 0, conversationId }])
-      const display = pluginDisplays.get(conversationId)
-      if (display) {
-        avatar = display.avatar || ''
-        nickName = display.nickName || ''
-        notice = display.notice || ''
+    else if (meta.type === ChatType.CIRCLE) {
+      const circleId = parseCircleId(conversationId)
+      const circle = circleId ? (await dbServiceCircle.getCirclesByIds([circleId]))[0] : undefined
+      if (circle) {
+        avatar = circle.avatar || ''
+        nickName = circle.name || '圈子'
       }
     }
 

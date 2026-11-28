@@ -19,7 +19,7 @@
  * beaver-desktop-header-v2
  */
 
-import type { ICircleListItem } from '../../../../../common/type/ajax/circle'
+import type { ICircleListItem } from '@beaver-im/beaver/common'
 import { defineStore } from 'pinia'
 import { getMyCircleListApi } from '../../../../api/circle'
 import { Logger } from '@beaver-im/beaver/renderer'

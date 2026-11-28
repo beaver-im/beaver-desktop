@@ -75,9 +75,29 @@ import { MessageStatus } from 'commonModule/type/ajax/chat'
 已读取的76行 Lingma 文件没有这一段，不能冒充从该文件逐字复制。下面是这条补充要求的统一正文。
 
 带运行时业务能力的 app-* 子包及独立业务子仓，必须有 main、渲染层、common 三个职责分区；
-不能因为“目前先做一个窗口”就取消 main/common，把所有逻辑和类型挤到 .vue。preload 是按需的第四层，拼写统一为 preload。
+不能因为“目前先做一个窗口”就取消 main/common，把所有逻辑和类型挤到 .vue。
+preload **不属于能力包**：`window.electron` 的桥由宿主 [src/preload](../../src/preload) 统一装配（包括设置、工作台这类宿主自有窗口），
+能力包不新建 preload 目录、不在 catalog 里声明 preload 命名空间。见下方 preload 归属段。
+
 用户说的 render 是渲染进程这一层；本仓宿主实目录是 src/render，现有能力包实目录是 src/renderer。
 新能力包沿现有 src/renderer；独立仓沿自己的唯一约定，不同时新建 render 和 renderer 两份。
+
+**唯一例外：数据归宿主的包没有 common 层。** 本地 SQLite 是宿主唯一一个库、一套 schema。某个业务的数据表被两处以上消费
+（主窗会话列表、自己的窗口、通知管理器、聊天名片）时，表定义 / datasync / WS 接收 / 数据库 IPC 必须全部在宿主 `src/main`，
+能力包只留 `main`（窗口创建）与 `renderer`（界面）；它需要的类型从 `@beaver-im/beaver/common` 取，不新造本包 common。
+[app-circle](../../packages/app-circle/src) 即此形态：不持表、不注册 WS/IPC/preload，只提供圈子窗口。
+不得以“能力包要自包含”为由把共享数据的表搬回包里——那会让同一个库的 schema 有两个主人，消费者要么反向 import、要么抄一份类型。
+
+**preload 归属：桥是平台的，不是业务的。** 渲染进程能拿到什么能力，只应由宿主决定：
+
+- 平台能力（`database` / `notification` / `storage` / `settings` / `workbench` / `fs` …）一律在 [src/preload/electron](../../src/preload/electron) 静态装配，
+  接口类型在 [src/common/type/preload](../../src/common/type/preload)；
+- 命令与通道值（`SettingsCommand`、`WorkbenchCommand`、`NotificationModule`、`WORKBENCH_EMBED_STATE_CHANNEL` …）只在
+  `@beaver-im/beaver/common` 定义一份，宿主 preload 与包内 handler 同时引用，不各自抄写字符串；
+- 能力包不声明 `catalog.preload`、不写 `createPreloadModule`。把平台 API 挂在插件命名空间下意味着
+  “catalog 里关掉某项就连带关掉平台能力”，这是错误的耦合；
+- 唯一例外是**仓库外商业包**：宿主无法静态 import 它，只能由它导出 preload 工厂，构建期按 `catalog.root` 注入。
+  这是 `virtual:beaver-plugin-preloads` 存在的唯一理由，目前消费者只有 `agent`。
 
 ```text
 app-<domain>/                  业务子包/独立业务仓结构示例，非本轮创建的源码
@@ -89,12 +109,14 @@ app-<domain>/                  业务子包/独立业务仓结构示例，非本
       api/                     本域业务对外调用/协议适配，不能只有隐式实现
       index.ts                 主进程公开导出
     renderer/                  本域界面与本窗口状态（宿主对应 src/render）
-    preload/                   可选：确需自己的桥方法/插件工厂时才增加
 ```
 
+能力包没有 preload 层。宿主侧的桥只有一个 `contextBridge.exposeInMainWorld('electron', …)`，
+命名空间由 [src/preload/electron/index.ts](../../src/preload/electron/index.ts) 静态装配。
+
 **适用范围不是随意豁免**：上表对业务能力子包/独立业务子仓是硬要求。
-[app-circle](../../packages/app-circle/src)、[app-call](../../packages/app-call/src)、[app-doc](../../packages/app-doc/src)
-现有 main/common/renderer 是实物参考。存量其他业务包尚未逐个整改（本轮文档任务未移动源码）；在后续开发或重构中遇到不符合三层分区的业务包，直接按此结构拆分调整并删除旧路径，不需要保留兼容转接。
+[app-call](../../packages/app-call/src)、[app-doc](../../packages/app-doc/src)
+现有 main/common/renderer 是实物参考；[app-circle](../../packages/app-circle/src) 是“数据归宿主”的参照（无 common）。存量其他业务包尚未逐个整改（本轮文档任务未移动源码）；在后续开发或重构中遇到不符合三层分区的业务包，直接按此结构拆分调整并删除旧路径，不需要保留兼容转接。
 [beaver-ui](../../packages/beaver-ui/src) 这类纯UI包、没有进程能力的纯工具库不是独立业务运行时，不伪造空 main/preload；
 但一旦开始拥有窗口、数据库、连接或跨进程业务，应重新归类，不能靠“工具包”名字规避三层结构。
 共享平台 [beaver](../../packages/beaver/src) 本身也已有 common/main/renderer，继续保持层次。

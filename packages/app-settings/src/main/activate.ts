@@ -21,7 +21,7 @@ export async function activate(_ctx: IMainActivateContext): Promise<void> {
   registerIpcHandler(Object.values(SettingsCommand), (event, command, data) =>
     settingsHandler.handle(event, command as any, data),
   )
-  registerPostLoginHook(() =>
-    settingsHandler.handle(void 0 as any, SettingsCommand.SETTINGS_INIT, {}),
-  )
+  registerPostLoginHook(async () => {
+    await settingsHandler.handle(void 0 as any, SettingsCommand.SETTINGS_INIT, {})
+  })
 }

@@ -34,6 +34,8 @@ import type { IWindowModule } from './window'
 import type { ICallModule } from './call'
 import type { IKeyboardModule } from './keyboard'
 import type { IFsModule } from './fs'
+import type { ISettingsModule } from './settings'
+import type { IWorkbenchModule } from './workbench'
 
 /**
  * @description: Electron preload接口
@@ -113,6 +115,16 @@ export interface ElectronAPP {
    * @description: 通用文件系统（与业务解耦）
    */
   fs: IFsModule
+
+  /**
+   * @description: 设置窗口（宿主自有窗口，命令见 beaver/common 的 SettingsCommand）
+   */
+  settings: ISettingsModule
+
+  /**
+   * @description: 工作台内嵌视图（宿主自有窗口）
+   */
+  workbench: IWorkbenchModule
 
   /**
    * 插件注入的命名空间。启用哪些插件、叫什么名字由 build/plugin/catalog.ts 在构建期决定，

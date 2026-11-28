@@ -12,10 +12,9 @@
  *
  *   type/ajax/workbench
  *   type/ipc/command
- *   type/main/embed-view
- *   type/main/web-contents-view/workbench
- *   type/preload/workbench
+ *   type/main/embed-view（转发 beaver 的内嵌视图几何类型）
+ *   type/main/web-contents-view/workbench（转发 beaver 的状态通道）
  *
- * 平台类型用 @beaver-im/beaver/common；宿主内部其它域仍在 src/common。
+ * 平台类型（含工作台 preload 契约与命令枚举）一律来自 @beaver-im/beaver/common。
  */
 export {}

@@ -12,8 +12,7 @@
  *   type/ajax/user（settings 类型子集）
  *   type/ajax/auth（IDeviceInfo 等设备子集）
  *   type/ajax/update（版本检查子集）
- *   type/ipc/command（SettingsCommand）
- *   type/preload/settings（ISettingsModule）
+ *   type/ipc/command（转发 beaver 的 SettingsCommand）
  *   type/settings（IUserSettings / KeyboardActionId）
  */
 export {}

@@ -247,6 +247,7 @@ export enum DatabaseCommand {
   GROUP = 'database:group',
   EMOJI = 'database:emoji',
   NOTIFICATION = 'database:notification',
+  CIRCLE = 'database:circle',
 }
 
 /**

@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { NotificationMediaViewerCommand, NotificationModule } from '../../../../common/type/preload/notification'
+import { NotificationMediaViewerCommand, NotificationModule } from '@beaver-im/beaver/common'
 import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import { Logger } from '@beaver-im/beaver/renderer'
 

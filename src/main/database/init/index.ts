@@ -9,6 +9,7 @@
 
 import { getRegisteredTableInits } from '@beaver-im/beaver/main'
 import { initChatTables } from './chat/index'
+import { initCircleTables } from './circle/index'
 import { initDatasyncTables } from './datasync/index'
 import { initEmojiTables } from './emoji/index'
 import { initFriendTables } from './friend/index'
@@ -27,10 +28,11 @@ export const initTables = (db: any) => {
   initGroupTables(db)
   initChatTables(db)
   initEmojiTables(db)
+  initCircleTables(db)
   initDatasyncTables(db)
   initNotificationTables(db)
   initMediaTables(db)
-  // 插件自注册建表（如圈子），宿主不点名业务包
+  // 能力包自注册建表（商业包 ai / online 等），宿主不点名业务包
   for (const init of getRegisteredTableInits())
     init(db)
   logger.info({ text: '数据表初始化完成' })

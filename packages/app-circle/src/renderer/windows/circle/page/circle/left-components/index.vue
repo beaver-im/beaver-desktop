@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import type { ICircleListItem } from '../../../../../../common/type/ajax/circle'
+import type { ICircleListItem } from '@beaver-im/beaver/common'
 import { defineComponent, onMounted, ref } from 'vue'
 import { getMyCircleListApi } from '../../../../../api/circle'
 import addIcon from '../../../../../assets/image/common/add.svg'

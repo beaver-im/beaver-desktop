@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import type { ICirclePostItem, IGetCircleDetailRes } from '../../../../../../common/type/ajax/circle'
+import type { ICirclePostItem, IGetCircleDetailRes } from '@beaver-im/beaver/common'
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import {
   getCircleDetailApi,

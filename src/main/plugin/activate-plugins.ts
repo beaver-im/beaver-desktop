@@ -60,7 +60,7 @@ export async function activatePlugins(): Promise<void> {
       if (mod.manifest.id !== id)
         throw new Error(`manifest.id=${mod.manifest.id} 与清单 id=${id} 不一致`)
 
-      await mod.activate(ctx)
+      await mod.activate?.(ctx)
 
       const mainApp = asWindowApp(mod.application)
       if (mainApp)

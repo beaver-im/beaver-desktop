@@ -7,7 +7,7 @@
  * beaver-desktop-header-v2
  */
 
-import type { NotificationCircleCommand } from '@beaver-im/app-circle/common'
+import type { NotificationCircleCommand } from '@beaver-im/beaver/common'
 
 export interface INotificationPayload {
   command: NotificationCircleCommand

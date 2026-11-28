@@ -8,13 +8,7 @@
  */
 
 /**
- * @description: 用户设置（主进程 store 读写）相关 Command
+ * 设置命令由 @beaver-im/beaver/common 唯一定义：宿主 preload 发起、本包 handler 受理，
+ * 两侧不能互引，因此不在这里另写一份枚举。
  */
-export enum SettingsCommand {
-  /** 初始化用户设置（登录后拉取云端） */
-  SETTINGS_INIT = 'settings:init',
-  /** 获取用户设置 */
-  SETTINGS_GET = 'settings:get',
-  /** 保存用户设置 */
-  SETTINGS_UPDATE = 'settings:update',
-}
+export { SettingsCommand } from '@beaver-im/beaver/common'

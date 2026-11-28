@@ -44,8 +44,8 @@
                           "vite.config.ts",
                           "pnpm-workspace.yaml",
                           "turbo.json",
-                          "packages/app-circle/src/main/api/circle.ts",
-                          "packages/app-circle/src/common/type/ajax/circle.ts",
+                          "src/main/api/circle.ts",
+                          "src/common/type/ajax/circle.ts",
                           "packages/beaver/src/main/bind/index.ts",
                           "packages/beaver/src/common/type/plugin/index.ts"
                       ],

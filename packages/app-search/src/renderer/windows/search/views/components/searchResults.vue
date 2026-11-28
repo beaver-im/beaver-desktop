@@ -61,7 +61,7 @@ import { Logger } from '@beaver-im/beaver/renderer'
 const logger = new Logger('SearchResults')
 
 import type { ISearchResult } from '../../../../../common/type/view/search'
-import { NotificationModule, NotificationSearchToVerifyCommand } from '../../../../../common/type/preload/notification'
+import { NotificationModule, NotificationSearchToVerifyCommand } from '@beaver-im/beaver/common'
 import BeaverButton from '@beaver-im/beaver-ui/button/index.vue'
 import BeaverImage from '@beaver-im/beaver-ui/image/index.vue'
 import { defineComponent } from 'vue'

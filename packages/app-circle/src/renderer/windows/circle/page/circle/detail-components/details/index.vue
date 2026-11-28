@@ -178,7 +178,7 @@
 </template>
 
 <script lang="ts">
-import type { ICircleMemberItem, IGetCircleDetailRes } from '../../../../../../../common/type/ajax/circle'
+import type { ICircleMemberItem, IGetCircleDetailRes } from '@beaver-im/beaver/common'
 import { CacheType } from '@beaver-im/beaver-ui'
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import {

@@ -14,8 +14,9 @@
  * - optional: 允许包不存在。缺失时静默跳过；非 optional 包缺失属于配置错误，直接构建失败。
  * - root: 仓库外包目录（相对宿主根）。存在时按它的 package.json exports 注入解析映射，
  *   因此不需要把商业仓库写进 dependencies。
- * - preload: 渲染进程命名空间名。声明后插件的 ./preload 入口被装配到 electron.<preload>；
- *   入口必须实现平台契约 IPluginPreloadFactory，唯一导出 createPreloadModule。
+ * - preload: 渲染进程命名空间名。**只给仓库外商业包用**——宿主无法静态 import 它，只能由构建期注入。
+ *   仓内包一律不声明：平台桥（database/notification/settings/workbench…）由宿主 src/preload 统一装配。
+ *   声明后插件的 ./preload 入口被装配到 electron.<preload>，入口唯一导出 createPreloadModule。
  * - renderer: 是否向主窗口注入 UI 能力。只有显式声明的包才生成到
  *   virtual:beaver-plugin-renderer，避免把全部插件渲染代码打进主窗口。
  *
@@ -55,10 +56,10 @@ export const PLUGIN_CATALOG: readonly IPluginCatalogEntry[] = [
     optional: true,
     root: '../beaver-desktop-package/beaver-desktop-online',
   },
-  { id: 'workbench', package: '@beaver-im/app-workbench', enabled: true, preload: 'workbench' },
+  { id: 'workbench', package: '@beaver-im/app-workbench', enabled: true },
   { id: 'video', package: '@beaver-im/app-video', enabled: true },
   { id: 'image', package: '@beaver-im/app-image', enabled: true },
-  { id: 'settings', package: '@beaver-im/app-settings', enabled: true, preload: 'settings' },
+  { id: 'settings', package: '@beaver-im/app-settings', enabled: true },
   { id: 'audio', package: '@beaver-im/app-audio', enabled: true },
   { id: 'updater', package: '@beaver-im/app-updater', enabled: true },
   { id: 'about', package: '@beaver-im/app-about', enabled: true },

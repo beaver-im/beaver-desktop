@@ -9,6 +9,6 @@
 
 /**
  * @beaver-im/app-updater/common — 升级领域契约（仅本能力包所需子集）
- *   type/preload/notification（媒体查看器通道 + UPDATE_UPDATER）
+ *   通知通道与命令（MEDIA_VIEWER / UPDATE_UPDATER）来自 @beaver-im/beaver/common
  */
 export {}

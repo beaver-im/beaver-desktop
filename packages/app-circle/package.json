@@ -3,15 +3,13 @@
   "version": "2.1.2",
   "private": true,
   "type": "module",
-  "description": "beaver 圈子 app：main/renderer + 领域 type（common/type）。平台能力走 @beaver-im/beaver",
+  "description": "beaver 圈子 app：圈子窗口 application + UI。数据在宿主，类型走 @beaver-im/beaver",
   "main": "./dist/main.js",
   "exports": {
     "./main": {
       "development": "./src/main/index.ts",
       "default": "./dist/main.js"
     },
-    "./common": "./src/common/index.ts",
-    "./common/*": "./src/common/*.ts",
     "./renderer": "./src/renderer/index.ts",
     "./renderer/*": "./src/renderer/*.ts",
     "./circle.html": "./dist/circle.html"

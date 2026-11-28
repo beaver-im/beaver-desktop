@@ -19,7 +19,7 @@
  * beaver-desktop-header-v2
  */
 
-import { type INotificationPayload, NotificationModule, NotificationCallCommand } from '../../../../common/type/preload/notification'
+import { type INotificationPayload, NotificationModule, NotificationCallCommand } from '@beaver-im/beaver/common'
 import { useIncomingStore } from '../pinia/incoming'
 import { Logger } from '@beaver-im/beaver/renderer';
 const logger = new Logger('call-incoming-notification')

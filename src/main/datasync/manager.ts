@@ -24,6 +24,7 @@ import { getRegisteredDataSync } from '@beaver-im/beaver/main'
 import { sendMainNotification } from 'mainModule/ipc/main-to-render'
 import Logger from 'mainModule/utils/logger'
 import { chatDatasync } from './chat'
+import { circleDatasync } from './circle'
 import { emojiDatasync } from './emoji'
 import { friendDatasync } from './friend'
 import { groupDatasync } from './group'
@@ -57,11 +58,11 @@ class DataSyncManager {
       await groupDatasync.checkAndSync()
       await emojiDatasync.checkAndSync()
       await notificationDatasync.checkAndSync()
+      await circleDatasync.checkAndSync()
 
-      // 能力包自注册的同步（如圈子），宿主不点名业务包
-      for (const mod of getRegisteredDataSync()) {
+      // 能力包自注册的同步（商业包 ai / online 等），宿主不点名业务包
+      for (const mod of getRegisteredDataSync())
         await mod.checkAndSync()
-      }
 
       this.isSyncing = false
       // 通知前端：同步完成，系统就绪

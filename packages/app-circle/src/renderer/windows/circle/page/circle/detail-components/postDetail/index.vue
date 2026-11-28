@@ -91,7 +91,7 @@
 </template>
 
 <script lang="ts">
-import type { ICircleCommentItem, ICirclePostItem, ICirclePostLikeItem, IGetPostDetailRes } from '../../../../../../../common/type/ajax/circle'
+import type { ICircleCommentItem, ICirclePostItem, ICirclePostLikeItem, IGetPostDetailRes } from '@beaver-im/beaver/common'
 import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import {
   createCommentApi,

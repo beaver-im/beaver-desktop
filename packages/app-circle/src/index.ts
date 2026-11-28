@@ -10,10 +10,11 @@
 /**
  * @beaver-im/app-circle 圈子能力包
  *
- *   main      — 圈子窗口 application + 主进程 activate（表/datasync/WS/IPC）
- *   renderer  — 圈子独立窗口（circle-entry），不是主窗会话 store
- *   common    — 圈子领域类型
+ *   main      — 圈子窗口 application（唯一职责）
+ *   renderer  — 圈子窗口 UI（circle-entry）
  *
- * 主窗会话列表 / 名片等仍在宿主；需要圈子窗口 UI 时可组合本包组件。
+ * 圈子数据属于宿主：circles 表、datasync、CIRCLE_OPERATION 消息、database:circle 通道
+ * 全部在 src/main；本包不再持有表，也不再注册 WS / IPC / preload。
+ * 窗口需要的类型从 @beaver-im/beaver/common 取。
  */
 export {}

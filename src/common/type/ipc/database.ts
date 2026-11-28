@@ -71,3 +71,7 @@ export enum DataNotificationCommand {
   GET_READ_CURSORS = 'notification:getReadCursors',
   GET_UNREAD_SUMMARY = 'notification:getUnreadSummary',
 }
+
+export enum DataCircleCommand {
+  GET_CIRCLE_LIST = 'circle:getCircleList',
+}

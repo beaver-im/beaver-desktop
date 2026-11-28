@@ -12,10 +12,10 @@
     /* Bundler mode：@beaver-im/* 走 node_modules(file:) + package.json exports，不必再为每个 app 写 paths */
     "moduleResolution": "bundler",
     "paths": {
-      "commonModule/*": ["src/common/*"],
-      "renderModule/*": ["src/render/*"],
-      "mainModule/*": ["src/main/*"],
-      "preloadModule/*": ["src/preload/*"]
+      "commonModule/*": ["./src/common/*"],
+      "renderModule/*": ["./src/render/*"],
+      "mainModule/*": ["./src/main/*"],
+      "preloadModule/*": ["./src/preload/*"]
     },
     "resolveJsonModule": true,
     "types": ["vite/client", "@types/node"],

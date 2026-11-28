@@ -19,8 +19,8 @@
  * beaver-desktop-header-v2
  */
 
-import type { INotificationPayload } from '../../../../common/type/preload/notification'
-import { NotificationModule, NotificationSearchToVerifyCommand } from '../../../../common/type/preload/notification'
+import type { INotificationPayload } from '@beaver-im/beaver/common'
+import { NotificationModule, NotificationSearchToVerifyCommand } from '@beaver-im/beaver/common'
 import { Logger } from '@beaver-im/beaver/renderer'
 import { useVerifyStore } from '../pinia/verify'
 

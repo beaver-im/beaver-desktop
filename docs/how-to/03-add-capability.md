@@ -10,13 +10,13 @@
 ## 11.2 参照真实包，而不是凭空发明接口
 
 1. 看目标相近的包 package.json 和公开导出，例如 [app-circle](../../packages/app-circle/package.json)。不要机械复制它全部社交业务。
-2. 业务能力子包必须按[第2章2.5](../standards/01-boundaries-and-naming.md)保留 main / common / 渲染三层；本仓能力包渲染目录用 renderer。preload 按桥接需要可选，不以暂未用到为由取消三层。
+2. 业务能力子包按[第2章2.5](../standards/01-boundaries-and-naming.md)保留 main / common / 渲染三层；本仓能力包渲染目录用 renderer。数据在宿主、被多处消费的业务（如圈子）只留 main + renderer，类型从 `@beaver-im/beaver/common` 取。**能力包不建 preload 层**：`window.electron` 由宿主统一装配，新增平台能力请改 `src/preload/electron` 与 `src/common/type/preload`。
    main 有对外业务能力时，按[第3章3.5](../standards/02-types-and-api.md)先写 common 契约/Req/Res 与 Api 方法，再写 main 实现与公开导出；renderer 不导入 main 实现。
-3. 参考 [manifest.ts](../../packages/app-circle/src/main/manifest.ts)、[activate.ts](../../packages/app-circle/src/main/activate.ts) 的真实签名；
-   注册本域表/同步/IPC/WS 放 activate 内，顶层不启动副作用。
+3. 参考 [manifest.ts](../../packages/app-circle/src/main/manifest.ts)（只有窗口的包）与 [activate.ts](../../packages/app-settings/src/main/activate.ts)（需要注册能力的包）的真实签名；
+   `activate` 现在是可选字段，只在要向平台注册东西时实现；注册调用放 activate 内，顶层不启动副作用。
 4. 窗口暴露符合实际 application/extraApplications 契约；先读当前平台接口，不假设存在自动 deactivate。
-5. 在 [catalog.ts](../../build/plugin/catalog.ts) 配置 id/package/enabled，按需 optional/root/preload/renderer。
-6. 核对 [discovery.ts](../../build/plugin/discovery.ts) 发现、package exports、preload 工厂与虚拟模块是否匹配；不用手工另写重复装配列表。
+5. 在 [catalog.ts](../../build/plugin/catalog.ts) 配置 id/package/enabled，按需 optional/root/renderer。仓内包不写 preload（只有仓库外商业包才需要）。
+6. 核对 [discovery.ts](../../build/plugin/discovery.ts) 发现、package exports 与虚拟模块是否匹配；不用手工另写重复装配列表。
 7. 本地能力 HTML 开发路由按 [vite.apps.ts](../../vite.apps.ts) 的实际方式接入；外置包依自己的入口/产物约定，不强行套本地路径。
 8. 设计窗口关闭、换号、失败中途的释放与重复激活行为；新增生命周期能力需独立说明契约影响。
 

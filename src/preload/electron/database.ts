@@ -25,9 +25,10 @@ import type { IFriendListReq, IFriendListRes, IFriendVerRangeReq, IValidListReq,
 import type { IGetGroupListReq, IGetGroupMembersBatchReq, IGetGroupMembersReq, IGetGroupsBatchReq, IGroupJoinRequestListReq, IGroupJoinRequestListRes, IGroupListRes, IGroupMemberListRes } from 'commonModule/type/ajax/group'
 import type { IGetNotificationEventsByIdsReq, IGetNotificationEventsByIdsRes, IGetNotificationInboxByCategoriesReq, IGetNotificationInboxByIdsReq, IGetNotificationInboxByIdsRes, IGetNotificationReadCursorsReq, IGetNotificationReadCursorsRes, INotificationInboxItem } from 'commonModule/type/ajax/notification'
 import type { IGetAllUsersRes, IUserInfoRes, IUserSyncByIdsReq, IUserSyncByIdsRes } from 'commonModule/type/ajax/user'
+import type { IDBCircle } from 'commonModule/type/database/db/circle'
 import type { IDatabaseModule } from 'commonModule/type/preload/database'
 import { DatabaseCommand } from 'commonModule/type/ipc/command'
-import { DataChatCommand, DataEmojiCommand, DataFriendCommand, DataGroupCommand, DataNotificationCommand, DataUserCommand } from 'commonModule/type/ipc/database'
+import { DataChatCommand, DataCircleCommand, DataEmojiCommand, DataFriendCommand, DataGroupCommand, DataNotificationCommand, DataUserCommand } from 'commonModule/type/ipc/database'
 import { IEvent } from 'commonModule/type/ipc/event'
 import ipcRenderManager from 'preloadModule/utils/ipcRender'
 
@@ -200,6 +201,13 @@ export const databaseModule: IDatabaseModule = {
       return await ipcRenderManager.invoke(IEvent.RenderToMainSyncMsg, DatabaseCommand.EMOJI, {
         command: DataEmojiCommand.GET_EMOJI_PACKAGE_EMOJIS,
         data: params,
+      })
+    },
+  },
+  circle: {
+    getCircleList: async (): Promise<{ list: IDBCircle[] }> => {
+      return await ipcRenderManager.invoke(IEvent.RenderToMainSyncMsg, DatabaseCommand.CIRCLE, {
+        command: DataCircleCommand.GET_CIRCLE_LIST,
       })
     },
   },

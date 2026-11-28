@@ -34,10 +34,12 @@ import { databaseModule } from './database'
 import { datasyncModule } from './datasync'
 import { loggerModule } from './logger'
 import { notificationModule } from './notification'
+import { settingsModule } from './settings'
 import { storageModule } from './storage'
 import { updateModule } from './update'
 import { websocketModule } from './websocket'
 import { windowModule } from './window'
+import { workbenchModule } from './workbench'
 import { keyboardModule } from './keyboard'
 import { callModule } from './call'
 import { fsModule } from './fs'
@@ -84,6 +86,8 @@ const electronAPI: ElectronAPP = {
   auth: authModule,
   datasync: datasyncModule,
   fs: fsModule,
+  settings: settingsModule,
+  workbench: workbenchModule,
 }
 
 contextBridge.exposeInMainWorld('electron', electronAPI)

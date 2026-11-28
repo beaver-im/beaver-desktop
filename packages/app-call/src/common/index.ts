@@ -9,7 +9,7 @@
 
 /**
  * @beaver-im/app-call/common — 通话领域契约
- *   type/preload/notification（CALL 通道 + NotificationCallCommand）
+ *   通知通道与命令（CALL / NotificationCallCommand）来自 @beaver-im/beaver/common
  *   type/ajax/call（通话请求/响应子集）
  *   type/cache/cache（CacheType）
  *   type/store/userInfo（IUserInfo）

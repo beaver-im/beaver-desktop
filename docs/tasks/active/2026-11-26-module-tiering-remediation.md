@@ -26,7 +26,7 @@
 - [catalog.ts](../../../build/plugin/catalog.ts)：身份机器事实源，`optional` / `root` / `preload` 字段并存。
 - [beaver/main/index.ts](../../../packages/beaver/src/main/index.ts)：出口聚合 10 个 registry + 7 类 common 类型。
 - [beaver/common/type/plugin/index.ts](../../../packages/beaver/src/common/type/plugin/index.ts)：`activate(ctx)` 为插件唯一入口；无 `deactivate` 约定。
-- [app-circle/activate.ts](../../../packages/app-circle/src/main/activate.ts)：T2 完整闭环样板，注册 5 类扩展点。
+- ~~app-circle/activate.ts：T2 完整闭环样板，注册 5 类扩展点~~ —— 已于 2026-11-28 归位宿主后删除，见 [circle-data-relocation](./2026-11-28-circle-data-relocation.md)。
 - [app-call/activate.ts](../../../packages/app-call/src/main/activate.ts) + [宿主 call receiver](../../../src/main/message-manager/receivers/call/index.ts)：身份错位实证。
 - [aiPanel](../../../src/render/components/business/aiPanel/index.vue)：宿主 T1 面板，与外置 AI 窗口同业务名。
 - 已剥离：`src/common/type/ajax` 19 个宿主私有类型 vs `beaver/common/type/ajax` 仅通用壳——类型最小化已有事实基础。

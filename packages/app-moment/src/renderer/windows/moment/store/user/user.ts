@@ -19,7 +19,7 @@
  * beaver-desktop-header-v2
  */
 
-import type { IStorageModule, IStoreDataMap, IUserInfo } from '@beaver-im/app-moment/common'
+import type { IUserInfo } from '@beaver-im/app-moment/common'
 import { defineStore } from 'pinia'
 import { Logger } from '@beaver-im/beaver/renderer'
 
@@ -60,7 +60,7 @@ export const useUserStore = defineStore('useUserStore', {
 
   actions: {
     async init() {
-      const storage = electron.storage as IStorageModule
+      const storage = electron.storage
       // 当前用户
       const stored = await storage.getAsync('userInfo')
       this.currentUserId = stored?.userId || ''

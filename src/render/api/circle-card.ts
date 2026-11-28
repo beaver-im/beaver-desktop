@@ -8,8 +8,7 @@
  */
 
 /**
- * 聊天「圈子名片」用的 HTTP。
- * 故意与 @beaver-im/app-circle 重复一份：名片是聊天业务，不跨包复用圈子模块。
+ * 聊天「圈子名片」用的 HTTP（名片属于聊天业务，与圈子窗口的 api 互不复用）。
  */
 import { getBaseUrl } from 'commonModule/config'
 import ajax from 'renderModule/utils/request/ajax'

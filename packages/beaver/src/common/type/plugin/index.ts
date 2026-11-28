@@ -32,7 +32,10 @@ export interface IMainActivateContext {
 /** 主进程插件模块约定：唯一允许的导出形状 */
 export interface IMainPluginModule {
   manifest: IPluginManifest
-  activate: (ctx: IMainActivateContext) => void | Promise<void>
+  /**
+   * 只有需要向平台注册能力的包才实现；纯 UI 包（只提供窗口）不需要空函数占位。
+   */
+  activate?: (ctx: IMainActivateContext) => void | Promise<void>
   application?: Application
   extraApplications?: Record<string, Application>
 }

@@ -29,6 +29,10 @@ export { chats } from './chat/message'
 export { chatSyncStatus } from './chat/sync-status'
 export { chatUserConversations } from './chat/user-conversation'
 
+// 圈子相关表
+export { circles } from './circle/circles'
+export { circleSyncStatus } from './circle/sync-status'
+
 export { emojiCollect } from './emoji/collect'
 // 表情相关表
 export { emoji } from './emoji/emoji'

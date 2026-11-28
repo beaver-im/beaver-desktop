@@ -7,13 +7,10 @@
  * beaver-desktop-header-v2
  */
 
-import type { EmbedViewLoadState, IEmbedViewBounds } from '../embed-view'
+/**
+ * 工作台内嵌视图的主进程侧类型与通道，形状与 preload 共用一份定义
+ * （@beaver-im/beaver/common），包内不重复声明。
+ */
+export type { IWorkbenchEmbedBounds, IWorkbenchEmbedStatePayload } from '@beaver-im/beaver/common'
 
-export type IWorkbenchEmbedBounds = IEmbedViewBounds
-
-export interface IWorkbenchEmbedStatePayload {
-  tabId: string
-  state: EmbedViewLoadState
-}
-
-export const WORKBENCH_EMBED_STATE_CHANNEL = 'workbench-embed-state'
+export { WORKBENCH_EMBED_STATE_CHANNEL } from '@beaver-im/beaver/common'

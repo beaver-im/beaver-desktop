@@ -23,7 +23,6 @@ import { NotificationAppLifecycleCommand, NotificationModule } from 'commonModul
 import { dataSyncManager } from 'mainModule/datasync/manager.ts'
 import { sendMainNotification } from 'mainModule/ipc/main-to-render'
 import Logger from 'mainModule/utils/logger'
-import { getWsHandler } from '@beaver-im/beaver/main'
 
 const logger = new Logger('MessageManager')
 import WsManager from 'mainModule/ws-manager/index'
@@ -35,6 +34,7 @@ import groupMessageRouter from './receivers/group/index'
 import notificationMessageRouter from './receivers/notification/index'
 import userMessageRouter from './receivers/user/index'
 import callMessageRouter from './receivers/call/index'
+import circleMessageRouter from './receivers/circle/index'
 
 /**
  * @description: 消息管理器 - 主进程版本，负责消息的发送、接收和状态管理
@@ -207,14 +207,10 @@ class MessageManager {
    * @param wsMessage WebSocket 消息
    */
   private processMessage(wsMessage: any, source: 'ws' | 'queue') {
-    // 能力包自注册的 WS 处理器（如 CIRCLE_OPERATION）
-    const registered = getWsHandler(wsMessage.command)
-    if (registered) {
-      void registered(wsMessage.content)
-      return
-    }
-
     switch (wsMessage.command) {
+      case 'CIRCLE_OPERATION':
+        circleMessageRouter.processCircleMessage(wsMessage.content)
+        break
       case 'CHAT_MESSAGE':
         chatMessageRouter.processChatMessage(wsMessage.content)
         break

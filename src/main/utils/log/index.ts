@@ -23,7 +23,7 @@ import type { ILogger } from 'commonModule/type/logger'
 import path from 'node:path'
 import { CacheType } from 'commonModule/type/cache/cache'
 import log4js from 'log4js'
-import { logEventsApi } from 'mainModule/api/track'
+import { reportLogsApi } from 'mainModule/api/log'
 import { cacheTypeToFilePath } from 'mainModule/cache/config'
 import { getCachePath } from 'mainModule/config'
 import { store } from 'mainModule/store'
@@ -42,7 +42,7 @@ class Log {
           if (!items.length) {
             return
           }
-          const res = await logEventsApi({ logs: items })
+          const res = await reportLogsApi({ logs: items })
           if (res.code !== 0) {
             throw new Error(res.msg || '日志上报失败')
           }
@@ -77,7 +77,7 @@ class Log {
   formatLog(level: string, msg: ILogger, moduleName = '', source = 'main') {
     const userInfo = store.get('userInfo')
     return {
-      Level: level,
+      level,
       message: `${JSON.stringify(msg)}`,
       module: moduleName,
       source,
